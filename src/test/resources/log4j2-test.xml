@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>    
+    <Root level="INFO">
+      <AppenderRef ref="Console"/>
+    </Root>
+    <Logger name="org.d11.admin" level="DEBUG"/>
+    <Logger name="org.d11.admin.parser" level="INFO"/>
+    <Logger name="org.d11.admin.writer" level="INFO"/>
+    <Logger name="org.d11.api.D11API" level="ERROR"/>    
+    <Logger name="org.d11.admin.task.whoscored.DownloadWhoScoredMatchStatsTask" level="ERROR"/>
+    <Logger name="org.d11.admin.task.whoscored.ParseWhoScoredMatchStatsFileTask" level="ERROR"/>    
+  </Loggers>
+</Configuration>
