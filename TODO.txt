@@ -1,0 +1,18 @@
+1. Get current match day.
+    1a. If not active and date >= current date, activate.
+    1b. If active and all matches played more than one day ago, finish.
+    
+2. Get upcoming match day.
+    2b. Update kickoff time for all matches.
+
+3. Get yesterdays matches and schedule update at 18:00.
+
+4. Get todays matches and schedule updates depending on kickoff time.
+
+5. Update match.
+    5a. Download match stats page.
+    5b. Parse match stats page to xml.
+    5c. Upload match stats file.
+        5ca. If missing player, download player page.
+        5cb. Parse player page.
+        5cc. Insert new player.
