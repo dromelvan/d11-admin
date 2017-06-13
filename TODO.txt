@@ -1,18 +1,38 @@
-1. Get current match day.
-    1a. If not active and date >= current date, activate.
-    1b. If active and all matches played more than one day ago, finish.
+Use cases:
+
+1. Update match day kickoff times.
+    1a. Fetch current/upcoming match day.
+    1b. Fetch all matches.
+    1c. For each match, download match file.
+    1d. Parse match file, read kickoff time.
+    1e. Update match kickoff time.
+
+2. Activate match day.
+    2a. Fetch current match day.
+    2b. If match day date >= today, activate match day.
+
+3. Finish match day.
+    3a. Fetch current match day.
+    3b. Fetch all matches.
+    3c. If all match dates are < today - 1, finish match day.
+
+4. Insert new player.
+    4a. Download player file.
+    4b. Parse player file, read player data.
+    4c. Insert new player.
     
-2. Get upcoming match day.
-    2b. Update kickoff time for all matches.
+5. Update match stats.
+    5a. Fetch matches for current date.
+    5b. For each match, download match file.
+    5c. Parse match file, read match stats.
+    5d. Upload match xml file.
+        5da. For each missing player, insert new player.
+        5db. Repeat until no missing players.
 
-3. Get yesterdays matches and schedule update at 18:00.
+6. Finalize match stats.
+    6a. Fetch matches for yesterday.
+    6b. For each match, download match file.
+    6c. Parse match file, read match stats.
+    6d. Upload match xml file.
+    6e. Finish match day.
 
-4. Get todays matches and schedule updates depending on kickoff time.
-
-5. Update match.
-    5a. Download match stats page.
-    5b. Parse match stats page to xml.
-    5c. Upload match stats file.
-        5ca. If missing player, download player page.
-        5cb. Parse player page.
-        5cc. Insert new player.
