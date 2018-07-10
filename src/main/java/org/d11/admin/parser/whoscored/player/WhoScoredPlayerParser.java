@@ -1,10 +1,10 @@
 package org.d11.admin.parser.whoscored.player;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,20 +17,19 @@ import org.jsoup.select.Elements;
 
 public class WhoScoredPlayerParser extends JSoupDocumentParser<PlayerInformationParserObject, JavaScriptVariables> implements FileParser<PlayerInformationParserObject> {
 
-    @Override
-    public void setFile(File file) {
-        JSoupFileReader jSoupFileReader = new JSoupFileReader(file);
-        try {
-            setDocument(jSoupFileReader.read());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+	@Override
+	public void setFile(File file) {
+		JSoupFileReader jSoupFileReader = new JSoupFileReader(file);
+		try {
+			setDocument(jSoupFileReader.read());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	@Override
-	public Set<PlayerInformationParserObject> parse() {
-
-		Set<PlayerInformationParserObject> playerInformationParserObjects = new HashSet<PlayerInformationParserObject>();
+	public List<PlayerInformationParserObject> parse() {
+		List<PlayerInformationParserObject> playerInformationParserObjects = new ArrayList<PlayerInformationParserObject>();
 
 		Map<String, String> valueMap = new HashMap<String, String>();
 
@@ -38,18 +37,18 @@ public class WhoScoredPlayerParser extends JSoupDocumentParser<PlayerInformation
 		Elements playerInfoBlockElements = playerProfileElements.select("dl.player-info-block");
 
 		for (Element playerInfoBlockElement : playerInfoBlockElements) {
-		    String key = playerInfoBlockElement.select("dt").text();
-			if(!playerInfoBlockElement.select("dt").text().equals("Positions:")) {
-			    valueMap.put(key, playerInfoBlockElement.select("dd").text());
+			String key = playerInfoBlockElement.select("dt").text();
+			if (!playerInfoBlockElement.select("dt").text().equals("Positions:")) {
+				valueMap.put(key, playerInfoBlockElement.select("dd").text());
 			} else {
-			    StringBuilder stringBuilder = new StringBuilder();
-			    for(Element positionElement : playerInfoBlockElement.select("dd").first().getElementsByTag("li")) {
-			        if(stringBuilder.length() > 0) {
-			            stringBuilder.append(";");
-			        }
-			        stringBuilder.append(positionElement.text());
-			    }
-			    valueMap.put(key, stringBuilder.toString());
+				StringBuilder stringBuilder = new StringBuilder();
+				for (Element positionElement : playerInfoBlockElement.select("dd").first().getElementsByTag("li")) {
+					if (stringBuilder.length() > 0) {
+						stringBuilder.append(";");
+					}
+					stringBuilder.append(positionElement.text());
+				}
+				valueMap.put(key, stringBuilder.toString());
 			}
 		}
 
@@ -89,8 +88,8 @@ public class WhoScoredPlayerParser extends JSoupDocumentParser<PlayerInformation
 			playerInformationParserObject.setShirtNumber(Integer.parseInt(shirtNumber));
 		}
 
-		for(String position : valueMap.get("Positions:").split(";")) {
-		    playerInformationParserObject.addPosition(position);
+		for (String position : valueMap.get("Positions:").split(";")) {
+			playerInformationParserObject.addPosition(position);
 		}
 		playerInformationParserObject.setFullName(valueMap.get("Full Name:"));
 
