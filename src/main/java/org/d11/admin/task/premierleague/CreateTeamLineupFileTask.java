@@ -20,43 +20,43 @@ import com.google.inject.Inject;
 
 public class CreateTeamLineupFileTask extends D11Task<File> {
 
-    @Inject
-    private DownloadPremierLeagueTeamTask downloadTask;
-    @Inject
-    private ParsePremierLeagueTeamFileTask parseTask;
-    private TeamLineup teamLineup = new TeamLineup();
-    private final static Logger logger = LoggerFactory.getLogger(CreateTeamLineupFileTask.class);
+	@Inject
+	private DownloadPremierLeagueTeamTask downloadTask;
+	@Inject
+	private ParsePremierLeagueTeamFileTask parseTask;
+	private TeamLineup teamLineup = new TeamLineup();
+	private final static Logger logger = LoggerFactory.getLogger(CreateTeamLineupFileTask.class);
 
-    public void setTeamParserObject(TeamParserObject teamParserObject) {
-        this.teamLineup.setTeamParserObject(teamParserObject);
-    }
+	public void setTeamParserObject(TeamParserObject teamParserObject) {
+		this.teamLineup.setTeamParserObject(teamParserObject);
+	}
 
-    @Override
-    public boolean execute() {
-        downloadTask.setId(this.teamLineup.getTeamParserObject().getId());
-        downloadTask.setName(this.teamLineup.getTeamParserObject().getName());
-        if (downloadTask.execute()) {
-            parseTask.setSourceFile(downloadTask.getResult());
-            if (parseTask.execute()) {
-                List<PlayerParserObject> playerParserObjects = parseTask.getResult();
-                this.teamLineup.setPlayerParserObjects(playerParserObjects);
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	@Override
+	public boolean execute() {
+		downloadTask.setId(this.teamLineup.getTeamParserObject().getId());
+		downloadTask.setName(this.teamLineup.getTeamParserObject().getName());
+		if (downloadTask.execute()) {
+			parseTask.setSourceFile(downloadTask.getResult());
+			if (parseTask.execute()) {
+				List<PlayerParserObject> playerParserObjects = parseTask.getResult();
+				this.teamLineup.setPlayerParserObjects(playerParserObjects);
+				Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-                try {
-                    String team = this.teamLineup.getTeamParserObject().getName();
-                    File file = new File(getDataDirectory("lineups/" + team), team + "-" + LocalDateTime.now().toString(DateTimeFormat.forPattern("ddMMyyyy-hhmmss")) + ".json");
-                    FileWriter fileWriter = new FileWriter(file);
-                    fileWriter.write(gson.toJson(this.teamLineup));
-                    fileWriter.close();
-                    setResult(file);
-                    logger.info("Created team lineup file in {}.", file);
-                } catch(IOException e) {
-                    logger.error("Could not write team lineup file.", e);
-                }
-                return true;
-            }
-        }
-        return false;
-    }
+				try {
+					String team = this.teamLineup.getTeamParserObject().getName();
+					File file = new File(getDataDirectory("premierleague.com/lineups/" + team), team + "-" + LocalDateTime.now().toString(DateTimeFormat.forPattern("ddMMyyyy-hhmmss")) + ".json");
+					FileWriter fileWriter = new FileWriter(file);
+					fileWriter.write(gson.toJson(this.teamLineup));
+					fileWriter.close();
+					setResult(file);
+					logger.info("Created team lineup file in {}.", file);
+				} catch (IOException e) {
+					logger.error("Could not write team lineup file.", e);
+				}
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

@@ -6,35 +6,45 @@ import org.d11.admin.parser.ParserObject;
 
 public class TeamLineup extends ParserObject {
 
-    private TeamParserObject teamParserObject;
-    private List<PlayerParserObject> playerParserObjects;
+	private TeamParserObject teamParserObject;
+	private List<PlayerParserObject> playerParserObjects;
 
-    public TeamLineup() {}
+	public TeamLineup() {
+	}
 
-    public TeamParserObject getTeamParserObject() {
-        return teamParserObject;
-    }
+	public TeamParserObject getTeamParserObject() {
+		return teamParserObject;
+	}
 
-    public void setTeamParserObject(TeamParserObject teamParserObject) {
-        this.teamParserObject = teamParserObject;
-    }
+	public void setTeamParserObject(TeamParserObject teamParserObject) {
+		this.teamParserObject = teamParserObject;
+	}
 
-    public List<PlayerParserObject> getPlayerParserObjects() {
-        return playerParserObjects;
-    }
+	public List<PlayerParserObject> getPlayerParserObjects() {
+		return playerParserObjects;
+	}
 
-    public void setPlayerParserObjects(List<PlayerParserObject> playerParserObjects) {
-        this.playerParserObjects = playerParserObjects;
-    }
+	public void setPlayerParserObjects(List<PlayerParserObject> playerParserObjects) {
+		this.playerParserObjects = playerParserObjects;
+	}
 
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("TeamLineup\n");
-        stringBuilder.append(getTeamParserObject() + "\n");
-        for(PlayerParserObject playerParserObject : getPlayerParserObjects()) {
-            stringBuilder.append("    " + playerParserObject + "\n");
-        }
-        return stringBuilder.toString();
-    }
+	public boolean contains(PlayerParserObject playerParserObject) {
+		for (PlayerParserObject object : this.playerParserObjects) {
+			if (object.equals(playerParserObject)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder("TeamLineup\n");
+		stringBuilder.append(getTeamParserObject() + "\n");
+		for (PlayerParserObject playerParserObject : getPlayerParserObjects()) {
+			stringBuilder.append("    " + playerParserObject + "\n");
+		}
+		return stringBuilder.toString();
+	}
 
 }
