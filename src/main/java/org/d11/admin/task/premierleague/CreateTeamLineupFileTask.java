@@ -44,7 +44,7 @@ public class CreateTeamLineupFileTask extends D11Task<File> {
 
 				try {
 					String team = this.teamLineup.getTeamParserObject().getName();
-					File file = new File(getDataDirectory("premierleague.com/lineups/" + team), team + "-" + LocalDateTime.now().toString(DateTimeFormat.forPattern("ddMMyyyy-hhmmss")) + ".json");
+					File file = new File(getDataDirectory("premierleague.com/lineups/" + team), team + "-" + LocalDateTime.now().toString(DateTimeFormat.forPattern("ddMMyyyy-HHmmss")) + ".json");
 					FileWriter fileWriter = new FileWriter(file);
 					fileWriter.write(gson.toJson(this.teamLineup));
 					fileWriter.close();
