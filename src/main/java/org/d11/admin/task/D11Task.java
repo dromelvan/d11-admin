@@ -19,13 +19,13 @@ public abstract class D11Task<T extends Object> extends D11AdminBaseObject {
 
 	public abstract boolean execute();
 
-	protected File getDirectory(String directory) {
-		File baseFileDirectory = new File(getProperty(D11AdminProperties.BASE_FILE_DIRECTORY));
-		File fileDirectory = new File(baseFileDirectory, directory);
-		if (!fileDirectory.exists()) {
-			fileDirectory.mkdirs();
+	protected File getDataDirectory(String directory) {
+		File baseDataDirectory = new File(getProperty(D11AdminProperties.BASE_DATA_DIRECTORY));
+		File dataDirectory = new File(baseDataDirectory, directory);
+		if (!dataDirectory.exists()) {
+			dataDirectory.mkdirs();
 		}
-		return fileDirectory;
+		return dataDirectory;
 	}
 
 }

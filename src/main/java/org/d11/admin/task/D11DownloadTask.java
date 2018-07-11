@@ -1,8 +1,10 @@
 package org.d11.admin.task;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import org.d11.admin.D11AdminProperties;
 import org.d11.admin.reader.jsoup.JSoupURLReader;
 import org.jsoup.nodes.Document;
 
@@ -28,5 +30,14 @@ public abstract class D11DownloadTask<T extends Object> extends D11FileTask<T> {
 		Document document = jSoupURLReader.read();
 		return document;
 	}
+
+    protected File getDownloadDirectory(String directory) {
+        File baseFileDirectory = new File(getProperty(D11AdminProperties.BASE_DOWNLOAD_DIRECTORY));
+        File fileDirectory = new File(baseFileDirectory, directory);
+        if (!fileDirectory.exists()) {
+            fileDirectory.mkdirs();
+        }
+        return fileDirectory;
+    }
 
 }

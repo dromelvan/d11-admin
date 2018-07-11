@@ -44,7 +44,7 @@ public class DownloadWhoScoredPlayerTask extends D11Task<File> {
 			Document document = reader.read();
 			SeleniumURLReader.closeWebDriver();
 
-			File baseFileDirectory = new File(getProperty(D11AdminProperties.BASE_FILE_DIRECTORY));
+			File baseFileDirectory = new File(getProperty(D11AdminProperties.BASE_DATA_DIRECTORY));
 			File outputDirectory = new File(baseFileDirectory, "players");
 			if (!outputDirectory.exists()) {
 				outputDirectory.mkdirs();

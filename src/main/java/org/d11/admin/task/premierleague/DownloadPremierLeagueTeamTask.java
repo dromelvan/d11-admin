@@ -14,7 +14,7 @@ public class DownloadPremierLeagueTeamTask extends D11DownloadTask<File> {
 	private final static Logger logger = LoggerFactory.getLogger(DownloadPremierLeagueTeamTask.class);
 
 	public DownloadPremierLeagueTeamTask() {
-		setUrl("https://www.premierleague.com/clubs/%s/%s/squad");
+		setUrl("https://www.premierleague.com/clubs/%s/club/squad");
 	}
 
 	public String getId() {
@@ -36,10 +36,10 @@ public class DownloadPremierLeagueTeamTask extends D11DownloadTask<File> {
 	@Override
 	public boolean execute() {
 		try {
-			logger.info("Downloading Premier League team.");
+			logger.info("Downloading Premier League team from {}.", String.format(getUrl(), id, name));
 
 			Document document = download(String.format(getUrl(), id, name));
-			setOutputFile(new File(getDirectory("premierleague.com/teams"), String.format("%s (%s).html", getName(), getId())));
+			setOutputFile(new File(getDownloadDirectory("premierleague.com/teams"), String.format("%s (%s).html", getName(), getId())));
 			write(document);
 
 			setResult(getOutputFile());

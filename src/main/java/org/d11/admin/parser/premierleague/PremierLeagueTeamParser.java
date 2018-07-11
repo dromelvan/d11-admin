@@ -14,17 +14,29 @@ import org.slf4j.LoggerFactory;
 public class PremierLeagueTeamParser extends JSoupFileParser<PlayerParserObject, JavaScriptVariables> {
 
 	private final static Logger logger = LoggerFactory.getLogger(PremierLeagueTeamParser.class);
-	private final static Pattern pattern = Pattern.compile("\\/players\\/(\\d*)\\/(.*)\\/overview");
+	private final static Pattern pattern = Pattern.compile("\\/players\\/(\\d*)\\/.*\\/overview");
 
 	@Override
 	public List<PlayerParserObject> parse() {
 		List<PlayerParserObject> playerParserObjects = new ArrayList<PlayerParserObject>();
 
+		String team = getDocument().getElementsByTag("h1").first().text();
+
 		for (Element a : getDocument().getElementsByClass("playerOverviewCard")) {
 			String href = a.attr("href");
 			Matcher matcher = pattern.matcher(href);
 			if (matcher.matches()) {
-				PlayerParserObject playerParserObject = new PlayerParserObject(matcher.group(1), matcher.group(2));
+			    String id = matcher.group(1);
+			    String name = a.getElementsByTag("h4").first().text();
+			    int number = 0;
+			    try {
+			        number = Integer.parseInt(a.getElementsByClass("number").first().text());
+			    } catch(NumberFormatException e) {}
+			    String position = a.getElementsByClass("position").first().text();
+			    String nationality = a.getElementsByClass("playerCountry").first().text();
+			    String imageId = a.getElementsByClass("statCardImg").first().attr("data-player");
+
+				PlayerParserObject playerParserObject = new PlayerParserObject(id, name, number, team, position, nationality, imageId);
 				playerParserObjects.add(playerParserObject);
 			} else {
 				logger.error("Href {} does not match player link pattern.", href);

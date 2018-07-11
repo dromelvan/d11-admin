@@ -13,7 +13,8 @@ public class D11AdminProperties extends Properties {
     private final static Logger logger = LoggerFactory.getLogger(D11AdminProperties.class);
     private static final long serialVersionUID = 4797743920443954144L;
 
-    public final static String BASE_FILE_DIRECTORY = "base.file.directory";
+    public final static String BASE_DATA_DIRECTORY = "base.data.directory";
+    public final static String BASE_DOWNLOAD_DIRECTORY = "base.download.directory";
     public final static String API_HOST = "api.host";
 
     public D11AdminProperties() {

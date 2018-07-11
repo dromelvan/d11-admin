@@ -39,7 +39,7 @@ public class DownloadPremierLeaguePlayerTask extends D11DownloadTask<File> {
 			logger.info("Downloading Premier League player.");
 
 			Document document = download(String.format(getUrl(), id, name.replace(" ", "-")));
-			setOutputFile(new File(getDirectory("premierleague.com/players"), String.format("%s (%s).html", getName(), getId())));
+			setOutputFile(new File(getDownloadDirectory("premierleague.com/players"), String.format("%s (%s).html", getName(), getId())));
 			write(document);
 
 			setResult(getOutputFile());

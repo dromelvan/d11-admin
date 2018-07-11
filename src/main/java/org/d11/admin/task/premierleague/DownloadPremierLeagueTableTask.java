@@ -21,7 +21,7 @@ public class DownloadPremierLeagueTableTask extends D11DownloadTask<File> {
 			logger.info("Downloading Premier League table.");
 
 			Document document = download();
-			setOutputFile(new File(getDirectory("premierleague.com"), "premier-league-table.html"));
+			setOutputFile(new File(getDownloadDirectory("premierleague.com"), "premier-league-table.html"));
 			write(document);
 
 			setResult(getOutputFile());
