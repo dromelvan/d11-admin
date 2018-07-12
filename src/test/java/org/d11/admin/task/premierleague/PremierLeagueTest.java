@@ -3,6 +3,11 @@ package org.d11.admin.task.premierleague;
 import java.io.File;
 import java.util.List;
 
+import org.d11.admin.download.premierleague.PremierLeaguePlayerDownloader;
+import org.d11.admin.download.premierleague.PremierLeagueTableDownloader;
+import org.d11.admin.download.premierleague.PremierLeagueTeamDownloader;
+import org.d11.admin.model.Team;
+import org.d11.admin.parse.premierleague.PremierLeagueTableParser;
 import org.d11.admin.parser.premierleague.PlayerInformationParserObject;
 import org.d11.admin.parser.premierleague.PlayerParserObject;
 import org.d11.admin.parser.premierleague.TeamLineup;
@@ -23,40 +28,39 @@ public class PremierLeagueTest {
 	}
 
 	// @Test
-	public void downloadPremierLeagueTable(DownloadPremierLeagueTableTask task) {
-		if (task.execute()) {
-			File htmlFile = task.getResult();
+	public void downloadPremierLeagueTable(PremierLeagueTableDownloader downloader) {
+		File htmlFile = downloader.download();
+		if (htmlFile != null) {
 			System.out.println(htmlFile);
 		}
 	}
 
-	// @Test
-	public void parsePremierLeagueTable(DownloadPremierLeagueTableTask downloadTask, ParsePremierLeagueTableFileTask parseTask) {
-		if (downloadTask.execute()) {
-			parseTask.setSourceFile(downloadTask.getResult());
-			if (parseTask.execute()) {
-				List<TeamParserObject> teamParserObjects = parseTask.getResult();
-				teamParserObjects.stream().forEach(System.out::println);
-			}
+	@Test
+	public void parsePremierLeagueTable(PremierLeagueTableDownloader downloader, PremierLeagueTableParser parser) {
+		File htmlFile = downloader.download();
+		if (htmlFile != null) {
+			List<Team> teams = parser.parse(htmlFile);
+			teams.stream().forEach(System.out::println);
 		}
 	}
 
 	// @Test
-	public void downloadPremierLeagueTeam(DownloadPremierLeagueTeamTask task) {
-		task.setId("1");
-		task.setName("Arsenal");
-		if (task.execute()) {
-			File htmlFile = task.getResult();
+	public void downloadPremierLeagueTeam(PremierLeagueTeamDownloader downloader) {
+		downloader.setId(1);
+		downloader.setName("Arsenal");
+		File htmlFile = downloader.download();
+		if (htmlFile != null) {
 			System.out.println(htmlFile.exists());
 		}
 	}
 
 	// @Test
-	public void parsePremierLeagueTeam(DownloadPremierLeagueTeamTask downloadTask, ParsePremierLeagueTeamFileTask parseTask) {
-		downloadTask.setId("1");
-		downloadTask.setName("Arsenal");
-		if (downloadTask.execute()) {
-			parseTask.setSourceFile(downloadTask.getResult());
+	public void parsePremierLeagueTeam(PremierLeagueTeamDownloader downloader, ParsePremierLeagueTeamFileTask parseTask) {
+		downloader.setId(1);
+		downloader.setName("Arsenal");
+		File htmlFile = downloader.download();
+		if (htmlFile != null) {
+			parseTask.setSourceFile(htmlFile);
 			if (parseTask.execute()) {
 				List<PlayerParserObject> playerParserObjects = parseTask.getResult();
 				playerParserObjects.stream().forEach(System.out::println);
@@ -65,21 +69,22 @@ public class PremierLeagueTest {
 	}
 
 	// @Test
-	public void downloadPremierLeaguePlayer(DownloadPremierLeaguePlayerTask task) {
-		task.setId("2651");
-		task.setName("Petr Cech");
-		if (task.execute()) {
-			File htmlFile = task.getResult();
+	public void downloadPremierLeaguePlayer(PremierLeaguePlayerDownloader downloader) {
+		downloader.setId(2651);
+		downloader.setName("Petr Cech");
+		File htmlFile = downloader.download();
+		if (htmlFile != null) {
 			System.out.println(htmlFile.exists());
 		}
 	}
 
 	// @Test
-	public void parsePremierLeaguePlayer(DownloadPremierLeaguePlayerTask downloadTask, ParsePremierLeaguePlayerFileTask parseTask) {
-		downloadTask.setId("2651");
-		downloadTask.setName("Petr Cech");
-		if (downloadTask.execute()) {
-			parseTask.setSourceFile(downloadTask.getResult());
+	public void parsePremierLeaguePlayer(PremierLeaguePlayerDownloader downloader, ParsePremierLeaguePlayerFileTask parseTask) {
+		downloader.setId(2651);
+		downloader.setName("Petr Cech");
+		File htmlFile = downloader.download();
+		if (htmlFile != null) {
+			parseTask.setSourceFile(htmlFile);
 			if (parseTask.execute()) {
 				List<PlayerInformationParserObject> playerParserObjects = parseTask.getResult();
 				playerParserObjects.stream().forEach(System.out::println);
@@ -130,7 +135,7 @@ public class PremierLeagueTest {
 		}
 	}
 
-	@Test
+	// @Test
 	public void refreshTeamLineups(RefreshTeamLineupsTask task) {
 		if (task.execute()) {
 			List<TeamLineupChange> teamLineupChanges = task.getResult();

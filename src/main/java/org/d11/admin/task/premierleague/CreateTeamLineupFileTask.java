@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import org.d11.admin.download.premierleague.PremierLeagueTeamDownloader;
 import org.d11.admin.parser.premierleague.PlayerParserObject;
 import org.d11.admin.parser.premierleague.TeamLineup;
 import org.d11.admin.parser.premierleague.TeamParserObject;
@@ -21,7 +22,7 @@ import com.google.inject.Inject;
 public class CreateTeamLineupFileTask extends D11Task<File> {
 
 	@Inject
-	private DownloadPremierLeagueTeamTask downloadTask;
+	private PremierLeagueTeamDownloader downloader;
 	@Inject
 	private ParsePremierLeagueTeamFileTask parseTask;
 	private TeamLineup teamLineup = new TeamLineup();
@@ -33,10 +34,11 @@ public class CreateTeamLineupFileTask extends D11Task<File> {
 
 	@Override
 	public boolean execute() {
-		downloadTask.setId(this.teamLineup.getTeamParserObject().getId());
-		downloadTask.setName(this.teamLineup.getTeamParserObject().getName());
-		if (downloadTask.execute()) {
-			parseTask.setSourceFile(downloadTask.getResult());
+		downloader.setId(Integer.parseInt(this.teamLineup.getTeamParserObject().getId()));
+		downloader.setName(this.teamLineup.getTeamParserObject().getName());
+		File htmlFile = downloader.download();
+		if (htmlFile != null) {
+			parseTask.setSourceFile(htmlFile);
 			if (parseTask.execute()) {
 				List<PlayerParserObject> playerParserObjects = parseTask.getResult();
 				this.teamLineup.setPlayerParserObjects(playerParserObjects);
