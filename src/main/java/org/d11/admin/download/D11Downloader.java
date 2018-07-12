@@ -16,8 +16,6 @@ import com.google.common.io.Files;
 public abstract class D11Downloader extends D11FileHandler {
 
 	private String url;
-	private String downloadDirectoryName = "";
-	private String fileName;
 	private final static Logger logger = LoggerFactory.getLogger(D11Downloader.class);
 
 	public D11Downloader() {
@@ -31,22 +29,6 @@ public abstract class D11Downloader extends D11FileHandler {
 		this.url = url;
 	}
 
-	public String getDownloadDirectoryName() {
-		return downloadDirectoryName;
-	}
-
-	public void setDownloadDirectoryName(String downloadDirectoryName) {
-		this.downloadDirectoryName = downloadDirectoryName;
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
 	public File download() {
 		String formattedUrl = formatUrl(getUrl());
 
@@ -55,7 +37,7 @@ public abstract class D11Downloader extends D11FileHandler {
 			JSoupURLReader jSoupURLReader = new JSoupURLReader(URL);
 			Document document = jSoupURLReader.read();
 
-			setFile(new File(getDownloadDirectory(), formatFileName(getFileName())));
+			setFile(new File(getDirectory(), formatFileName(getFileName())));
 			Files.write(document.toString(), getFile(), StandardCharsets.UTF_8);
 
 			return getFile();
@@ -70,21 +52,9 @@ public abstract class D11Downloader extends D11FileHandler {
 		return url;
 	}
 
-	protected String formatDownloadDirectoryName(String downloadDirectoryName) {
-		return downloadDirectoryName;
-	}
-
-	protected String formatFileName(String fileName) {
-		return fileName;
-	}
-
-	protected File getDownloadDirectory() {
-		File baseFileDirectory = new File(getProperty(D11AdminProperties.BASE_DOWNLOAD_DIRECTORY));
-		File fileDirectory = new File(baseFileDirectory, formatDownloadDirectoryName(getDownloadDirectoryName()));
-		if (!fileDirectory.exists()) {
-			fileDirectory.mkdirs();
-		}
-		return fileDirectory;
+	@Override
+	protected String getBaseDirectoryPropertyName() {
+		return D11AdminProperties.BASE_DOWNLOAD_DIRECTORY;
 	}
 
 }

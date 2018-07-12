@@ -9,7 +9,7 @@ public class PremierLeaguePlayerDownloader extends D11Downloader {
 
 	public PremierLeaguePlayerDownloader() {
 		setUrl("https://www.premierleague.com/players/%s/%s/overview");
-		setDownloadDirectoryName("premierleague.com/players");
+		setDirectoryName("premierleague.com/players");
 		setFileName("%s (%s).html");
 	}
 

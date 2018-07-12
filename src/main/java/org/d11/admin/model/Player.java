@@ -1,10 +1,7 @@
-package org.d11.admin.parser.premierleague;
+package org.d11.admin.model;
 
-import org.d11.admin.parser.ParserObject;
+public class Player extends PersistentD11Model {
 
-public class PlayerParserObject extends ParserObject {
-
-	private String id;
 	private String name;
 	private int number;
 	private String team;
@@ -12,25 +9,14 @@ public class PlayerParserObject extends ParserObject {
 	private String nationality;
 	private String imageId;
 
-	public PlayerParserObject() {
-	}
-
-	public PlayerParserObject(String id, String name, int number, String team, String position, String nationality, String imageId) {
-		this.id = id;
+	public Player(int id, String name, int number, String team, String position, String nationality, String imageId) {
+		super(id);
 		this.name = name;
 		this.number = number;
 		this.team = team;
 		this.position = position;
 		this.nationality = nationality;
 		this.imageId = imageId;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -82,22 +68,10 @@ public class PlayerParserObject extends ParserObject {
 	}
 
 	@Override
-	public String toString() {
-		return String.format("Player { Id: %s, Name: %s, Number: %d, Team: %s, Position: %s, Nationality: %s, ImageId: %s }",
-				getId(),
-				getName(),
-				getNumber(),
-				getTeam(),
-				getPosition(),
-				getNationality(),
-				getImageId());
-	}
-
-	@Override
 	public boolean equals(Object object) {
-		if (object instanceof PlayerParserObject) {
-			PlayerParserObject playerParserObject = (PlayerParserObject) object;
-			return getId() != null && playerParserObject.getId() != null && getId().equals(playerParserObject.getId());
+		if (object instanceof Player) {
+			Player player = (Player) object;
+			return getId() == player.getId();
 		}
 		return false;
 	}

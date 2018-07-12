@@ -9,7 +9,7 @@ public class PremierLeagueTeamDownloader extends D11Downloader {
 
 	public PremierLeagueTeamDownloader() {
 		setUrl("https://www.premierleague.com/clubs/%d/club/squad");
-		setDownloadDirectoryName("premierleague.com/teams");
+		setDirectoryName("premierleague.com/teams");
 		setFileName("%s (%d).html");
 	}
 

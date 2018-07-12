@@ -6,7 +6,7 @@ public class PremierLeagueTableDownloader extends D11Downloader {
 
 	public PremierLeagueTableDownloader() {
 		setUrl("https://www.premierleague.com/tables");
-		setDownloadDirectoryName("premierleague.com");
+		setDirectoryName("premierleague.com");
 		setFileName("premier-league-table.html");
 	}
 

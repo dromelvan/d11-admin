@@ -1,25 +1,21 @@
-package org.d11.admin.parser.premierleague;
+package org.d11.admin.parse.premierleague;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.d11.admin.parser.javascript.JavaScriptVariables;
-import org.d11.admin.parser.jsoup.JSoupFileParser;
+import org.d11.admin.model.premierleague.PLPlayer;
+import org.d11.admin.parse.jsoup.JSoupParser;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.jsoup.nodes.Element;
 
-public class PremierLeaguePlayerParser extends JSoupFileParser<PlayerInformationParserObject, JavaScriptVariables> {
+public class PremierLeaguePlayerParser extends JSoupParser<PLPlayer> {
 
 	private final static Pattern datePattern = Pattern.compile("\\d{2}\\/\\d{2}\\/\\d{4}");
 	private final static Pattern heightPattern = Pattern.compile("(\\d{3})cm");
 
 	@Override
-	public List<PlayerInformationParserObject> parse() {
-		PlayerInformationParserObject playerInformationParserObject = new PlayerInformationParserObject();
-
+	public PLPlayer doParse() {
 		Element playerContainer = getDocument().getElementsByClass("playerContainer").first();
 		int number = Integer.parseInt(playerContainer.getElementsByClass("number").first().text());
 		String name = playerContainer.getElementsByClass("name").first().text();
@@ -32,7 +28,7 @@ public class PremierLeaguePlayerParser extends JSoupFileParser<PlayerInformation
 		String team = playerIntro.getElementsByClass("info").first().text();
 		String position = playerIntro.getElementsByClass("info").last().text();
 		Element playerSidebarTable = playerOverviewAside.getElementsByClass("playerSidebarTable").first();
-		String id = playerSidebarTable.getElementsByAttribute("data-player").attr("data-player");
+		int id = Integer.parseInt(playerSidebarTable.getElementsByAttribute("data-player").attr("data-player"));
 
 		Element personalList = getDocument().getElementsByClass("personalLists").first();
 		String nationality = personalList.getElementsByClass("playerCountry").first().text();
@@ -50,16 +46,8 @@ public class PremierLeaguePlayerParser extends JSoupFileParser<PlayerInformation
 			}
 		}
 
-		playerInformationParserObject.setId(id);
-		playerInformationParserObject.setName(name);
-		playerInformationParserObject.setNumber(number);
-		playerInformationParserObject.setTeam(team);
-		playerInformationParserObject.setPosition(position);
-		playerInformationParserObject.setNationality(nationality);
-		playerInformationParserObject.setDateOfBirth(dateOfBirth);
-		playerInformationParserObject.setHeight(height);
-		playerInformationParserObject.setImageId(imageId);
-
-		return Arrays.asList(playerInformationParserObject);
+		PLPlayer player = new PLPlayer(id, name, number, team, position, nationality, imageId, dateOfBirth, height);
+		return player;
 	}
+
 }
