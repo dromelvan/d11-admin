@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import org.d11.admin.download.premierleague.PremierLeaguePlayerDownloader;
+import org.d11.admin.download.premierleague.PremierLeaguePlayerImageDownloader;
 import org.d11.admin.download.premierleague.PremierLeagueTableDownloader;
 import org.d11.admin.download.premierleague.PremierLeagueTeamDownloader;
 import org.d11.admin.model.Player;
@@ -112,4 +113,22 @@ public class PremierLeagueTest {
 		}
 	}
 
+	//@Test
+	public void downloadPremierLeaugePlayerImage(PremierLeaguePlayerImageDownloader downloader) {
+	    downloader.setId(5178);
+	    downloader.setName("Mohamed Salah");
+	    downloader.setImageId("p118748");
+	    File imageFile = downloader.download();
+	    if(imageFile != null) {
+	        System.out.println(imageFile);
+	    }
+	}
+
+	//@Test
+	public void downloadPremierLeaguePlayerImages(DownloadPlayerImagesTask task) {
+	    if(task.execute()) {
+	        List<File> files = task.getResult();
+	        files.stream().forEach(System.out::println);
+	    }
+	}
 }

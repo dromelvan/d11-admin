@@ -1,6 +1,11 @@
 package org.d11.admin;
 
 import java.io.File;
+import java.io.IOException;
+
+import com.google.common.hash.HashCode;
+import com.google.common.hash.Hashing;
+import com.google.common.io.Files;
 
 public abstract class D11FileHandler extends D11AdminBaseObject {
 
@@ -50,5 +55,13 @@ public abstract class D11FileHandler extends D11AdminBaseObject {
 		}
 		return fileDirectory;
 	}
+
+    public HashCode hash(File file) {
+        try {
+            return Files.hash(file, Hashing.crc32());
+        } catch(IOException e) {
+            return null;
+        }
+    }
 
 }

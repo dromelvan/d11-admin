@@ -12,7 +12,7 @@ public class TeamSquadWriter extends JsonWriter<TeamSquad> {
 	private TeamSquad teamSquad;
 
 	public TeamSquadWriter() {
-		setDirectoryName("premierleague.com/lineups/%s");
+		setDirectoryName("premierleague.com/squads/%s");
 		setFileName("%s-%s.json");
 	}
 

@@ -17,4 +17,8 @@ public class Team extends PersistentD11Model {
 		this.name = name;
 	}
 
+    public String getParameterizedName() {
+        return parameterize(getName());
+    }
+
 }

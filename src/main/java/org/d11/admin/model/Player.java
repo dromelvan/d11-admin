@@ -9,6 +9,11 @@ public class Player extends PersistentD11Model {
 	private String nationality;
 	private String imageId;
 
+    public Player(int id, String name) {
+        super(id);
+        this.name = name;
+    }
+
 	public Player(int id, String name, int number, String team, String position, String nationality, String imageId) {
 		super(id);
 		this.name = name;
@@ -65,6 +70,10 @@ public class Player extends PersistentD11Model {
 
 	public void setImageId(String imageId) {
 		this.imageId = imageId;
+	}
+
+	public String getParameterizedName() {
+	    return parameterize(getName());
 	}
 
 	@Override
