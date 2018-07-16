@@ -4,51 +4,63 @@ import org.joda.time.LocalDateTime;
 
 public class Match extends PersistentD11Model {
 
-    private Integer whoscored_id;
-    private LocalDateTime datetime;
-    private Team home_team;
-    private Team away_team;
+	private Integer whoscored_id;
+	private LocalDateTime datetime;
+	private Team home_team;
+	private Team away_team;
+	private String elapsed;
 
-    public Match(int id) {
-        super(id);
-    }
+	public Match() {
+		super(0);
+	}
 
-    public Match(int id, int whoScoredId) {
-        super(id);
-        this.whoscored_id = whoScoredId;
-    }
+	public Match(int id) {
+		super(id);
+	}
 
-    public int getWhoScoredId() {
-        return whoscored_id;
-    }
+	public Match(int id, int whoScoredId) {
+		super(id);
+		this.whoscored_id = whoScoredId;
+	}
 
-    public void setWhoScoredId(int whoScoredId) {
-        this.whoscored_id = whoScoredId;
-    }
+	public int getWhoScoredId() {
+		return whoscored_id;
+	}
 
-    public LocalDateTime getDatetime() {
-        return datetime;
-    }
+	public void setWhoScoredId(int whoScoredId) {
+		this.whoscored_id = whoScoredId;
+	}
 
-    public void setDatetime(LocalDateTime datetime) {
-        this.datetime = datetime;
-    }
+	public LocalDateTime getDatetime() {
+		return datetime;
+	}
 
-    public Team getHomeTeam() {
-        return home_team;
-    }
+	public void setDatetime(LocalDateTime datetime) {
+		this.datetime = datetime;
+	}
 
-    public void setHomeTeam(Team homeTeam) {
-        this.home_team = homeTeam;
-    }
+	public Team getHomeTeam() {
+		return home_team;
+	}
 
-    public Team getAwayTeam() {
-        return away_team;
-    }
+	public void setHomeTeam(Team homeTeam) {
+		this.home_team = homeTeam;
+	}
 
-    public void setAwayTeam(Team awayTeam) {
-        this.away_team = awayTeam;
-    }
+	public Team getAwayTeam() {
+		return away_team;
+	}
 
+	public void setAwayTeam(Team awayTeam) {
+		this.away_team = awayTeam;
+	}
+
+	public String getElapsed() {
+		return elapsed;
+	}
+
+	public void setElapsed(String elapsed) {
+		this.elapsed = elapsed;
+	}
 
 }

@@ -1,7 +1,8 @@
-package org.d11.admin.task;
+package org.d11.admin;
 
 import java.util.List;
 
+import org.d11.admin.task.GetMatchesByDateTask;
 import org.d11.api.Match;
 import org.joda.time.LocalDate;
 import org.jukito.JukitoModule;

@@ -1,4 +1,4 @@
-package org.d11.admin.task.premierleague;
+package org.d11.admin;
 
 import java.io.File;
 import java.util.List;
@@ -14,6 +14,10 @@ import org.d11.admin.model.premierleague.PLPlayer;
 import org.d11.admin.parse.premierleague.PremierLeaguePlayerParser;
 import org.d11.admin.parse.premierleague.PremierLeagueTableParser;
 import org.d11.admin.parse.premierleague.PremierLeagueTeamParser;
+import org.d11.admin.task.premierleague.CreateTeamSquadFilesTask;
+import org.d11.admin.task.premierleague.DownloadPlayerImagesTask;
+import org.d11.admin.task.premierleague.FindTeamLineupChangesTask;
+import org.d11.admin.task.premierleague.RefreshTeamLineupsTask;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
 import org.junit.Test;

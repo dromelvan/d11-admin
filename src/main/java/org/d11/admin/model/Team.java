@@ -10,6 +10,12 @@ public class Team extends PersistentD11Model {
 		setName(name);
 	}
 
+	public Team(int id, int whoScoredId, String name) {
+		super(id);
+		setWhoScoredId(whoScoredId);
+		setName(name);
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -18,16 +24,16 @@ public class Team extends PersistentD11Model {
 		this.name = name;
 	}
 
-    public int getWhoScoredId() {
-        return whoscored_id;
-    }
+	public int getWhoScoredId() {
+		return whoscored_id;
+	}
 
-    public void setWhoScoredId(int whoScoredId) {
-        this.whoscored_id = whoScoredId;
-    }
+	public void setWhoScoredId(int whoScoredId) {
+		this.whoscored_id = whoScoredId;
+	}
 
-    public String getParameterizedName() {
-        return parameterize(getName());
-    }
+	public String getParameterizedName() {
+		return parameterize(getName());
+	}
 
 }
