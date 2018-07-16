@@ -17,7 +17,7 @@ public class PremierLeagueTeamParser extends JSoupParser<List<Player>> {
 	private final static Pattern pattern = Pattern.compile("\\/players\\/(\\d*)\\/.*\\/overview");
 
 	@Override
-	public List<Player> doParse() {
+	protected List<Player> doParse() {
 		List<Player> players = new ArrayList<Player>();
 
 		String team = getDocument().getElementsByTag("h1").first().text();

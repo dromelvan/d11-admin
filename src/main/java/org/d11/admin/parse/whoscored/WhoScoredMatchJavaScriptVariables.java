@@ -1,4 +1,4 @@
-package org.d11.admin.parser.whoscored.match;
+package org.d11.admin.parse.whoscored;
 
 import java.util.List;
 import java.util.Map;
@@ -59,8 +59,4 @@ public class WhoScoredMatchJavaScriptVariables extends JavaScriptVariables {
 		PlayerNameDictionary.init(players);
 	}
 
-	public WhoScoredMatchParserObject getMatchParserObject() {
-		WhoScoredMatchParserObject matchParserObject = new WhoScoredMatchParserObject(this);
-		return matchParserObject;
-	}
 }

@@ -2,12 +2,20 @@ package org.d11.admin.task.whoscored;
 
 import java.io.File;
 
+import org.d11.admin.download.whoscored.WhoScoredMatchSeleniumDownloader;
+import org.d11.admin.model.Match;
+import org.d11.admin.parse.whoscored.WhoScoredMatchParser;
 import org.d11.api.D11API;
 import org.d11.api.MatchDay;
+import org.joda.time.LocalDateTime;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import com.google.gson.Gson;
 
 @RunWith(JukitoRunner.class)
 public class WhoScoredTaskTest {
@@ -15,15 +23,51 @@ public class WhoScoredTaskTest {
 	public static class WhoScoredTaskTestModule extends JukitoModule {
 		@Override
 		protected void configureTest() {
+		    bind(WebDriver.class).to(FirefoxDriver.class);
 		}
 	}
+
+	//@Test
+	public void json() {
+	    Match match = new Match(2);
+	    match.setDatetime(LocalDateTime.now());
+	    match.setWhoScoredId(32);
+
+	    System.out.println(new Gson().toJson(match));
+	}
+
+	//@Test
+	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader) {
+	    downloader.setId(1190477);
+	    downloader.setSeason("2017-2018");
+	    downloader.setMatchDay(8);
+	    File htmlFile = downloader.download();
+	    if(htmlFile != null) {
+	        System.out.println(htmlFile);
+	    }
+	}
+
+	@Test
+	public void parseWhoScoredMatch(WhoScoredMatchParser parser) {
+	    File file = new File("tmp/whoscored.com/matches/2017-2018/08/Liverpool 4-0 Brighton - Premier League 2017_2018 Live3.html");
+	    Match match = parser.parse(file);
+	    System.out.println(match);
+	}
+
+
+
+
+
+
+
+
 
 	// @Before
 	public void before(D11API d11Api) {
 		d11Api.login("dromelvan@fake.email.com", "password");
 	}
 
-	@Test
+	//@Test
 	public void downloadWhoScoredMatchStats(DownloadWhoScoredMatchStatsTask task) {
 		task.setMatchId("1080728");
 		task.setMatchDayNumber(33);
@@ -33,9 +77,10 @@ public class WhoScoredTaskTest {
 		}
 	}
 
-	// @Test
+	//@Test
 	public void parseWhoScoredMatchStatsFile(ParseWhoScoredMatchStatsFileTask task) {
-		File file = new File("files/21/1080699.html");
+		//File file = new File("files/21/1080699.html");
+		File file = new File("tmp/whoscored.com/matches/2017-2018/08/Liverpool 4-0 Brighton - Premier League 2017_2018 Live.html");
 		task.setSourceFile(file);
 		task.execute();
 	}
@@ -56,7 +101,7 @@ public class WhoScoredTaskTest {
 		task.execute();
 	}
 
-	@Test
+	//@Test
 	public void parseWhoScoredPlayerFile(ParseWhoScoredPlayerFileTask task) {
 		File file = new File("files/players/86425.html");
 		task.setSourceFile(file);

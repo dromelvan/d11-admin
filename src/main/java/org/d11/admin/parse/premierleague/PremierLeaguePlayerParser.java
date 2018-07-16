@@ -15,7 +15,7 @@ public class PremierLeaguePlayerParser extends JSoupParser<PLPlayer> {
 	private final static Pattern heightPattern = Pattern.compile("(\\d{3})cm");
 
 	@Override
-	public PLPlayer doParse() {
+	protected PLPlayer doParse() {
 		Element playerContainer = getDocument().getElementsByClass("playerContainer").first();
 		int number = Integer.parseInt(playerContainer.getElementsByClass("number").first().text());
 		String name = playerContainer.getElementsByClass("name").first().text();

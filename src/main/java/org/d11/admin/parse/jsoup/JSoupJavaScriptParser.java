@@ -31,7 +31,8 @@ public abstract class JSoupJavaScriptParser<T extends Object, U extends JavaScri
 
 		for (Element element : getDocument().getElementsByTag("script")) {
 			try {
-				scriptEngine.eval(element.data());
+				Object foo = scriptEngine.eval(element.data());
+				System.out.println(foo);
 			} catch (ScriptException e) {
 				logger.debug("Could not parse javascript: {}\n{}.", element.data(), e.getMessage());
 			}
@@ -40,6 +41,9 @@ public abstract class JSoupJavaScriptParser<T extends Object, U extends JavaScri
 		Bindings bindings = scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
 
 		for (String key : bindings.keySet()) {
+		    if(key.equals("matchCentreData")) {
+		        System.out.println(key);
+		    }
 			Object value = bindings.get(key);
 			javaScriptVariables.put(key, parseJavaScriptValue(value));
 		}

@@ -37,6 +37,10 @@ public abstract class D11Downloader extends D11FileHandler {
 			JSoupURLReader jSoupURLReader = new JSoupURLReader(URL);
 			Document document = jSoupURLReader.read();
 
+            if(getFileName() == null) {
+                setFileName(document.title().replace("/", "_") + ".html");
+            }
+
 			setFile(new File(getDirectory(), formatFileName(getFileName())));
 			Files.write(document.toString(), getFile(), StandardCharsets.UTF_8);
 

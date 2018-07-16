@@ -10,7 +10,7 @@ import org.jsoup.nodes.Element;
 public class PremierLeagueTableParser extends JSoupParser<List<Team>> {
 
 	@Override
-	public List<Team> doParse() {
+	protected List<Team> doParse() {
 		List<Team> teams = new ArrayList<Team>();
 
 		for (Element tableBodyContainer : getDocument().getElementsByClass("tableBodyContainer")) {
