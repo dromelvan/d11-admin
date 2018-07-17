@@ -2,12 +2,15 @@ package org.d11.admin.model;
 
 public class Player extends PersistentD11Model {
 
+    private int whoscored_id;
 	private String name;
 	private int number;
 	private String team;
 	private String position;
 	private String nationality;
 	private String imageId;
+
+	public Player() {}
 
     public Player(int id, String name) {
         super(id);
@@ -24,7 +27,15 @@ public class Player extends PersistentD11Model {
 		this.imageId = imageId;
 	}
 
-	public String getName() {
+	public int getWhoScoredId() {
+        return whoscored_id;
+    }
+
+    public void setWhoScoredId(int whoScoredId) {
+        this.whoscored_id = whoScoredId;
+    }
+
+    public String getName() {
 		return name;
 	}
 

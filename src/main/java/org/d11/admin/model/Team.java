@@ -5,6 +5,10 @@ public class Team extends PersistentD11Model {
 	private String name;
 	private int whoscored_id;
 
+	public Team() {
+	    super(0);
+	}
+
 	public Team(int id, String name) {
 		super(id);
 		setName(name);

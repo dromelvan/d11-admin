@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import org.d11.admin.model.Match;
 import org.d11.admin.model.Team;
+import org.d11.admin.model.whoscored.WSMatch;
 import org.d11.admin.parse.jsoup.JSoupJavaScriptParser;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -15,13 +16,16 @@ public class WhoScoredMatchParser extends JSoupJavaScriptParser<Match, WhoScored
 
 	@Override
 	protected Match doParse() {
-		Match match = new Match();
 		try {
 			WhoScoredMatchJavaScriptVariables whoScoredMatchJavaScriptVariables = getJavaScriptVariables();
-			System.out.println("woot");
+			Match match = new WSMatch(whoScoredMatchJavaScriptVariables);
+
+			return match;
 		} catch (NullPointerException e) {
 			Pattern matchIdPattern = Pattern.compile(".*ws_matchID = '(\\d*)'.*", Pattern.DOTALL);
 			Pattern matchHeaderPattern = Pattern.compile(".*matchHeader.load\\(\\[(\\d*),(\\d*),'(.*)','(.*)','(.*)','.*',\\d*,,,,,,.*", Pattern.DOTALL);
+
+		    Match match = new Match();
 
 			for (Element element : getDocument().getElementsByTag("script")) {
 				Matcher matchIdMatcher = matchIdPattern.matcher(element.toString());
@@ -40,8 +44,8 @@ public class WhoScoredMatchParser extends JSoupJavaScriptParser<Match, WhoScored
 					match.setElapsed("N/A");
 				}
 			}
+			return match;
 		}
-		return match;
 	}
 
 }
