@@ -1,5 +1,8 @@
 package org.d11.admin.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.LocalDateTime;
 
 public class Match extends PersistentD11Model {
@@ -9,6 +12,7 @@ public class Match extends PersistentD11Model {
 	private Team home_team;
 	private Team away_team;
 	private String elapsed;
+	private List<PlayerMatchStat> player_match_stats = new ArrayList<PlayerMatchStat>();
 
 	public Match() {
 		super(0);
@@ -61,6 +65,14 @@ public class Match extends PersistentD11Model {
 
 	public void setElapsed(String elapsed) {
 		this.elapsed = elapsed;
+	}
+
+	public List<PlayerMatchStat> getPlayerMatchStats() {
+		return player_match_stats;
+	}
+
+	public void setPlayerMatchStats(List<PlayerMatchStat> playerMatchStats) {
+		this.player_match_stats = playerMatchStats;
 	}
 
 }

@@ -3,19 +3,20 @@ package org.d11.admin.model;
 import java.text.Normalizer;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class D11Model {
 
-	private final static Gson gson = new Gson();
+	private final static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	protected String parameterize(String string) {
-        String parameterizedString = string.toLowerCase();
-        parameterizedString = parameterizedString.replace("_", " ");
-        parameterizedString  = Normalizer.normalize(parameterizedString, Normalizer.Form.NFD);
-        parameterizedString = parameterizedString.replaceAll("'", "-");
-        parameterizedString = parameterizedString.replaceAll("[^a-z &,-]", "").trim();
-        parameterizedString = parameterizedString.replace(" ", "-");
-        return parameterizedString;
+		String parameterizedString = string.toLowerCase();
+		parameterizedString = parameterizedString.replace("_", " ");
+		parameterizedString = Normalizer.normalize(parameterizedString, Normalizer.Form.NFD);
+		parameterizedString = parameterizedString.replaceAll("'", "-");
+		parameterizedString = parameterizedString.replaceAll("[^a-z &,-]", "").trim();
+		parameterizedString = parameterizedString.replace(" ", "-");
+		return parameterizedString;
 	}
 
 	@Override

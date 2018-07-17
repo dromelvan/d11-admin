@@ -44,9 +44,9 @@ public class WhoScoredTest {
 
 	// @Test
 	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader) {
-		downloader.setId(1284746);
-		downloader.setSeason("2018-2019");
-		downloader.setMatchDay(1);
+		downloader.setId(1190457);
+		downloader.setSeason("2017-2018");
+		downloader.setMatchDay(38);
 		File htmlFile = downloader.download();
 		if (htmlFile != null) {
 			System.out.println(htmlFile);
@@ -55,7 +55,7 @@ public class WhoScoredTest {
 
 	@Test
 	public void parseWhoScoredMatch(WhoScoredMatchParser parser) {
-		File file = new File("tmp/whoscored.com/matches/2017-2018/08/Liverpool 4-0 Brighton - Premier League 2017_2018 Live3.html");
+		File file = new File("tmp/whoscored.com/matches/2017-2018/38/Tottenham 5-4 Leicester - Premier League 2017_2018 Live.html");
 		// File file = new File("tmp/whoscored.com/matches/2018-2019/01/Manchester United-Leicester - Premier League 2018_2019 Live.html");
 		Match match = parser.parse(file);
 		System.out.println(match);

@@ -50,11 +50,11 @@ public class WhoScoredMatchJavaScriptVariables extends JavaScriptVariables {
 
 	public final static String PLAYER_ID_NAME_DICTIONARY = "playerIdNameDictionary";
 
-    private static final long serialVersionUID = 2635365858846187843L;
+	private static final long serialVersionUID = 2635365858846187843L;
 
 	@Override
 	public void init() {
-		Map matchCentreData = (Map) get(MATCH_CENTRE_DATA);
+		Map<String, Object> matchCentreData = (Map<String, Object>) get(MATCH_CENTRE_DATA);
 		List<String> players = (List<String>) matchCentreData.get(PLAYER_ID_NAME_DICTIONARY);
 		PlayerNameDictionary.init(players);
 	}

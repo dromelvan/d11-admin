@@ -3,17 +3,14 @@ package org.d11.admin.parser.javascript;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JavaScriptVariables extends HashMap {
+public class JavaScriptVariables extends HashMap<String, Object> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 9148999546883907177L;
 
 	public JavaScriptVariables() {
 	}
 
-	public JavaScriptVariables(Map map) {
+	public JavaScriptVariables(Map<String, Object> map) {
 		super(map);
 	}
 
