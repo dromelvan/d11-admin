@@ -50,7 +50,7 @@ public class WhoScoredMatchJavaScriptVariables extends JavaScriptVariables {
 
 	public final static String PLAYER_ID_NAME_DICTIONARY = "playerIdNameDictionary";
 
-    private static final long serialVersionUID = 2635365858846187843L;
+	private static final long serialVersionUID = 2635365858846187843L;
 
 	@Override
 	public void init() {

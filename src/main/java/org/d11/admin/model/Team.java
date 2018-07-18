@@ -3,19 +3,18 @@ package org.d11.admin.model;
 public class Team extends PersistentD11Model {
 
 	private String name;
-	private int whoscored_id;
+	private Integer whoscored_id;
 
 	public Team() {
-	    super(0);
 	}
 
 	public Team(int id, String name) {
-		super(id);
+		setId(id);
 		setName(name);
 	}
 
 	public Team(int id, int whoScoredId, String name) {
-		super(id);
+		setId(id);
 		setWhoScoredId(whoScoredId);
 		setName(name);
 	}

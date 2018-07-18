@@ -1,6 +1,5 @@
 package org.d11.admin.parse.whoscored;
 
-import java.util.List;
 import java.util.Map;
 
 import org.d11.admin.parser.javascript.JavaScriptVariables;
@@ -55,8 +54,6 @@ public class WhoScoredMatchJavaScriptVariables extends JavaScriptVariables {
 	@Override
 	public void init() {
 		Map<String, Object> matchCentreData = (Map<String, Object>) get(MATCH_CENTRE_DATA);
-		List<String> players = (List<String>) matchCentreData.get(PLAYER_ID_NAME_DICTIONARY);
-		PlayerNameDictionary.init(players);
 	}
 
 }

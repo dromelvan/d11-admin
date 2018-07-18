@@ -1,24 +1,24 @@
 package org.d11.admin.model;
 
-public class PlayerMatchStat {
+public class PlayerMatchStat extends D11Model {
 
 	private Player player;
 	private Team team;
 
-	private int lineup;
-	private int substitution_on_time;
-	private int substitution_off_time;
-	private int goals;
-	private int goal_assists;
-	private int own_goals;
-	private int goals_conceded;
-	private int yellow_card_time;
-	private int red_card_time;
-	private boolean man_of_the_match;
-	private boolean shared_man_of_the_match;
-	private int rating;
-	private String played_position;
-	private int position;
+	private Integer lineup = 0;
+	private Integer substitution_on_time = 0;
+	private Integer substitution_off_time = 0;
+	private Integer goals = 0;
+	private Integer goal_assists = 0;
+	private Integer own_goals = 0;
+	private Integer goals_conceded = 0;
+	private Integer yellow_card_time = 0;
+	private Integer red_card_time = 0;
+	private Boolean man_of_the_match = false;
+	private Boolean shared_man_of_the_match = false;
+	private Integer rating = 0;
+	private String played_position = "?";
+	private Integer position = 0;
 
 	public PlayerMatchStat() {
 	}

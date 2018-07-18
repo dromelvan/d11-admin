@@ -13,19 +13,9 @@ public class Match extends PersistentD11Model {
 	private Team away_team;
 	private String elapsed;
 	private List<PlayerMatchStat> player_match_stats = new ArrayList<PlayerMatchStat>();
-
-	public Match() {
-		super(0);
-	}
-
-	public Match(int id) {
-		super(id);
-	}
-
-	public Match(int id, int whoScoredId) {
-		super(id);
-		this.whoscored_id = whoScoredId;
-	}
+	private List<Goal> goals = new ArrayList<Goal>();
+	private List<Card> cards = new ArrayList<Card>();
+	private List<Substitution> substitutions = new ArrayList<Substitution>();
 
 	public int getWhoScoredId() {
 		return whoscored_id;
@@ -73,6 +63,30 @@ public class Match extends PersistentD11Model {
 
 	public void setPlayerMatchStats(List<PlayerMatchStat> playerMatchStats) {
 		this.player_match_stats = playerMatchStats;
+	}
+
+	public List<Goal> getGoals() {
+		return goals;
+	}
+
+	public void setGoals(List<Goal> goals) {
+		this.goals = goals;
+	}
+
+	public List<Card> getCards() {
+		return cards;
+	}
+
+	public void setCards(List<Card> cards) {
+		this.cards = cards;
+	}
+
+	public List<Substitution> getSubstitutions() {
+		return substitutions;
+	}
+
+	public void setSubstitutions(List<Substitution> substitutions) {
+		this.substitutions = substitutions;
 	}
 
 }

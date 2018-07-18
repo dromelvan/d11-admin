@@ -2,23 +2,24 @@ package org.d11.admin.model;
 
 public class Player extends PersistentD11Model {
 
-    private int whoscored_id;
+	private Integer whoscored_id;
 	private String name;
-	private int number;
+	private Integer number;
 	private String team;
 	private String position;
 	private String nationality;
 	private String imageId;
 
-	public Player() {}
+	public Player() {
+	}
 
-    public Player(int id, String name) {
-        super(id);
-        this.name = name;
-    }
+	public Player(int id, String name) {
+		setId(id);
+		this.name = name;
+	}
 
 	public Player(int id, String name, int number, String team, String position, String nationality, String imageId) {
-		super(id);
+		setId(id);
 		this.name = name;
 		this.number = number;
 		this.team = team;
@@ -28,14 +29,14 @@ public class Player extends PersistentD11Model {
 	}
 
 	public int getWhoScoredId() {
-        return whoscored_id;
-    }
+		return whoscored_id;
+	}
 
-    public void setWhoScoredId(int whoScoredId) {
-        this.whoscored_id = whoScoredId;
-    }
+	public void setWhoScoredId(int whoScoredId) {
+		this.whoscored_id = whoScoredId;
+	}
 
-    public String getName() {
+	public String getName() {
 		return name;
 	}
 
@@ -84,7 +85,7 @@ public class Player extends PersistentD11Model {
 	}
 
 	public String getParameterizedName() {
-	    return parameterize(getName());
+		return parameterize(getName());
 	}
 
 	@Override

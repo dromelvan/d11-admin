@@ -2,12 +2,9 @@ package org.d11.admin.model;
 
 public class PersistentD11Model extends D11Model {
 
-	private int id;
+	private Integer id;
 
-	public PersistentD11Model() {}
-
-	public PersistentD11Model(int id) {
-		this.id = id;
+	public PersistentD11Model() {
 	}
 
 	public int getId() {
