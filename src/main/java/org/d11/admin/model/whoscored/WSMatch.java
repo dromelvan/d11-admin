@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import org.d11.admin.model.Match;
 import org.d11.admin.model.PlayerMatchStat;
+import org.d11.admin.model.Team;
 import org.d11.admin.parse.whoscored.WhoScoredMatchJavaScriptVariables;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -37,29 +38,27 @@ public class WSMatch extends Match {
 
 		Map homeTeamMap = (Map) matchCentreData.get(WhoScoredMatchJavaScriptVariables.HOME_TEAM);
 		Map awayTeamMap = (Map) matchCentreData.get(WhoScoredMatchJavaScriptVariables.AWAY_TEAM);
-		setHomeTeam(new WSTeam(homeTeamMap));
-		setAwayTeam(new WSTeam(awayTeamMap));
+		setHomeTeam(parseTeam(homeTeamMap));
+		setAwayTeam(parseTeam(awayTeamMap));
 
 		// homeTeamParserObject.addOwnGoals(awayTeamParserObject.getOwnGoals());
 		// awayTeamParserObject.addOwnGoals(homeTeamParserObject.getOwnGoals());
 
-		Map<Integer, PlayerMatchStat> playerMap = new HashMap<Integer, PlayerMatchStat>();
 
-		List<Map> playerMatchStatMaps = (List<Map>) homeTeamMap.get(WhoScoredMatchJavaScriptVariables.TEAM_PLAYERS);
-		for (Map playerMatchStatMap : playerMatchStatMaps) {
-			WSPlayerMatchStat playerMatchStat = new WSPlayerMatchStat(playerMatchStatMap);
-			playerMatchStat.setTeam(getHomeTeam());
-			getPlayerMatchStats().add(playerMatchStat);
-			playerMap.put(playerMatchStat.getPlayer().getWhoScoredId(), playerMatchStat);
-		}
-		playerMatchStatMaps = (List<Map>) awayTeamMap.get(WhoScoredMatchJavaScriptVariables.TEAM_PLAYERS);
-		for (Map playerMatchStatMap : playerMatchStatMaps) {
-			WSPlayerMatchStat playerMatchStat = new WSPlayerMatchStat(playerMatchStatMap);
-			playerMatchStat.setTeam(getAwayTeam());
-			getPlayerMatchStats().add(playerMatchStat);
-			playerMap.put(playerMatchStat.getPlayer().getWhoScoredId(), playerMatchStat);
-		}
+	}
 
+	private Team parseTeam(Map teamMap) {
+	    Team team = new WSTeam(teamMap);
+        Map<Integer, PlayerMatchStat> playerMap = new HashMap<Integer, PlayerMatchStat>();
+
+        List<Map> playerMatchStatMaps = (List<Map>) teamMap.get(WhoScoredMatchJavaScriptVariables.TEAM_PLAYERS);
+        for (Map playerMatchStatMap : playerMatchStatMaps) {
+            WSPlayerMatchStat playerMatchStat = new WSPlayerMatchStat(playerMatchStatMap);
+            playerMatchStat.setTeam(team);
+            getPlayerMatchStats().add(playerMatchStat);
+            playerMap.put(playerMatchStat.getPlayer().getWhoScoredId(), playerMatchStat);
+        }
+        return team;
 	}
 
 }
