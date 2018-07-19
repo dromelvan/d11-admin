@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 public class WSMatch extends Match {
 
+    public final static DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm");
 	private final static Logger logger = LoggerFactory.getLogger(WSMatch.class);
 
 	public WSMatch(Map<String, Object> match) {
@@ -31,7 +32,7 @@ public class WSMatch extends Match {
 		if (startTimeMatcher.matches()) {
 			DateTimeFormatter dateTimeFormat = DateTimeFormat.forPattern("YYYY-MM-dd'T'HH:mm:ss");
 			LocalDateTime dateTime = LocalDateTime.parse(startTimeMatcher.group(1), dateTimeFormat);
-			setDatetime(dateTime.plusHours(2));
+			setDatetime(dateTime.plusHours(2).toString(DateTimeFormat.forPattern("YYYY-MM-dd HH:mm")));
 		} else {
 			logger.warn("Could not parse start time from input {}.", matchCentreData.get(WhoScoredMatchJavaScriptVariables.START_TIME));
 		}

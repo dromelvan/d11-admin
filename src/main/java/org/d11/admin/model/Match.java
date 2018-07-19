@@ -3,12 +3,10 @@ package org.d11.admin.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.LocalDateTime;
-
 public class Match extends PersistentD11Model {
 
 	private Integer whoscored_id;
-	private LocalDateTime datetime;
+	private String datetime;
 	private Team home_team;
 	private Team away_team;
 	private String elapsed;
@@ -25,11 +23,11 @@ public class Match extends PersistentD11Model {
 		this.whoscored_id = whoScoredId;
 	}
 
-	public LocalDateTime getDatetime() {
+	public String getDatetime() {
 		return datetime;
 	}
 
-	public void setDatetime(LocalDateTime datetime) {
+	public void setDatetime(String datetime) {
 		this.datetime = datetime;
 	}
 

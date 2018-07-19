@@ -40,7 +40,7 @@ public class WhoScoredMatchParser extends JSoupJavaScriptParser<Match, WhoScored
 					DateTimeFormatter dateTimeFormat = DateTimeFormat.forPattern("dd/MM/YYYY HH:mm:ss");
 					LocalDateTime dateTime = LocalDateTime.parse(matchHeaderMatcher.group(5), dateTimeFormat).plusHours(2);
 
-					match.setDatetime(dateTime);
+					match.setDatetime(dateTime.toString(WSMatch.dateTimeFormatter));
 					match.setElapsed("N/A");
 				}
 			}
