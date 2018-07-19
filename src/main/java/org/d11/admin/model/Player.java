@@ -1,7 +1,5 @@
 package org.d11.admin.model;
 
-import org.joda.time.LocalDate;
-
 public class Player extends PersistentD11Model {
 
 	private Integer whoscored_id;
@@ -10,27 +8,11 @@ public class Player extends PersistentD11Model {
 	private String team;
 	private String position;
 	private String nationality;
-	private String imageId;
 	private Integer height;
 	private Integer weight;
-	private LocalDate date_of_birth;
+	private String date_of_birth;
 
 	public Player() {
-	}
-
-	public Player(int id, String name) {
-		setId(id);
-		this.name = name;
-	}
-
-	public Player(int id, String name, int number, String team, String position, String nationality, String imageId) {
-		setId(id);
-		this.name = name;
-		this.number = number;
-		this.team = team;
-		this.position = position;
-		this.nationality = nationality;
-		this.imageId = imageId;
 	}
 
 	public int getWhoScoredId() {
@@ -97,19 +79,11 @@ public class Player extends PersistentD11Model {
 		this.weight = weight;
 	}
 
-	public String getImageId() {
-		return imageId;
-	}
-
-	public void setImageId(String imageId) {
-		this.imageId = imageId;
-	}
-
-	public LocalDate getDateOfBirth() {
+	public String getDateOfBirth() {
 		return date_of_birth;
 	}
 
-	public void setDateOfBirth(LocalDate dateOfBirth) {
+	public void setDateOfBirth(String dateOfBirth) {
 		this.date_of_birth = dateOfBirth;
 	}
 

@@ -5,17 +5,18 @@ import java.io.File;
 import org.d11.admin.download.whoscored.WhoScoredMatchSeleniumDownloader;
 import org.d11.admin.download.whoscored.WhoScoredPlayerDownloader;
 import org.d11.admin.model.Match;
+import org.d11.admin.model.MatchDay;
 import org.d11.admin.model.Player;
+import org.d11.admin.model.whoscored.WSPlayer;
 import org.d11.admin.parse.whoscored.WhoScoredMatchParser;
 import org.d11.admin.parse.whoscored.WhoScoredPlayerParser;
 import org.d11.admin.read.whoscored.MatchReader;
-import org.d11.admin.task.whoscored.DownloadWhoScoredMatchStatsTask;
-import org.d11.admin.task.whoscored.DownloadWhoScoredPlayerTask;
+import org.d11.admin.read.whoscored.PlayerReader;
 import org.d11.admin.task.whoscored.UpdateMatchDateTimeTask;
 import org.d11.admin.task.whoscored.UpdateMatchDayMatchDateTimesTask;
 import org.d11.admin.write.whoscored.MatchWriter;
+import org.d11.admin.write.whoscored.PlayerWriter;
 import org.d11.api.D11API;
-import org.d11.api.MatchDay;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
 import org.junit.Test;
@@ -83,7 +84,7 @@ public class WhoScoredTest {
 		}
 	}
 
-	@Test
+	// @Test
 	public void parserWhoScoredPlayer(WhoScoredPlayerParser parser) {
 		File file = new File("tmp/whoscored.com/players/Harry Kane (83532).html");
 		Player player = parser.parse(file);
@@ -92,19 +93,27 @@ public class WhoScoredTest {
 		}
 	}
 
+	// @Test
+	public void writeWhoScoredPlayer(WhoScoredPlayerParser parser, PlayerWriter writer) {
+		File file = new File("tmp/whoscored.com/players/Harry Kane (83532).html");
+		Player player = parser.parse(file);
+		if (player != null) {
+			writer.write(player);
+		}
+	}
+
+	@Test
+	public void readWhoScoredPlayer(PlayerReader reader) {
+		File file = new File("data/whoscored.com/players/Harry Kane (83532).json");
+		WSPlayer player = reader.read(file);
+		if (player != null) {
+			System.out.println(player);
+		}
+	}
+
 	// @Before
 	public void before(D11API d11Api) {
 		d11Api.login("dromelvan@fake.email.com", "password");
-	}
-
-	// @Test
-	public void downloadWhoScoredMatchStats(DownloadWhoScoredMatchStatsTask task) {
-		task.setMatchId("1080728");
-		task.setMatchDayNumber(33);
-		if (task.execute()) {
-			File htmlFile = task.getResult();
-			System.out.println(htmlFile);
-		}
 	}
 
 	// @Test
@@ -121,15 +130,6 @@ public class WhoScoredTest {
 		MatchDay matchDay = d11API.getUpcomingMatchDay();
 		task.setMatchDay(matchDay);
 		task.execute();
-	}
-
-	// @Test
-	public void downloadWhoScoredPlayer(DownloadWhoScoredPlayerTask task) {
-		task.setPlayerId("86425");
-		if (task.execute()) {
-			File htmlFile = task.getResult();
-			System.out.println(htmlFile);
-		}
 	}
 
 }

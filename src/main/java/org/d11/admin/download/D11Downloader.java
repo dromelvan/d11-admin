@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.d11.admin.D11AdminProperties;
 import org.d11.admin.D11FileHandler;
-import org.d11.admin.reader.jsoup.JSoupURLReader;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +34,16 @@ public abstract class D11Downloader extends D11FileHandler {
 
 		try {
 			URL URL = new URL(formattedUrl);
-			JSoupURLReader jSoupURLReader = new JSoupURLReader(URL);
-			Document document = jSoupURLReader.read();
 
-            if(getFileName() == null) {
-                setFileName(document.title().replace("/", "_") + ".html");
-            }
+			Document document = Jsoup.connect(formattedUrl)
+					// .data("query", "Java")
+					.userAgent("Chrome")
+					.timeout(10000)
+					.get();
+
+			if (getFileName() == null) {
+				setFileName(document.title().replace("/", "_") + ".html");
+			}
 
 			setFile(new File(getDirectory(), formatFileName(getFileName())));
 			Files.write(document.toString(), getFile(), StandardCharsets.UTF_8);

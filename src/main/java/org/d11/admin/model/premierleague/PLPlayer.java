@@ -1,14 +1,29 @@
 package org.d11.admin.model.premierleague;
 
 import org.d11.admin.model.Player;
-import org.joda.time.LocalDate;
 
 public class PLPlayer extends Player {
 
-	public PLPlayer(int id, String name, int number, String team, String position, String nationality, String imageId, LocalDate dateOfBirth, int height) {
-		super(id, name, number, team, position, nationality, imageId);
-		setDateOfBirth(dateOfBirth);
-		setHeight(height);
+	private Integer premier_league_id;
+	private String imageId;
+
+	public PLPlayer() {
+	}
+
+	public Integer getPremierLeagueId() {
+		return premier_league_id;
+	}
+
+	public void setPremierLeagueId(Integer premier_league_id) {
+		this.premier_league_id = premier_league_id;
+	}
+
+	public String getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(String imageId) {
+		this.imageId = imageId;
 	}
 
 }

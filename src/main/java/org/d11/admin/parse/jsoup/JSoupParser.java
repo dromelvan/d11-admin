@@ -3,7 +3,7 @@ package org.d11.admin.parse.jsoup;
 import java.io.File;
 
 import org.d11.admin.parse.D11Parser;
-import org.d11.admin.reader.jsoup.JSoupFileReader;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 public abstract class JSoupParser<T extends Object> extends D11Parser<T> {
@@ -21,8 +21,8 @@ public abstract class JSoupParser<T extends Object> extends D11Parser<T> {
 	@Override
 	public T parse(File file) {
 		try {
-			JSoupFileReader reader = new JSoupFileReader(file);
-			setDocument(reader.read());
+			Document document = Jsoup.parse(file, "UTF-8");
+			setDocument(document);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

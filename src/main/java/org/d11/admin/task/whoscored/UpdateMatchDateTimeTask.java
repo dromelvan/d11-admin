@@ -2,6 +2,8 @@ package org.d11.admin.task.whoscored;
 
 import java.io.File;
 
+import org.d11.admin.download.whoscored.WhoScoredMatchSeleniumDownloader;
+import org.d11.admin.model.Match;
 import org.d11.admin.parse.whoscored.WhoScoredMatchParser;
 import org.d11.admin.task.D11Task;
 import org.d11.api.D11API;
@@ -10,12 +12,12 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-public class UpdateMatchDateTimeTask extends D11Task<org.d11.api.Match> {
+public class UpdateMatchDateTimeTask extends D11Task<Match> {
 
 	private String matchId;
 	private int matchDayNumber;
 	@Inject
-	private DownloadWhoScoredMatchStatsTask downloadWhoScoredMatchStatsTask;
+	private WhoScoredMatchSeleniumDownloader downloader;
 	@Inject
 	private WhoScoredMatchParser parser;
 	@Inject
@@ -49,22 +51,20 @@ public class UpdateMatchDateTimeTask extends D11Task<org.d11.api.Match> {
 	@Override
 	public boolean execute() {
 		int whoScoredId = this.d11Api.getMatch(Integer.valueOf(getMatchId())).getWhoScoredId();
-		this.downloadWhoScoredMatchStatsTask.setMatchId(String.valueOf(whoScoredId));
-		this.downloadWhoScoredMatchStatsTask.setMatchDayNumber(getMatchDayNumber());
-		if (this.downloadWhoScoredMatchStatsTask.execute()) {
-			File htmlFile = this.downloadWhoScoredMatchStatsTask.getResult();
+		downloader.setId(whoScoredId);
+		downloader.setMatchDay(getMatchDayNumber());
+		File htmlFile = downloader.download();
 
-			org.d11.admin.model.Match match = parser.parse(htmlFile);
-			if (match != null) {
-				org.d11.api.Match apiMatch = this.d11Api.updateMatchDateTime(Integer.valueOf(getMatchId()), match.getDatetime());
-				if (apiMatch == null) {
-					logger.error("Could not update match datetime for match {}.", getMatchId());
-					return false;
-				} else {
-					logger.info("Changed match datetime for match {} to {}.", getMatchId(), apiMatch.getDatetime());
-					setResult(apiMatch);
-					return true;
-				}
+		Match match = parser.parse(htmlFile);
+		if (match != null) {
+			match = this.d11Api.updateMatchDateTime(Integer.valueOf(getMatchId()), match.getDatetime());
+			if (match == null) {
+				logger.error("Could not update match datetime for match {}.", getMatchId());
+				return false;
+			} else {
+				logger.info("Changed match datetime for match {} to {}.", getMatchId(), match.getDatetime());
+				setResult(match);
+				return true;
 			}
 		}
 		return false;

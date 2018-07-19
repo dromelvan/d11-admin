@@ -40,7 +40,7 @@ public class CreateTeamSquadFilesTask extends D11Task<List<File>> {
 				teamDownloader.setName(team.getName());
 				File teamFile = teamDownloader.download();
 				if (teamFile != null) {
-					List<Player> players = teamParser.parse(teamFile);
+					List<Player> players = new ArrayList<Player>(teamParser.parse(teamFile));
 					TeamSquad teamSquad = new TeamSquad(team, players);
 					File teamSquadFile = writer.write(teamSquad);
 					if (teamSquadFile != null) {

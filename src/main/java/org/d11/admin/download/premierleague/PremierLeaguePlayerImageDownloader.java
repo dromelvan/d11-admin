@@ -32,21 +32,22 @@ public class PremierLeaguePlayerImageDownloader extends D11ImageDownloader {
 	}
 
 	public String getImageId() {
-        return imageId;
-    }
+		return imageId;
+	}
 
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
-    }
+	public void setImageId(String imageId) {
+		this.imageId = imageId;
+	}
 
-    @Override
+	@Override
 	protected String formatUrl(String url) {
 		return String.format(getUrl(), getImageId());
 	}
 
 	@Override
 	protected String formatFileName(String fileName) {
-	    Player player = new Player(getId(), getName());
+		Player player = new Player();
+		player.setName(getName());
 		return String.format(fileName, player.getParameterizedName());
 	}
 

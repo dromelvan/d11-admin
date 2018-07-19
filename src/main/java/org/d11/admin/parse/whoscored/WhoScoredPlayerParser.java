@@ -2,8 +2,6 @@ package org.d11.admin.parse.whoscored;
 
 import org.d11.admin.model.Player;
 import org.d11.admin.parse.jsoup.JSoupParser;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
 import org.jsoup.nodes.Element;
 
 public class WhoScoredPlayerParser extends JSoupParser<Player> {
@@ -44,7 +42,7 @@ public class WhoScoredPlayerParser extends JSoupParser<Player> {
 				// TODO
 			} else if (infoBlock.equals(InfoBlock.AGE.toString())) {
 				value = value.substring(value.indexOf("(") + 1, value.indexOf(")")).trim();
-				player.setDateOfBirth(LocalDate.parse(value, DateTimeFormat.forPattern("dd-MM-YYYY")));
+				player.setDateOfBirth(value);
 			} else if (infoBlock.equals(InfoBlock.HEIGHT.toString())) {
 				player.setHeight(Integer.parseInt(value.replace("cm", "")));
 			} else if (infoBlock.equals(InfoBlock.WEIGHT.toString())) {

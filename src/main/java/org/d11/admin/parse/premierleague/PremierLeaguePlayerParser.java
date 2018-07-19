@@ -46,7 +46,17 @@ public class PremierLeaguePlayerParser extends JSoupParser<PLPlayer> {
 			}
 		}
 
-		PLPlayer player = new PLPlayer(id, name, number, team, position, nationality, imageId, dateOfBirth, height);
+		PLPlayer player = new PLPlayer();
+		player.setPremierLeagueId(id);
+		player.setName(name);
+		player.setNumber(number);
+		player.setTeam(team);
+		player.setPosition(position);
+		player.setNationality(nationality);
+		player.setDateOfBirth(dateOfBirth.toString("dd-MM-YYYY"));
+		player.setHeight(height);
+		player.setImageId(imageId);
+
 		return player;
 	}
 

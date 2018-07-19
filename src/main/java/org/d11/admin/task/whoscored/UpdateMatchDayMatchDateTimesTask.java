@@ -1,14 +1,15 @@
 package org.d11.admin.task.whoscored;
 
+import org.d11.admin.model.Match;
+import org.d11.admin.model.MatchDay;
 import org.d11.admin.task.D11Task;
-import org.d11.api.MatchDay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class UpdateMatchDayMatchDateTimesTask extends D11Task<org.d11.api.Match> {
+public class UpdateMatchDayMatchDateTimesTask extends D11Task<Match> {
 
 	private MatchDay matchDay;
 	@Inject

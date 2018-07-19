@@ -7,7 +7,6 @@ import org.d11.admin.download.premierleague.PremierLeaguePlayerDownloader;
 import org.d11.admin.download.premierleague.PremierLeaguePlayerImageDownloader;
 import org.d11.admin.download.premierleague.PremierLeagueTableDownloader;
 import org.d11.admin.download.premierleague.PremierLeagueTeamDownloader;
-import org.d11.admin.model.Player;
 import org.d11.admin.model.Team;
 import org.d11.admin.model.TeamSquadChange;
 import org.d11.admin.model.premierleague.PLPlayer;
@@ -65,7 +64,7 @@ public class PremierLeagueTest {
 		downloader.setName("Arsenal");
 		File htmlFile = downloader.download();
 		if (htmlFile != null) {
-			List<Player> players = parser.parse(htmlFile);
+			List<PLPlayer> players = parser.parse(htmlFile);
 			players.stream().forEach(System.out::println);
 		}
 	}
@@ -109,7 +108,7 @@ public class PremierLeagueTest {
 		}
 	}
 
-	//@Test
+	@Test
 	public void refreshTeamLineups(RefreshTeamLineupsTask task) {
 		if (task.execute()) {
 			List<TeamSquadChange> teamLineupChanges = task.getResult();
@@ -117,22 +116,22 @@ public class PremierLeagueTest {
 		}
 	}
 
-	//@Test
+	// @Test
 	public void downloadPremierLeaugePlayerImage(PremierLeaguePlayerImageDownloader downloader) {
-	    downloader.setId(5178);
-	    downloader.setName("Mohamed Salah");
-	    downloader.setImageId("p118748");
-	    File imageFile = downloader.download();
-	    if(imageFile != null) {
-	        System.out.println(imageFile);
-	    }
+		downloader.setId(5178);
+		downloader.setName("Mohamed Salah");
+		downloader.setImageId("p118748");
+		File imageFile = downloader.download();
+		if (imageFile != null) {
+			System.out.println(imageFile);
+		}
 	}
 
-    @Test
+	// @Test
 	public void downloadPremierLeaguePlayerImages(DownloadPlayerImagesTask task) {
-	    if(task.execute()) {
-	        List<File> files = task.getResult();
-	        files.stream().forEach(System.out::println);
-	    }
+		if (task.execute()) {
+			List<File> files = task.getResult();
+			files.stream().forEach(System.out::println);
+		}
 	}
 }
