@@ -3,14 +3,17 @@ package org.d11.admin;
 import java.io.File;
 
 import org.d11.admin.download.whoscored.WhoScoredMatchSeleniumDownloader;
+import org.d11.admin.download.whoscored.WhoScoredPlayerDownloader;
 import org.d11.admin.model.Match;
 import org.d11.admin.parse.whoscored.WhoScoredMatchParser;
+import org.d11.admin.read.whoscored.MatchReader;
 import org.d11.admin.task.whoscored.DownloadWhoScoredMatchStatsTask;
 import org.d11.admin.task.whoscored.DownloadWhoScoredPlayerTask;
 import org.d11.admin.task.whoscored.ParseWhoScoredMatchStatsFileTask;
 import org.d11.admin.task.whoscored.ParseWhoScoredPlayerFileTask;
 import org.d11.admin.task.whoscored.UpdateMatchDateTimeTask;
 import org.d11.admin.task.whoscored.UpdateMatchDayMatchDateTimesTask;
+import org.d11.admin.write.whoscored.MatchWriter;
 import org.d11.api.D11API;
 import org.d11.api.MatchDay;
 import org.jukito.JukitoModule;
@@ -19,8 +22,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
-import com.google.gson.Gson;
 
 @RunWith(JukitoRunner.class)
 public class WhoScoredTest {
@@ -33,33 +34,53 @@ public class WhoScoredTest {
 	}
 
 	// @Test
-	public void json() {
-		Match match = new Match();
-		match.setId(2);
-		match.setDatetime(("2018-08-30 17:00"));
-		match.setWhoScoredId(32);
-
-		System.out.println(new Gson().toJson(match));
-	}
-
-	// @Test
 	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader) {
-		downloader.setId(1190457);
-		downloader.setSeason("2017-2018");
-		downloader.setMatchDay(38);
+		downloader.setId(1284746);
+		downloader.setSeason("2018-2019");
+		downloader.setMatchDay(1);
 		File htmlFile = downloader.download();
 		if (htmlFile != null) {
 			System.out.println(htmlFile);
 		}
 	}
 
-	@Test
+	// @Test
 	public void parseWhoScoredMatch(WhoScoredMatchParser parser) {
-		File file = new File("tmp/whoscored.com/matches/2017-2018/08/Liverpool 4-0 Brighton - Premier League 2017_2018 Live3.html");
-		//File file = new File("tmp/whoscored.com/matches/2017-2018/38/Tottenham 5-4 Leicester - Premier League 2017_2018 Live.html");
-		// File file = new File("tmp/whoscored.com/matches/2018-2019/01/Manchester United-Leicester - Premier League 2018_2019 Live.html");
+		// File file = new File("tmp/whoscored.com/matches/2017-2018/08/Liverpool 4-0 Brighton - Premier League 2017_2018 Live3.html");
+		// File file = new File("tmp/whoscored.com/matches/2017-2018/38/Tottenham 5-4 Leicester - Premier League 2017_2018 Live.html");
+		File file = new File("tmp/whoscored.com/matches/2018-2019/01/Manchester United-Leicester - Premier League 2018_2019 Live.html");
 		Match match = parser.parse(file);
 		System.out.println(match);
+	}
+
+	// @Test
+	public void writeWhoScoredMatch(WhoScoredMatchParser parser, MatchWriter writer) {
+		writer.setSeason("2017-2018");
+		writer.setMatchDayNumber(38);
+
+		File file = new File("tmp/whoscored.com/matches/2017-2018/38/Tottenham 5-4 Leicester - Premier League 2017_2018 Live.html");
+		Match match = parser.parse(file);
+		File jsonFile = writer.write(match);
+		if (jsonFile != null) {
+			System.out.println(jsonFile);
+		}
+	}
+
+	// @Test
+	public void readWhoScoredMatch(MatchReader reader) {
+		File file = new File("data/whoscored.com/matches/2017-2018/38/Tottenham vs Leicester.json");
+		Match match = reader.read(file);
+		System.out.println(match);
+	}
+
+	@Test
+	public void downloadWhoScoredPlayer(WhoScoredPlayerDownloader downloader) {
+		downloader.setId(83532);
+		downloader.setName("Harry Kane");
+		File htmlFile = downloader.download();
+		if (htmlFile != null) {
+			System.out.println(htmlFile);
+		}
 	}
 
 	// @Before
