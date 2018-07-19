@@ -11,39 +11,40 @@ import com.google.inject.Inject;
 
 public class CreatePlayerTask extends D11Task<org.d11.api.Match> {
 
-    private String playerId;
-    @Inject
-    private DownloadWhoScoredPlayerTask downloadWhoScoredPlayerTask;
-    @Inject
-    private ParseWhoScoredPlayerFileTask parseWhoScoredPlayerFileTask;
-    @Inject
-    private D11API d11Api;
-    private final static Logger logger = LoggerFactory.getLogger(CreatePlayerTask.class);
+	private String playerId;
+	@Inject
+	private DownloadWhoScoredPlayerTask downloadWhoScoredPlayerTask;
+	// @Inject
+	// private ParseWhoScoredPlayerFileTask parseWhoScoredPlayerFileTask;
+	@Inject
+	private D11API d11Api;
+	private final static Logger logger = LoggerFactory.getLogger(CreatePlayerTask.class);
 
-    public CreatePlayerTask() {}
+	public CreatePlayerTask() {
+	}
 
-    public CreatePlayerTask(String playerId) {
-        this.playerId = playerId;
-    }
+	public CreatePlayerTask(String playerId) {
+		this.playerId = playerId;
+	}
 
-    protected String getPlayerId() {
-        return playerId;
-    }
+	protected String getPlayerId() {
+		return playerId;
+	}
 
-    protected void setPlayerId(String playerId) {
-        this.playerId = playerId;
-    }
+	protected void setPlayerId(String playerId) {
+		this.playerId = playerId;
+	}
 
-    @Override
-    public boolean execute() {
-        this.downloadWhoScoredPlayerTask.setPlayerId(getPlayerId());
-        if(this.downloadWhoScoredPlayerTask.execute()) {
-            File htmlFile = this.downloadWhoScoredPlayerTask.getResult();
-            this.parseWhoScoredPlayerFileTask.setSourceFile(htmlFile);
-            if(this.parseWhoScoredPlayerFileTask.execute()) {
-                // To be continued
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean execute() {
+		this.downloadWhoScoredPlayerTask.setPlayerId(getPlayerId());
+		if (this.downloadWhoScoredPlayerTask.execute()) {
+			File htmlFile = this.downloadWhoScoredPlayerTask.getResult();
+			// this.parseWhoScoredPlayerFileTask.setSourceFile(htmlFile);
+			// if (this.parseWhoScoredPlayerFileTask.execute()) {
+			// To be continued
+			// }
+		}
+		return false;
+	}
 }

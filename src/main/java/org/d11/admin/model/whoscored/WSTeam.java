@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.d11.admin.model.Team;
-import org.d11.admin.parser.whoscored.match.WhoScoredMatchJavaScriptVariables;
+import org.d11.admin.parse.whoscored.WhoScoredMatchJavaScriptVariables;
 
 public class WSTeam extends Team {
 

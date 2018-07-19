@@ -1,4 +1,4 @@
-package org.d11.admin.parser.javascript;
+package org.d11.admin.parse.jsoup;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -5,12 +5,12 @@ import java.io.File;
 import org.d11.admin.download.whoscored.WhoScoredMatchSeleniumDownloader;
 import org.d11.admin.download.whoscored.WhoScoredPlayerDownloader;
 import org.d11.admin.model.Match;
+import org.d11.admin.model.Player;
 import org.d11.admin.parse.whoscored.WhoScoredMatchParser;
+import org.d11.admin.parse.whoscored.WhoScoredPlayerParser;
 import org.d11.admin.read.whoscored.MatchReader;
 import org.d11.admin.task.whoscored.DownloadWhoScoredMatchStatsTask;
 import org.d11.admin.task.whoscored.DownloadWhoScoredPlayerTask;
-import org.d11.admin.task.whoscored.ParseWhoScoredMatchStatsFileTask;
-import org.d11.admin.task.whoscored.ParseWhoScoredPlayerFileTask;
 import org.d11.admin.task.whoscored.UpdateMatchDateTimeTask;
 import org.d11.admin.task.whoscored.UpdateMatchDayMatchDateTimesTask;
 import org.d11.admin.write.whoscored.MatchWriter;
@@ -73,13 +73,22 @@ public class WhoScoredTest {
 		System.out.println(match);
 	}
 
-	@Test
+	// @Test
 	public void downloadWhoScoredPlayer(WhoScoredPlayerDownloader downloader) {
 		downloader.setId(83532);
 		downloader.setName("Harry Kane");
 		File htmlFile = downloader.download();
 		if (htmlFile != null) {
 			System.out.println(htmlFile);
+		}
+	}
+
+	@Test
+	public void parserWhoScoredPlayer(WhoScoredPlayerParser parser) {
+		File file = new File("tmp/whoscored.com/players/Harry Kane (83532).html");
+		Player player = parser.parse(file);
+		if (player != null) {
+			System.out.println(player);
 		}
 	}
 
@@ -99,14 +108,6 @@ public class WhoScoredTest {
 	}
 
 	// @Test
-	public void parseWhoScoredMatchStatsFile(ParseWhoScoredMatchStatsFileTask task) {
-		// File file = new File("files/21/1080699.html");
-		File file = new File("tmp/whoscored.com/matches/2017-2018/08/Liverpool 4-0 Brighton - Premier League 2017_2018 Live.html");
-		task.setSourceFile(file);
-		task.execute();
-	}
-
-	// @Test
 	public void updateMatchDate(UpdateMatchDateTimeTask task) {
 		task.setMatchId("4752");
 		task.setMatchDayNumber(20);
@@ -120,14 +121,6 @@ public class WhoScoredTest {
 		MatchDay matchDay = d11API.getUpcomingMatchDay();
 		task.setMatchDay(matchDay);
 		task.execute();
-	}
-
-	// @Test
-	public void parseWhoScoredPlayerFile(ParseWhoScoredPlayerFileTask task) {
-		File file = new File("files/players/86425.html");
-		task.setSourceFile(file);
-		task.execute();
-		System.out.println(task.getResult());
 	}
 
 	// @Test

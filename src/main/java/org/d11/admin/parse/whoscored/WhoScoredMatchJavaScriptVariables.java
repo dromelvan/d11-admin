@@ -2,7 +2,7 @@ package org.d11.admin.parse.whoscored;
 
 import java.util.Map;
 
-import org.d11.admin.parser.javascript.JavaScriptVariables;
+import org.d11.admin.parse.jsoup.JavaScriptVariables;
 
 public class WhoScoredMatchJavaScriptVariables extends JavaScriptVariables {
 
