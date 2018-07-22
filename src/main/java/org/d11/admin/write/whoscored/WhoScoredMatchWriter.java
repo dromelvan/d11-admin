@@ -5,13 +5,13 @@ import java.io.File;
 import org.d11.admin.model.Match;
 import org.d11.admin.write.JsonWriter;
 
-public class MatchWriter extends JsonWriter<Match> {
+public class WhoScoredMatchWriter extends JsonWriter<Match> {
 
 	private String season;
 	private int matchDayNumber;
 	private Match match;
 
-	public MatchWriter() {
+	public WhoScoredMatchWriter() {
 		setDirectoryName("whoscored.com/matches/%s/%d");
 		setFileName("%s vs %s.json");
 	}

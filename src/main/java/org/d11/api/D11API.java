@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.d11.admin.model.Match;
 import org.d11.admin.model.MatchDay;
+import org.d11.admin.model.Season;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,51 @@ public class D11API {
 		return this.authenticationParameters != null;
 	}
 
+	public List<Season> getSeasons() {
+        try {
+            SeasonsRequest seasonsRequest = new SeasonsRequest();
+            seasonsRequest.execute();
+            if (seasonsRequest.hasError()) {
+                logger.error("Could not fetch seasons.");
+                return null;
+            } else {
+                return seasonsRequest.getSeasons();
+            }
+        } catch (MalformedURLException e) {
+            logger.error("Malformed URL in season request:", e);
+        } catch (IOException e) {
+            logger.error("IOException when executing season request.", e);
+        }
+        return null;
+	}
+
+	public Season getCurrentSeason() {
+        try {
+            CurrentSeasonRequest currentSeasonRequest = new CurrentSeasonRequest();
+            currentSeasonRequest.execute();
+            if (currentSeasonRequest.hasError()) {
+                logger.error("Could not fetch current season.");
+                return null;
+            } else {
+                return currentSeasonRequest.getSeason();
+            }
+        } catch (MalformedURLException e) {
+            logger.error("Malformed URL in season request:", e);
+        } catch (IOException e) {
+            logger.error("IOException when executing season request.", e);
+        }
+        return null;
+	}
+
+	public Season getSeason(String name) {
+	    for(Season season: getSeasons()) {
+	        if(season.getName().equals(name)) {
+	            return season;
+	        }
+	    }
+	    return null;
+	}
+
 	public MatchDay getMatchDay(MatchDayRequest matchDayRequest) {
 		try {
 			matchDayRequest.execute();
@@ -74,6 +120,34 @@ public class D11API {
 			return null;
 		}
 	}
+
+	public List<MatchDay> getMatchDaysBySeason(String name) {
+	    Season season = getSeason(name);
+        try {
+            MatchDaysBySeasonRequest matchDaysBySeasonRequest = new MatchDaysBySeasonRequest(season.getId());
+            matchDaysBySeasonRequest.execute();
+            if (matchDaysBySeasonRequest.hasError()) {
+                logger.error("Could not fetch match days for season {}.", name);
+                return null;
+            } else {
+                return matchDaysBySeasonRequest.getMatchDays();
+            }
+        } catch (MalformedURLException e) {
+            logger.error("Malformed URL in match request:", e);
+        } catch (IOException e) {
+            logger.error("IOException when executing match request.", e);
+        }
+        return null;
+	}
+
+    public MatchDay getMatchDayBySeasonAndMatchDayNumber(String name, int matchDayNumber) {
+        for(MatchDay matchDay : getMatchDaysBySeason(name)) {
+            if(matchDay.getMatchDayNumber() == matchDayNumber) {
+                return matchDay;
+            }
+        }
+        return null;
+    }
 
 	public Match getMatch(int matchId) {
 		try {

@@ -5,11 +5,11 @@ import java.io.File;
 import org.d11.admin.model.Player;
 import org.d11.admin.write.JsonWriter;
 
-public class PlayerWriter extends JsonWriter<Player> {
+public class WhoScoredPlayerWriter extends JsonWriter<Player> {
 
 	private Player player;
 
-	public PlayerWriter() {
+	public WhoScoredPlayerWriter() {
 		setDirectoryName("whoscored.com/players");
 		setFileName("%s (%d).json");
 	}

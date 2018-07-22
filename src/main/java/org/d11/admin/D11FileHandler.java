@@ -37,6 +37,11 @@ public abstract class D11FileHandler extends D11AdminBaseObject {
 		this.file = file;
 	}
 
+    public void reset() {
+        this.file = null;
+        this.fileName = null;
+    }
+
 	protected String formatDirectoryName(String directoryName) {
 		return directoryName;
 	}

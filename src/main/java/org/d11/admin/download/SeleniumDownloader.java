@@ -26,7 +26,8 @@ public class SeleniumDownloader extends D11Downloader {
             webDriver.get(formattedUrl);
 
             if(getFileName() == null) {
-                setFileName(webDriver.getTitle().replace("/", "_") + ".html");
+                String title = webDriver.getTitle();
+                setFileName(title.replace("/", "_") + ".html");
             }
 
             setFile(new File(getDirectory(), formatFileName(getFileName())));
