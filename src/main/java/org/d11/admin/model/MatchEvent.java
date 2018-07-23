@@ -41,6 +41,10 @@ public class MatchEvent extends PersistentD11Model {
 	}
 
 	public void setTime(Integer time) {
+	    if(time > 90) {
+	        setAddedTime(time - 90);
+	        time = 90;
+	    }
 		this.time = time;
 	}
 
