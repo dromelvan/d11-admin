@@ -13,34 +13,36 @@ import com.google.inject.Provider;
 
 public class SeleniumDownloader extends D11Downloader {
 
-    @Inject
-    private Provider<WebDriver> webDriverProvider;
-    private final static Logger logger = LoggerFactory.getLogger(SeleniumDownloader.class);
+	@Inject
+	private Provider<WebDriver> webDriverProvider;
+	private final static Logger logger = LoggerFactory.getLogger(SeleniumDownloader.class);
 
-    @Override
-    public File download() {
-        String formattedUrl = formatUrl(getUrl());
+	@Override
+	public File download() {
+		String formattedUrl = formatUrl(getUrl());
 
-        try {
-            WebDriver webDriver = webDriverProvider.get();
-            webDriver.get(formattedUrl);
+		try {
+			logger.info("Downloading URL {}.", formattedUrl);
 
-            if(getFileName() == null) {
-                String title = webDriver.getTitle();
-                setFileName(title.replace("/", "_") + ".html");
-            }
+			WebDriver webDriver = webDriverProvider.get();
+			webDriver.get(formattedUrl);
 
-            setFile(new File(getDirectory(), formatFileName(getFileName())));
-            Files.write(webDriver.getPageSource(), getFile(), StandardCharsets.UTF_8);
+			if (getFileName() == null) {
+				String title = webDriver.getTitle();
+				setFileName(title.replace("/", "_") + ".html");
+			}
 
-            webDriver.close();
+			setFile(new File(getDirectory(), formatFileName(getFileName())));
+			Files.write(webDriver.getPageSource(), getFile(), StandardCharsets.UTF_8);
 
-            return getFile();
-        } catch (Exception e) {
-            logger.error("Error when dowloading URL {}.", formattedUrl);
-            logger.error("Error details:", e);
-        }
-        return null;
-    }
+			webDriver.close();
+
+			return getFile();
+		} catch (Exception e) {
+			logger.error("Error when dowloading URL {}.", formattedUrl);
+			logger.error("Error details:", e);
+		}
+		return null;
+	}
 
 }

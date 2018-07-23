@@ -13,7 +13,7 @@ public class WhoScoredMatchWriter extends JsonWriter<Match> {
 
 	public WhoScoredMatchWriter() {
 		setDirectoryName("whoscored.com/matches/%s/%d");
-		setFileName("%s vs %s.json");
+		setFileName("%s vs %s (%s).json");
 	}
 
 	public String getSeason() {
@@ -39,7 +39,7 @@ public class WhoScoredMatchWriter extends JsonWriter<Match> {
 
 	@Override
 	public String formatFileName(String fileName) {
-		return String.format(fileName, this.match.getHomeTeam().getName(), this.match.getAwayTeam().getName());
+		return String.format(fileName, this.match.getHomeTeam().getName(), this.match.getAwayTeam().getName(), this.match.getElapsed());
 	}
 
 	@Override

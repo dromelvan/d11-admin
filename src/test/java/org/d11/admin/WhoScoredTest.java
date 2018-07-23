@@ -35,7 +35,7 @@ public class WhoScoredTest {
 		}
 	}
 
-	//@Test
+	// @Test
 	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader) {
 		downloader.setId(1080516);
 		downloader.setSeason("2016-2017");
@@ -46,7 +46,7 @@ public class WhoScoredTest {
 		}
 	}
 
-	//@Test
+	// @Test
 	public void parseWhoScoredMatch(WhoScoredMatchParser parser) {
 		// File file = new File("tmp/whoscored.com/matches/2017-2018/08/Liverpool 4-0 Brighton - Premier League 2017_2018 Live3.html");
 		File file = new File("tmp/whoscored.com/matches/2017-2018/38/Tottenham 5-4 Leicester - Premier League 2017_2018 Live.html");
@@ -103,7 +103,7 @@ public class WhoScoredTest {
 		}
 	}
 
-	//@Test
+	// @Test
 	public void readWhoScoredPlayer(PlayerReader reader) {
 		File file = new File("data/whoscored.com/players/Harry Kane (83532).json");
 		WSPlayer player = reader.read(file);
@@ -134,11 +134,11 @@ public class WhoScoredTest {
 	}
 
 	@Test
-	public void createMatchDayMatchFIlesTask(CreateMatchDayMatchFilesTask task) {
-	    if(task.execute()) {
-	        for(File file : task.getResult()) {
-	            System.out.println(file);
-	        }
-	    }
+	public void createMatchDayMatchFilesTask(CreateMatchDayMatchFilesTask task) {
+		if (task.execute()) {
+			for (File file : task.getResult()) {
+				System.out.println(file);
+			}
+		}
 	}
 }

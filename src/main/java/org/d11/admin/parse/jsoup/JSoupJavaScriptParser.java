@@ -71,7 +71,7 @@ public abstract class JSoupJavaScriptParser<T extends Object, U extends JavaScri
 		if (maxIndex >= 0) {
 			List values = new ArrayList();
 			for (int i = 0; i <= maxIndex; ++i) {
-				Object value = parseJavaScriptValue(map.get(i));
+				Object value = parseJavaScriptValue(map.get(String.valueOf(i)));
 				values.add(value);
 			}
 			return values;
