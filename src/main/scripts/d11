@@ -1,0 +1,19 @@
+#!/bin/bash
+command=$1 
+if [ $command = "matchday" ]
+then
+    match_day_number=$2
+    if [ -n "${match_day_number#"${match_day_number%%[![:space:]]*}"}" ]
+    then
+        season=$3
+        if [ -n "${season#"${season%%[![:space:]]*}"}" ]
+        then
+            java -jar d11-admin-0.0.1-SNAPSHOT.jar -c $command -match_day $2 -season $3
+        else
+            java -jar d11-admin-0.0.1-SNAPSHOT.jar -c $command -match_day $2
+        fi
+    else
+        java -jar d11-admin-0.0.1-SNAPSHOT.jar -c $command
+    fi    
+fi
+exit 0

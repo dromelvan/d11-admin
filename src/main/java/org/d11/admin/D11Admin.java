@@ -1,6 +1,6 @@
 package org.d11.admin;
 
-import org.d11.admin.command.MatchFilesCommand;
+import org.d11.admin.command.MatchDayCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +18,8 @@ public class D11Admin {
 	private String command;
 	@Parameter(names = { "-commands" }, description = "List of available commands.", help = true)
 	private boolean commands;
-	@Parameter(names = { "-match_day" }, description = "The number for the match day you want to perform a command on.")
-	private Integer matchDayNumber;
+	@Parameter(names = { "-number" }, description = "The number for the object you want to perform a command on.")
+	private Integer number;
 	@Parameter(names = { "-season" }, description = "The name of the season you want to perform a command on.")
 	private String season;
 
@@ -31,7 +31,7 @@ public class D11Admin {
 		JCommander jCommander = JCommander.newBuilder()
 				.addObject(d11Admin)
 				.build();
-		jCommander.setProgramName("d11admin");
+		jCommander.setProgramName("d11");
 
 		try {
 			jCommander.parse(args);
@@ -47,18 +47,18 @@ public class D11Admin {
 
 	public void run() {
 		switch (this.command) {
-			case "match_files":
-				matchFiles();
+			case "matchday":
+				matchDay();
 				break;
 			default:
 				logger.error("Command '{}' not implemented.", this.command);
 		}
 	}
 
-	public void matchFiles() {
-		MatchFilesCommand command = this.injector.getInstance(MatchFilesCommand.class);
-		command.setSeasonName(this.season);
-		command.setMatchDayNumber(this.matchDayNumber);
+	public void matchDay() {
+		MatchDayCommand command = this.injector.getInstance(MatchDayCommand.class);
+		command.setSeason(this.season);
+		command.setNumber(this.number);
 		command.execute();
 	}
 
