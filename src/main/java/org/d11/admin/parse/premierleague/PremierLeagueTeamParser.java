@@ -38,6 +38,7 @@ public class PremierLeagueTeamParser extends JSoupParser<List<PLPlayer>> {
 				String imageId = a.getElementsByClass("statCardImg").first().attr("data-player");
 
 				PLPlayer player = new PLPlayer();
+				player.setId(id);
 				player.setPremierLeagueId(id);
 				player.setName(name);
 				player.setNumber(number);
