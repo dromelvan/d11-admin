@@ -7,11 +7,14 @@ SET arg2=%3
 IF "%command%"=="matchday" (
     IF DEFINED arg1 (
 	IF DEFINED arg2 (
-	    java -jar ${project.build.finalName}.jar -c %command% -match_day %arg1% -season %arg2%
-	) else {
-   	    java -jar ${project.build.finalName}.jar -c %command% -match_day %arg1%
-	}
-    ) else (
-        java -jar ${project.build.finalName}.jar -c %command%
+	    java -jar ${project.build.finalName}.jar %command% -number %arg1% -season %arg2%
+	) ELSE (
+   	    java -jar ${project.build.finalName}.jar %command% -number %arg1%
+	)
+    ) ELSE (
+        java -jar ${project.build.finalName}.jar %command%
     )
+) ELSE (
+    java -jar ${project.build.finalName}.jar %command%
 )
+

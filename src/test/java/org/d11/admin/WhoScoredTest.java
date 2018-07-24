@@ -15,12 +15,12 @@ import org.d11.admin.read.whoscored.PlayerReader;
 import org.d11.admin.task.whoscored.CreateMatchDayMatchFilesTask;
 import org.d11.admin.task.whoscored.UpdateMatchDateTimeTask;
 import org.d11.admin.task.whoscored.UpdateMatchDayMatchDateTimesTask;
+import org.d11.admin.task.whoscored.WhoScoredParseMatchFileTask;
 import org.d11.admin.write.whoscored.WhoScoredMatchWriter;
 import org.d11.admin.write.whoscored.WhoScoredPlayerWriter;
 import org.d11.api.D11API;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -70,7 +70,7 @@ public class WhoScoredTest {
 
 	// @Test
 	public void readWhoScoredMatch(MatchReader reader) {
-		File file = new File("data/whoscored.com/matches/2017-2018/38/Tottenham vs Leicester.json");
+		File file = new File("data/whoscored.com/matches/2016-2017/38/Arsenal vs Everton (FT).json");
 		Match match = reader.read(file);
 		System.out.println(match);
 	}
@@ -133,11 +133,25 @@ public class WhoScoredTest {
 		task.execute();
 	}
 
-	@Test
+	// @Test
 	public void createMatchDayMatchFilesTask(CreateMatchDayMatchFilesTask task) {
 		if (task.execute()) {
 			for (File file : task.getResult()) {
 				System.out.println(file);
+			}
+		}
+	}
+
+	// @Test
+	public void parseMatchFileTask(WhoScoredParseMatchFileTask task, WhoScoredMatchSeleniumDownloader downloader) {
+		downloader.setId(1080516);
+		downloader.setSeason("2016-2017");
+		downloader.setMatchDay(38);
+		File htmlFile = downloader.download();
+		if (htmlFile != null) {
+			task.setFile(htmlFile);
+			if (task.execute()) {
+				System.out.println(task.getResult());
 			}
 		}
 	}

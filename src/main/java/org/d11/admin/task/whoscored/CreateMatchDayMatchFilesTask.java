@@ -47,11 +47,21 @@ public class CreateMatchDayMatchFilesTask extends D11Task<List<File>> {
 	@Override
 	public boolean execute() {
 		Season season = (this.seasonName != null ? getD11Api().getSeason(this.seasonName) : getD11Api().getCurrentSeason());
+		if (season == null) {
+			logger.error("Could not find season with name {}.", this.seasonName);
+			return false;
+		}
+
 		MatchDay matchDay = null;
 		if (this.matchDayNumber == null) {
 			matchDay = getD11Api().getCurrentMatchDay();
 		} else {
 			matchDay = getD11Api().getMatchDayBySeasonAndMatchDayNumber(season.getName(), this.matchDayNumber);
+		}
+
+		if (matchDay == null) {
+			logger.error("Could not find match day with number {} in season {}", this.matchDayNumber, season.getName());
+			return false;
 		}
 
 		logger.info("Creating match files for match day {}, season {}.", matchDay.getMatchDayNumber(), season.getName());

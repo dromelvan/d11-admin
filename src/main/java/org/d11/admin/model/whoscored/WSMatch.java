@@ -20,8 +20,13 @@ import org.slf4j.LoggerFactory;
 
 public class WSMatch extends Match {
 
-    public final static DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm");
+	private String season;
+	private Integer matchDayNumber;
+	public final static DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm");
 	private final static Logger logger = LoggerFactory.getLogger(WSMatch.class);
+
+	public WSMatch() {
+	}
 
 	public WSMatch(Map<String, Object> match) {
 		setWhoScoredId((Integer) match.get(WhoScoredMatchJavaScriptVariables.MATCH_ID));
@@ -64,6 +69,22 @@ public class WSMatch extends Match {
 				playerMatchStat.setGoalsConceded(homeTeamGoals);
 			}
 		}
+	}
+
+	public String getSeason() {
+		return season;
+	}
+
+	public void setSeason(String season) {
+		this.season = season;
+	}
+
+	public Integer getMatchDayNumber() {
+		return matchDayNumber;
+	}
+
+	public void setMatchDayNumber(Integer matchDayNumber) {
+		this.matchDayNumber = matchDayNumber;
 	}
 
 	private Team parseTeam(Map teamMap) {

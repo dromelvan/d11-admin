@@ -1,9 +1,9 @@
 package org.d11.admin.parse.whoscored;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.d11.admin.model.Match;
 import org.d11.admin.model.Team;
 import org.d11.admin.model.whoscored.WSMatch;
 import org.d11.admin.parse.jsoup.JSoupJavaScriptParser;
@@ -11,41 +11,59 @@ import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.jsoup.nodes.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class WhoScoredMatchParser extends JSoupJavaScriptParser<Match, WhoScoredMatchJavaScriptVariables> {
+public class WhoScoredMatchParser extends JSoupJavaScriptParser<WSMatch, WhoScoredMatchJavaScriptVariables> {
+
+	private final static Logger logger = LoggerFactory.getLogger(WhoScoredMatchParser.class);
 
 	@Override
-	protected Match doParse() {
+	protected WSMatch doParse() {
+		WSMatch wsMatch = null;
+
 		try {
 			WhoScoredMatchJavaScriptVariables whoScoredMatchJavaScriptVariables = getJavaScriptVariables();
-			Match match = new WSMatch(whoScoredMatchJavaScriptVariables);
-
-			return match;
+			wsMatch = new WSMatch(whoScoredMatchJavaScriptVariables);
 		} catch (NullPointerException e) {
 			Pattern matchIdPattern = Pattern.compile(".*ws_matchID = '(\\d*)'.*", Pattern.DOTALL);
 			Pattern matchHeaderPattern = Pattern.compile(".*matchHeader.load\\(\\[(\\d*),(\\d*),'(.*)','(.*)','(.*)','.*',\\d*,,,,,,.*", Pattern.DOTALL);
 
-		    Match match = new Match();
+			wsMatch = new WSMatch();
 
 			for (Element element : getDocument().getElementsByTag("script")) {
 				Matcher matchIdMatcher = matchIdPattern.matcher(element.toString());
 				if (matchIdMatcher.matches()) {
-					match.setWhoScoredId(Integer.parseInt(matchIdMatcher.group(1)));
+					wsMatch.setWhoScoredId(Integer.parseInt(matchIdMatcher.group(1)));
 				}
 				Matcher matchHeaderMatcher = matchHeaderPattern.matcher(element.toString());
 				if (matchHeaderMatcher.matches()) {
-					match.setHomeTeam(new Team(0, Integer.parseInt(matchHeaderMatcher.group(1)), matchHeaderMatcher.group(3)));
-					match.setAwayTeam(new Team(0, Integer.parseInt(matchHeaderMatcher.group(2)), matchHeaderMatcher.group(4)));
+					wsMatch.setHomeTeam(new Team(0, Integer.parseInt(matchHeaderMatcher.group(1)), matchHeaderMatcher.group(3)));
+					wsMatch.setAwayTeam(new Team(0, Integer.parseInt(matchHeaderMatcher.group(2)), matchHeaderMatcher.group(4)));
 
 					DateTimeFormatter dateTimeFormat = DateTimeFormat.forPattern("dd/MM/YYYY HH:mm:ss");
 					LocalDateTime dateTime = LocalDateTime.parse(matchHeaderMatcher.group(5), dateTimeFormat).plusHours(2);
 
-					match.setDatetime(dateTime.toString(WSMatch.dateTimeFormatter));
-					match.setElapsed("N/A");
+					wsMatch.setDatetime(dateTime.toString(WSMatch.dateTimeFormatter));
+					wsMatch.setElapsed("N/A");
 				}
 			}
-			return match;
 		}
+
+		try {
+			File matchDayDirectory = getFile().getParentFile();
+			File seasonDirectory = matchDayDirectory.getParentFile();
+
+			int matchDayNumber = Integer.parseInt(matchDayDirectory.getName());
+			String season = seasonDirectory.getName();
+
+			wsMatch.setMatchDayNumber(matchDayNumber);
+			wsMatch.setSeason(season);
+		} catch (Exception e) {
+			logger.error("Could not parse season and/or match day number.", e);
+		}
+
+		return wsMatch;
 	}
 
 }

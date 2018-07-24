@@ -1,6 +1,11 @@
 package org.d11.admin;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.d11.admin.command.D11Command;
 import org.d11.admin.command.MatchDayCommand;
+import org.d11.admin.command.ParseCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,58 +13,45 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 public class D11Admin {
 
 	@Parameter(names = { "-help", "-h" }, description = "Display this help message.", help = true)
 	private boolean help;
-	@Parameter(names = { "-c", "-command" }, description = "The command to execute.", required = true)
-	private String command;
-	@Parameter(names = { "-commands" }, description = "List of available commands.", help = true)
-	private boolean commands;
-	@Parameter(names = { "-number" }, description = "The number for the object you want to perform a command on.")
-	private Integer number;
-	@Parameter(names = { "-season" }, description = "The name of the season you want to perform a command on.")
-	private String season;
 
-	private Injector injector;
+	private JCommander jCommander;
+	private Map<String, D11Command> commands = new HashMap<String, D11Command>();
 	private final static Logger logger = LoggerFactory.getLogger(D11Admin.class);
 
 	public static void main(String[] args) {
-		D11Admin d11Admin = new D11Admin();
-		JCommander jCommander = JCommander.newBuilder()
-				.addObject(d11Admin)
+		Injector injector = Guice.createInjector(new D11AdminModule());
+		D11Admin d11Admin = injector.getInstance(D11Admin.class);
+		d11Admin.start(args);
+	}
+
+	@Inject
+	public D11Admin(MatchDayCommand matchDayCommand, ParseCommand parseCommand) {
+		this.jCommander = JCommander.newBuilder()
+				.addCommand(matchDayCommand.getName(), matchDayCommand)
+				.addCommand(parseCommand.getName(), parseCommand)
+				.addObject(this)
 				.build();
-		jCommander.setProgramName("d11");
+		this.jCommander.setProgramName("d11");
 
+		this.commands.put(matchDayCommand.getName(), matchDayCommand);
+		this.commands.put(parseCommand.getName(), parseCommand);
+	}
+
+	public void start(String[] args) {
 		try {
-			jCommander.parse(args);
-			d11Admin.run();
+			this.jCommander.parse(args);
+			D11Command d11Command = this.commands.get(jCommander.getParsedCommand());
+			d11Command.execute();
 		} catch (ParameterException e) {
-			jCommander.usage();
+			this.jCommander.usage();
 		}
-	}
-
-	public D11Admin() {
-		this.injector = Guice.createInjector(new D11AdminModule());
-	}
-
-	public void run() {
-		switch (this.command) {
-			case "matchday":
-				matchDay();
-				break;
-			default:
-				logger.error("Command '{}' not implemented.", this.command);
-		}
-	}
-
-	public void matchDay() {
-		MatchDayCommand command = this.injector.getInstance(MatchDayCommand.class);
-		command.setSeason(this.season);
-		command.setNumber(this.number);
-		command.execute();
 	}
 
 }
