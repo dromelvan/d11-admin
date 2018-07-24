@@ -8,12 +8,12 @@ then
         season=$3
         if [ -n "${season#"${season%%[![:space:]]*}"}" ]
         then
-            java -jar d11-admin-0.0.1-SNAPSHOT.jar -c $command -match_day $2 -season $3
+            java -jar ${project.build.finalName}.jar -c $command -match_day $2 -season $3
         else
-            java -jar d11-admin-0.0.1-SNAPSHOT.jar -c $command -match_day $2
+            java -jar ${project.build.finalName}.jar -c $command -match_day $2
         fi
     else
-        java -jar d11-admin-0.0.1-SNAPSHOT.jar -c $command
+        java -jar ${project.build.finalName}.jar -c $command
     fi    
 fi
 exit 0
