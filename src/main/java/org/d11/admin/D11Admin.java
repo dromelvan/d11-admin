@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.d11.admin.command.D11Command;
-import org.d11.admin.command.LineupsCommand;
+import org.d11.admin.command.SquadsCommand;
 import org.d11.admin.command.MatchDayCommand;
 import org.d11.admin.command.ParseCommand;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class D11Admin {
 	}
 
 	@Inject
-	public D11Admin(MatchDayCommand matchDayCommand, ParseCommand parseCommand, LineupsCommand lineupsCommand) {
+	public D11Admin(MatchDayCommand matchDayCommand, ParseCommand parseCommand, SquadsCommand lineupsCommand) {
 		this.jCommander = JCommander.newBuilder()
 				.addCommand(matchDayCommand.getName(), matchDayCommand)
 				.addCommand(parseCommand.getName(), parseCommand)

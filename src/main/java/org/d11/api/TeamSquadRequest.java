@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class TeamSquadRequest extends D11APIRequest<TeamSquad> {
 
-	private final static String REQUEST_URL = "http://%s/api/v1/teams/%s/lineup";
+	private final static String REQUEST_URL = "http://%s/api/v1/teams/%s/squad";
 
 	public TeamSquadRequest(int teamId) throws MalformedURLException {
 		setUrl(new URL(String.format(REQUEST_URL, getAPIHost(), teamId)));
@@ -20,7 +20,7 @@ public class TeamSquadRequest extends D11APIRequest<TeamSquad> {
 	}
 
 	@Override
-	protected TypeToken getTypeToken() {
+	protected TypeToken<TeamSquad> getTypeToken() {
 		return new TeamSquadTypeToken();
 	}
 

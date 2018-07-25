@@ -10,13 +10,13 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-public class RefreshTeamLineupsTask extends D11Task<List<TeamSquadChange>> {
+public class RefreshTeamSquadsTask extends D11Task<List<TeamSquadChange>> {
 
 	@Inject
 	private CreateTeamSquadFilesTask createTask;
 	@Inject
-	private FindTeamLineupChangesTask findTask;
-	private final static Logger logger = LoggerFactory.getLogger(RefreshTeamLineupsTask.class);
+	private FindTeamSquadChangesTask findTask;
+	private final static Logger logger = LoggerFactory.getLogger(RefreshTeamSquadsTask.class);
 
 	@Override
 	public boolean execute() {

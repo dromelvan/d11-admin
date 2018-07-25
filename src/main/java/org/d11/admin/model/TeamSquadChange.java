@@ -43,7 +43,7 @@ public class TeamSquadChange extends D11Model {
 
 	@Override
 	public String toString() {
-		return String.format("%s has %s player %s.", getTeam().getName(), getChangeType().toString().toLowerCase(), getPlayer().getName());
+		return String.format("%s has %s player %s (%s).", getTeam().getName(), getChangeType().toString().toLowerCase(), getPlayer().getName(), getPlayer().getPosition());
 	}
 
 }

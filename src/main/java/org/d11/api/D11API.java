@@ -7,6 +7,7 @@ import java.util.List;
 import org.d11.admin.model.Match;
 import org.d11.admin.model.MatchDay;
 import org.d11.admin.model.Season;
+import org.d11.admin.model.Team;
 import org.d11.admin.model.TeamSquad;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -45,48 +46,48 @@ public class D11API {
 	}
 
 	public List<Season> getSeasons() {
-        try {
-            SeasonsRequest seasonsRequest = new SeasonsRequest();
-            seasonsRequest.execute();
-            if (seasonsRequest.hasError()) {
-                logger.error("Could not fetch seasons.");
-                return null;
-            } else {
-                return seasonsRequest.getSeasons();
-            }
-        } catch (MalformedURLException e) {
-            logger.error("Malformed URL in season request:", e);
-        } catch (IOException e) {
-            logger.error("IOException when executing season request.", e);
-        }
-        return null;
+		try {
+			SeasonsRequest seasonsRequest = new SeasonsRequest();
+			seasonsRequest.execute();
+			if (seasonsRequest.hasError()) {
+				logger.error("Could not fetch seasons.");
+				return null;
+			} else {
+				return seasonsRequest.getSeasons();
+			}
+		} catch (MalformedURLException e) {
+			logger.error("Malformed URL in season request:", e);
+		} catch (IOException e) {
+			logger.error("IOException when executing season request.", e);
+		}
+		return null;
 	}
 
 	public Season getCurrentSeason() {
-        try {
-            CurrentSeasonRequest currentSeasonRequest = new CurrentSeasonRequest();
-            currentSeasonRequest.execute();
-            if (currentSeasonRequest.hasError()) {
-                logger.error("Could not fetch current season.");
-                return null;
-            } else {
-                return currentSeasonRequest.getSeason();
-            }
-        } catch (MalformedURLException e) {
-            logger.error("Malformed URL in season request:", e);
-        } catch (IOException e) {
-            logger.error("IOException when executing season request.", e);
-        }
-        return null;
+		try {
+			CurrentSeasonRequest currentSeasonRequest = new CurrentSeasonRequest();
+			currentSeasonRequest.execute();
+			if (currentSeasonRequest.hasError()) {
+				logger.error("Could not fetch current season.");
+				return null;
+			} else {
+				return currentSeasonRequest.getSeason();
+			}
+		} catch (MalformedURLException e) {
+			logger.error("Malformed URL in season request:", e);
+		} catch (IOException e) {
+			logger.error("IOException when executing season request.", e);
+		}
+		return null;
 	}
 
 	public Season getSeason(String name) {
-	    for(Season season: getSeasons()) {
-	        if(season.getName().equals(name)) {
-	            return season;
-	        }
-	    }
-	    return null;
+		for (Season season : getSeasons()) {
+			if (season.getName().equals(name)) {
+				return season;
+			}
+		}
+		return null;
 	}
 
 	public MatchDay getMatchDay(MatchDayRequest matchDayRequest) {
@@ -123,32 +124,32 @@ public class D11API {
 	}
 
 	public List<MatchDay> getMatchDaysBySeason(String name) {
-	    Season season = getSeason(name);
-        try {
-            MatchDaysBySeasonRequest matchDaysBySeasonRequest = new MatchDaysBySeasonRequest(season.getId());
-            matchDaysBySeasonRequest.execute();
-            if (matchDaysBySeasonRequest.hasError()) {
-                logger.error("Could not fetch match days for season {}.", name);
-                return null;
-            } else {
-                return matchDaysBySeasonRequest.getMatchDays();
-            }
-        } catch (MalformedURLException e) {
-            logger.error("Malformed URL in match request:", e);
-        } catch (IOException e) {
-            logger.error("IOException when executing match request.", e);
-        }
-        return null;
+		Season season = getSeason(name);
+		try {
+			MatchDaysBySeasonRequest matchDaysBySeasonRequest = new MatchDaysBySeasonRequest(season.getId());
+			matchDaysBySeasonRequest.execute();
+			if (matchDaysBySeasonRequest.hasError()) {
+				logger.error("Could not fetch match days for season {}.", name);
+				return null;
+			} else {
+				return matchDaysBySeasonRequest.getMatchDays();
+			}
+		} catch (MalformedURLException e) {
+			logger.error("Malformed URL in match request:", e);
+		} catch (IOException e) {
+			logger.error("IOException when executing match request.", e);
+		}
+		return null;
 	}
 
-    public MatchDay getMatchDayBySeasonAndMatchDayNumber(String name, int matchDayNumber) {
-        for(MatchDay matchDay : getMatchDaysBySeason(name)) {
-            if(matchDay.getMatchDayNumber() == matchDayNumber) {
-                return matchDay;
-            }
-        }
-        return null;
-    }
+	public MatchDay getMatchDayBySeasonAndMatchDayNumber(String name, int matchDayNumber) {
+		for (MatchDay matchDay : getMatchDaysBySeason(name)) {
+			if (matchDay.getMatchDayNumber() == matchDayNumber) {
+				return matchDay;
+			}
+		}
+		return null;
+	}
 
 	public Match getMatch(int matchId) {
 		try {
@@ -205,21 +206,40 @@ public class D11API {
 		return null;
 	}
 
+	public Team getTeamNamed(String name) {
+		try {
+			String formattedName = name.replace(" and ", "").replace(" ", "%20");
+			TeamNamedRequest teamNamedRequest = new TeamNamedRequest(formattedName);
+			teamNamedRequest.execute();
+			if (teamNamedRequest.hasError()) {
+				logger.error("Could not fetch team {}.", name);
+				return null;
+			} else {
+				return teamNamedRequest.getTeam();
+			}
+		} catch (MalformedURLException e) {
+			logger.error("Malformed URL in team request:", e);
+		} catch (IOException e) {
+			logger.error("IOException when executing team request.", e);
+		}
+		return null;
+	}
+
 	public TeamSquad getTeamSquad(int teamId) {
-        try {
-            TeamSquadRequest teamSquadRequest = new TeamSquadRequest(teamId);
-            teamSquadRequest.execute();
-            if (teamSquadRequest.hasError()) {
-                logger.error("Could not fetch team squad {}.", teamId);
-                return null;
-            } else {
-                return teamSquadRequest.getTeamSquad();
-            }
-        } catch (MalformedURLException e) {
-            logger.error("Malformed URL in match request:", e);
-        } catch (IOException e) {
-            logger.error("IOException when executing match request.", e);
-        }
-        return null;
+		try {
+			TeamSquadRequest teamSquadRequest = new TeamSquadRequest(teamId);
+			teamSquadRequest.execute();
+			if (teamSquadRequest.hasError()) {
+				logger.error("Could not fetch team squad {}.", teamId);
+				return null;
+			} else {
+				return teamSquadRequest.getTeamSquad();
+			}
+		} catch (MalformedURLException e) {
+			logger.error("Malformed URL in match request:", e);
+		} catch (IOException e) {
+			logger.error("IOException when executing match request.", e);
+		}
+		return null;
 	}
 }
