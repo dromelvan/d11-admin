@@ -4,7 +4,8 @@ public class TeamSquadChange extends D11Model {
 
 	public enum ChangeType {
 		ADDED,
-		REMOVED;
+		REMOVED,
+		CHANGED_POSITION;
 	}
 
 	private Team team;
@@ -43,7 +44,11 @@ public class TeamSquadChange extends D11Model {
 
 	@Override
 	public String toString() {
-		return String.format("%s has %s player %s (%s).", getTeam().getName(), getChangeType().toString().toLowerCase(), getPlayer().getName(), getPlayer().getPosition());
+		if (getChangeType() == ChangeType.CHANGED_POSITION) {
+			return String.format("Player %s in team %s has changed position to %s.", getPlayer().getName(), getTeam().getName(), getPlayer().getPosition());
+		} else {
+			return String.format("Team %s has %s player %s (%s).", getTeam().getName(), getChangeType().toString().toLowerCase(), getPlayer().getName(), getPlayer().getPosition());
+		}
 	}
 
 }

@@ -34,12 +34,16 @@ public class TeamSquad extends D11Model {
 	}
 
 	public boolean contains(Player player) {
+		return getPlayer(player) != null;
+	}
+
+	public Player getPlayer(Player player) {
 		for (Player myPlayer : this.players) {
 			if (myPlayer.equals(player)) {
-				return true;
+				return myPlayer;
 			}
 		}
-		return false;
+		return null;
 	}
 
 	@Override

@@ -43,6 +43,11 @@ public class FindTeamSquadChangesTask extends D11Task<List<TeamSquadChange>> {
 					for (Player player : currentTeamSquad.getPlayers()) {
 						if (!previousTeamSquad.contains(player)) {
 							teamSquadChanges.add(new TeamSquadChange(currentTeamSquad.getTeam(), player, ChangeType.ADDED));
+						} else {
+							Player previousTeamSquadPlayer = previousTeamSquad.getPlayer(player);
+							if (!previousTeamSquadPlayer.getPosition().equals(player.getPosition())) {
+								teamSquadChanges.add(new TeamSquadChange(currentTeamSquad.getTeam(), player, ChangeType.CHANGED_POSITION));
+							}
 						}
 					}
 					for (Player player : previousTeamSquad.getPlayers()) {
