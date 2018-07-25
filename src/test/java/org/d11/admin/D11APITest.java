@@ -5,6 +5,7 @@ import java.util.List;
 import org.d11.admin.model.Match;
 import org.d11.admin.model.MatchDay;
 import org.d11.admin.model.Season;
+import org.d11.admin.model.TeamSquad;
 import org.d11.api.D11API;
 import org.joda.time.LocalDate;
 import org.jukito.JukitoModule;
@@ -48,7 +49,7 @@ public class D11APITest {
         }
     }
 
-	@Test
+	//@Test
 	public void getMatchDayBySeasonAndNumber(D11API d11Api) {
 	    System.out.println(d11Api.getMatchDayBySeasonAndMatchDayNumber("2016-2017", 38));
 	}
@@ -61,4 +62,11 @@ public class D11APITest {
 		}
 	}
 
+	@Test
+	public void getTeamSquad(D11API d11Api) {
+	    TeamSquad teamSquad = d11Api.getTeamSquad(2);
+	    if(teamSquad != null) {
+	        System.out.println(teamSquad);
+	    }
+	}
 }

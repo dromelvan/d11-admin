@@ -22,6 +22,7 @@ public class ParseCommand extends FileChooserCommand {
 		this.provider = provider;
 	}
 
+	@Override
 	public void execute() {
 		WhoScoredParseMatchFileTask task = this.provider.get();
 		for (File file : getFiles(new HtmlFileFilter())) {

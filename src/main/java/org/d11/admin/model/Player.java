@@ -95,7 +95,7 @@ public class Player extends PersistentD11Model {
 	public boolean equals(Object object) {
 		if (object instanceof Player) {
 			Player player = (Player) object;
-			return getId() == player.getId();
+			return getParameterizedName().equals(player.getParameterizedName());
 		}
 		return false;
 	}

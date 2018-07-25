@@ -35,7 +35,7 @@ public class FindTeamLineupChangesTask extends D11Task<List<TeamSquadChange>> {
 			File[] teamSquadFiles = teamDirectory.listFiles();
 			if (teamSquadFiles.length > 1) {
 				TeamSquad currentTeamSquad = reader.read(teamSquadFiles[teamSquadFiles.length - 1]);
-				TeamSquad previousTeamSquad = reader.read(teamSquadFiles[teamSquadFiles.length - 2]);
+				TeamSquad previousTeamSquad = getD11Api().getTeamSquad(41); //reader.read(teamSquadFiles[teamSquadFiles.length - 2]);
 
 				for (Player player : currentTeamSquad.getPlayers()) {
 					if (!previousTeamSquad.contains(player)) {
@@ -48,6 +48,7 @@ public class FindTeamLineupChangesTask extends D11Task<List<TeamSquadChange>> {
 					}
 				}
 			}
+			break;
 		}
 		setResult(teamSquadChanges);
 		return true;

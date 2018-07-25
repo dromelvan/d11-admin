@@ -7,6 +7,7 @@ import java.util.List;
 import org.d11.admin.model.Match;
 import org.d11.admin.model.MatchDay;
 import org.d11.admin.model.Season;
+import org.d11.admin.model.TeamSquad;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -204,4 +205,21 @@ public class D11API {
 		return null;
 	}
 
+	public TeamSquad getTeamSquad(int teamId) {
+        try {
+            TeamSquadRequest teamSquadRequest = new TeamSquadRequest(teamId);
+            teamSquadRequest.execute();
+            if (teamSquadRequest.hasError()) {
+                logger.error("Could not fetch team squad {}.", teamId);
+                return null;
+            } else {
+                return teamSquadRequest.getTeamSquad();
+            }
+        } catch (MalformedURLException e) {
+            logger.error("Malformed URL in match request:", e);
+        } catch (IOException e) {
+            logger.error("IOException when executing match request.", e);
+        }
+        return null;
+	}
 }
