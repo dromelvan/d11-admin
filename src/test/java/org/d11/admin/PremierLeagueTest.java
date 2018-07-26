@@ -98,8 +98,8 @@ public class PremierLeagueTest {
 		}
 	}
 
-	@Test
-	public void compareTeamLineups(FindTeamSquadChangesTask task) {
+	//@Test
+	public void compareTeamSquads(FindTeamSquadChangesTask task) {
 		File directory = new File("data/premierleague.com/squads");
 		task.setDirectory(directory);
 		if (task.execute()) {
@@ -108,7 +108,7 @@ public class PremierLeagueTest {
 		}
 	}
 
-	// @Test
+	@Test
 	public void refreshTeamSquads(RefreshTeamSquadsTask task) {
 		if (task.execute()) {
 			List<TeamSquadChange> teamLineupChanges = task.getResult();

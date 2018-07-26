@@ -208,7 +208,7 @@ public class D11API {
 
 	public Team getTeamNamed(String name) {
 		try {
-			String formattedName = name.replace(" and ", "").replace(" ", "%20");
+			String formattedName = name.replace(" and ", " ").replace(" ", "%20");
 			TeamNamedRequest teamNamedRequest = new TeamNamedRequest(formattedName);
 			teamNamedRequest.execute();
 			if (teamNamedRequest.hasError()) {
