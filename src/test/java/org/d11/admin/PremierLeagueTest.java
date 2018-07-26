@@ -16,7 +16,6 @@ import org.d11.admin.parse.premierleague.PremierLeagueTeamParser;
 import org.d11.admin.task.premierleague.CreateTeamSquadFilesTask;
 import org.d11.admin.task.premierleague.DownloadPlayerImagesTask;
 import org.d11.admin.task.premierleague.FindTeamSquadChangesTask;
-import org.d11.admin.task.premierleague.RefreshTeamSquadsTask;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
 import org.junit.Test;
@@ -99,20 +98,12 @@ public class PremierLeagueTest {
 	}
 
 	@Test
-	public void compareTeamLineups(FindTeamSquadChangesTask task) {
+	public void findTeamSquadChanges(FindTeamSquadChangesTask task) {
 		File directory = new File("data/premierleague.com/squads");
 		task.setDirectory(directory);
 		if (task.execute()) {
 			List<TeamSquadChange> teamSquadChanges = task.getResult();
 			teamSquadChanges.stream().forEach(System.out::println);
-		}
-	}
-
-	// @Test
-	public void refreshTeamSquads(RefreshTeamSquadsTask task) {
-		if (task.execute()) {
-			List<TeamSquadChange> teamLineupChanges = task.getResult();
-			teamLineupChanges.stream().forEach(System.out::println);
 		}
 	}
 

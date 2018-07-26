@@ -11,6 +11,7 @@ public class TeamSquadChange extends D11Model {
 	private Team team;
 	private Player player;
 	private ChangeType changeType;
+	private boolean newPlayer = true;
 
 	public TeamSquadChange(Team team, Player player, ChangeType changeType) {
 		this.team = team;
@@ -42,13 +43,21 @@ public class TeamSquadChange extends D11Model {
 		this.changeType = changeType;
 	}
 
+	public boolean isNewPlayer() {
+		return newPlayer;
+	}
+
+	public void setNewPlayer(boolean newPlayer) {
+		this.newPlayer = newPlayer;
+	}
+
 	@Override
 	public String toString() {
-		if (getChangeType() == ChangeType.CHANGED_POSITION) {
-			return String.format("Player %s in team %s has changed position to %s.", getPlayer().getName(), getTeam().getName(), getPlayer().getPosition());
-		} else {
-			return String.format("Team %s has %s player %s (%s).", getTeam().getName(), getChangeType().toString().toLowerCase(), getPlayer().getName(), getPlayer().getPosition());
+		String string = String.format("%s %s %s (%s, %s).", getTeam().getName(), getChangeType(), getPlayer().getName(), getPlayer().getPosition(), getPlayer().getNationality());
+		if (isNewPlayer()) {
+			string += " *NEW*";
 		}
+		return string;
 	}
 
 }

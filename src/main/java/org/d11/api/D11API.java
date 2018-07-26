@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.d11.admin.model.Match;
 import org.d11.admin.model.MatchDay;
+import org.d11.admin.model.Player;
 import org.d11.admin.model.Season;
 import org.d11.admin.model.Team;
 import org.d11.admin.model.TeamSquad;
@@ -208,8 +209,7 @@ public class D11API {
 
 	public Team getTeamNamed(String name) {
 		try {
-			String formattedName = name.replace(" and ", "").replace(" ", "%20");
-			TeamNamedRequest teamNamedRequest = new TeamNamedRequest(formattedName);
+			TeamNamedRequest teamNamedRequest = new TeamNamedRequest(name);
 			teamNamedRequest.execute();
 			if (teamNamedRequest.hasError()) {
 				logger.error("Could not fetch team {}.", name);
@@ -242,4 +242,41 @@ public class D11API {
 		}
 		return null;
 	}
+
+	public Player getPlayer(int playerId) {
+		try {
+			PlayerRequest playerRequest = new PlayerRequest(playerId);
+			playerRequest.execute();
+			if (playerRequest.hasError()) {
+				logger.error("Could not fetch player {}.", playerId);
+				return null;
+			} else {
+				return playerRequest.getPlayer();
+			}
+		} catch (MalformedURLException e) {
+			logger.error("Malformed URL in player request:", e);
+		} catch (IOException e) {
+			logger.error("IOException when executing player request.", e);
+		}
+		return null;
+	}
+
+	public List<Player> getPlayersNamed(String name) {
+		try {
+			PlayersNamedRequest playersNamedRequest = new PlayersNamedRequest(name);
+			playersNamedRequest.execute();
+			if (playersNamedRequest.hasError()) {
+				logger.error("Could not fetch players {}.", name);
+				return null;
+			} else {
+				return playersNamedRequest.getPlayers();
+			}
+		} catch (MalformedURLException e) {
+			logger.error("Malformed URL in players request:", e);
+		} catch (IOException e) {
+			logger.error("IOException when executing players request.", e);
+		}
+		return null;
+	}
+
 }

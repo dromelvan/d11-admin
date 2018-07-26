@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.d11.admin.model.Match;
 import org.d11.admin.model.MatchDay;
+import org.d11.admin.model.Player;
 import org.d11.admin.model.Season;
 import org.d11.admin.model.Team;
 import org.d11.admin.model.TeamSquad;
@@ -76,4 +77,20 @@ public class D11APITest {
 			System.out.println(teamSquad);
 		}
 	}
+
+	// @Test
+	public void getPlayer(D11API d11Api) {
+		Player player = d11Api.getPlayer(1234);
+		if (player != null) {
+			System.out.println(player);
+		}
+		// Diafra Sakho
+	}
+
+	// @Test
+	public void getPlayersNamed(D11API d11Api) {
+		List<Player> players = d11Api.getPlayersNamed("Steven Gerrard");
+		players.forEach(System.out::println);
+	}
+
 }
