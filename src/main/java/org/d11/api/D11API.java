@@ -209,7 +209,7 @@ public class D11API {
 
 	public Team getTeamNamed(String name) {
 		try {
-			TeamNamedRequest teamNamedRequest = new TeamNamedRequest(name.replace(" and ", ""));
+			TeamNamedRequest teamNamedRequest = new TeamNamedRequest(name.replace(" and ", " "));
 			teamNamedRequest.execute();
 			if (teamNamedRequest.hasError()) {
 				logger.error("Could not fetch team {}.", name);

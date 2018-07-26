@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.d11.admin.command.D11Command;
-import org.d11.admin.command.SquadsCommand;
 import org.d11.admin.command.MatchDayCommand;
 import org.d11.admin.command.ParseCommand;
+import org.d11.admin.command.PhotosCommand;
+import org.d11.admin.command.SquadsCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,11 +34,12 @@ public class D11Admin {
 	}
 
 	@Inject
-	public D11Admin(MatchDayCommand matchDayCommand, ParseCommand parseCommand, SquadsCommand lineupsCommand) {
+	public D11Admin(MatchDayCommand matchDayCommand, ParseCommand parseCommand, SquadsCommand lineupsCommand, PhotosCommand photosCommand) {
 		this.jCommander = JCommander.newBuilder()
 				.addCommand(matchDayCommand.getName(), matchDayCommand)
 				.addCommand(parseCommand.getName(), parseCommand)
 				.addCommand(lineupsCommand.getName(), lineupsCommand)
+				.addCommand(photosCommand.getName(), photosCommand)
 				.addObject(this)
 				.build();
 		this.jCommander.setProgramName("d11");
@@ -45,6 +47,7 @@ public class D11Admin {
 		this.commands.put(matchDayCommand.getName(), matchDayCommand);
 		this.commands.put(parseCommand.getName(), parseCommand);
 		this.commands.put(lineupsCommand.getName(), lineupsCommand);
+		this.commands.put(photosCommand.getName(), photosCommand);
 	}
 
 	public void start(String[] args) {

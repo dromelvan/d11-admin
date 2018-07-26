@@ -97,10 +97,8 @@ public class PremierLeagueTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void findTeamSquadChanges(FindTeamSquadChangesTask task) {
-		File directory = new File("data/premierleague.com/squads");
-		task.setDirectory(directory);
 		if (task.execute()) {
 			List<TeamSquadChange> teamSquadChanges = task.getResult();
 			teamSquadChanges.stream().forEach(System.out::println);
@@ -118,7 +116,7 @@ public class PremierLeagueTest {
 		}
 	}
 
-	// @Test
+	@Test
 	public void downloadPremierLeaguePlayerImages(DownloadPlayerImagesTask task) {
 		if (task.execute()) {
 			List<File> files = task.getResult();

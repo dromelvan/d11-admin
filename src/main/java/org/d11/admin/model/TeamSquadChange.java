@@ -11,12 +11,13 @@ public class TeamSquadChange extends D11Model {
 	private Team team;
 	private Player player;
 	private ChangeType changeType;
-	private boolean newPlayer = true;
+	private boolean newPlayer;
 
 	public TeamSquadChange(Team team, Player player, ChangeType changeType) {
 		this.team = team;
 		this.player = player;
 		this.changeType = changeType;
+		this.newPlayer = changeType == ChangeType.ADDED;
 	}
 
 	public Team getTeam() {
