@@ -97,7 +97,7 @@ public class PremierLeagueTest {
 		}
 	}
 
-	//@Test
+	@Test
 	public void findTeamSquadChanges(FindTeamSquadChangesTask task) {
 		if (task.execute()) {
 			List<TeamSquadChange> teamSquadChanges = task.getResult();
@@ -116,7 +116,7 @@ public class PremierLeagueTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void downloadPremierLeaguePlayerImages(DownloadPlayerImagesTask task) {
 		if (task.execute()) {
 			List<File> files = task.getResult();

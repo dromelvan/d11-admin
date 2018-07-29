@@ -64,6 +64,24 @@ public class D11API {
 		return null;
 	}
 
+    public Season getSeason(int seasonId) {
+        try {
+            SeasonRequest seasonRequest = new SeasonRequest(seasonId);
+            seasonRequest.execute();
+            if (seasonRequest.hasError()) {
+                logger.error("Could not fetch season {}.", seasonId);
+                return null;
+            } else {
+                return seasonRequest.getSeason();
+            }
+        } catch (MalformedURLException e) {
+            logger.error("Malformed URL in season request:", e);
+        } catch (IOException e) {
+            logger.error("IOException when executing season request.", e);
+        }
+        return null;
+    }
+
 	public Season getCurrentSeason() {
 		try {
 			CurrentSeasonRequest currentSeasonRequest = new CurrentSeasonRequest();

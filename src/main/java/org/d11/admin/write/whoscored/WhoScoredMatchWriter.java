@@ -39,7 +39,7 @@ public class WhoScoredMatchWriter extends JsonWriter<Match> {
 
 	@Override
 	public String formatFileName(String fileName) {
-		return String.format(fileName, this.match.getHomeTeam().getName(), this.match.getAwayTeam().getName(), this.match.getElapsed());
+		return String.format(fileName, this.match.getHomeTeam().getName(), this.match.getAwayTeam().getName(), this.match.getElapsed().replaceAll("/", ""));
 	}
 
 	@Override

@@ -2,7 +2,9 @@ package org.d11.admin.download;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,15 +27,20 @@ public class SeleniumDownloader extends D11Downloader {
 			logger.info("Downloading URL {}.", formattedUrl);
 
 			WebDriver webDriver = webDriverProvider.get();
-			webDriver.get(formattedUrl);
+			try {
+    			webDriver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+    			webDriver.get(formattedUrl);
 
-			if (getFileName() == null) {
-				String title = webDriver.getTitle();
-				setFileName(title.replace("/", "_") + ".html");
+                if (getFileName() == null) {
+                    String title = webDriver.getTitle();
+                    setFileName(title.replace("/", "_") + ".html");
+                }
+
+                setFile(new File(getDirectory(), formatFileName(getFileName())));
+                Files.write(webDriver.getPageSource(), getFile(), StandardCharsets.UTF_8);
+			} catch(TimeoutException e) {
+			    logger.error("Timeout when downloading URL {}.", formattedUrl);
 			}
-
-			setFile(new File(getDirectory(), formatFileName(getFileName())));
-			Files.write(webDriver.getPageSource(), getFile(), StandardCharsets.UTF_8);
 
 			webDriver.close();
 

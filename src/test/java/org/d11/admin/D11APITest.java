@@ -12,6 +12,7 @@ import org.d11.api.D11API;
 import org.joda.time.LocalDate;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(JukitoRunner.class)
@@ -35,6 +36,12 @@ public class D11APITest {
 			System.out.println(season);
 		}
 	}
+
+    @Test
+    public void getSeason(D11API d11Api) {
+        Season season = d11Api.getSeason(2);
+        System.out.println(season);
+    }
 
 	// @Test
 	public void getCurrentSeason(D11API d11Api) {

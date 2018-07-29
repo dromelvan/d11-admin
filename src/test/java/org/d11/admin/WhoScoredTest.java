@@ -21,6 +21,7 @@ import org.d11.admin.write.whoscored.WhoScoredPlayerWriter;
 import org.d11.api.D11API;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -133,8 +134,10 @@ public class WhoScoredTest {
 		task.execute();
 	}
 
-	// @Test
+	@Test
 	public void createMatchDayMatchFilesTask(CreateMatchDayMatchFilesTask task) {
+	    task.setMatchDayNumber(38);
+	    task.setSeasonName("2017-2018");
 		if (task.execute()) {
 			for (File file : task.getResult()) {
 				System.out.println(file);
