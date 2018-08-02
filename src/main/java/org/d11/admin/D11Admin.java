@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.d11.admin.command.D11Command;
+import org.d11.admin.command.DaemonCommand;
 import org.d11.admin.command.GenerateD11FixturesCommand;
 import org.d11.admin.command.MatchDayCommand;
 import org.d11.admin.command.ParseCommand;
@@ -31,17 +32,23 @@ public class D11Admin {
 	public static void main(String[] args) {
 		Injector injector = Guice.createInjector(new D11AdminModule());
 		D11Admin d11Admin = injector.getInstance(D11Admin.class);
-		d11Admin.start(args);
+		d11Admin.execute(args);
 	}
 
 	@Inject
-	public D11Admin(MatchDayCommand matchDayCommand, ParseCommand parseCommand, SquadsCommand lineupsCommand, PhotosCommand photosCommand, GenerateD11FixturesCommand generateD11FixturesCommand) {
+	public D11Admin(MatchDayCommand matchDayCommand,
+	        ParseCommand parseCommand,
+	        SquadsCommand lineupsCommand,
+	        PhotosCommand photosCommand,
+	        GenerateD11FixturesCommand generateD11FixturesCommand,
+	        DaemonCommand daemonCommand) {
 		this.jCommander = JCommander.newBuilder()
 				.addCommand(matchDayCommand.getName(), matchDayCommand)
 				.addCommand(parseCommand.getName(), parseCommand)
 				.addCommand(lineupsCommand.getName(), lineupsCommand)
 				.addCommand(photosCommand.getName(), photosCommand)
 				.addCommand(generateD11FixturesCommand.getName(), generateD11FixturesCommand)
+				.addCommand(daemonCommand.getName(), daemonCommand)
 				.addObject(this)
 				.build();
 		this.jCommander.setProgramName("d11");
@@ -51,9 +58,10 @@ public class D11Admin {
 		this.commands.put(lineupsCommand.getName(), lineupsCommand);
 		this.commands.put(photosCommand.getName(), photosCommand);
 		this.commands.put(generateD11FixturesCommand.getName(), generateD11FixturesCommand);
+		this.commands.put(daemonCommand.getName(), daemonCommand);
 	}
 
-	public void start(String[] args) {
+	public void execute(String[] args) {
 		try {
 			this.jCommander.parse(args);
 			D11Command d11Command = this.commands.get(jCommander.getParsedCommand());
