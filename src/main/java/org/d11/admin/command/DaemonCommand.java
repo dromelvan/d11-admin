@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 @Parameters(commandDescription = "Start the automagic updating daemon.")
 public class DaemonCommand extends FileChooserCommand {
 
-    private D11Daemon d11Daemon;
+	private D11Daemon d11Daemon;
 
 	@Inject
 	public DaemonCommand(D11Daemon d11Daemon) {
@@ -18,10 +18,10 @@ public class DaemonCommand extends FileChooserCommand {
 
 	@Override
 	public void execute() {
-	    this.d11Daemon.start();
-//	    try {
-//	        wait();
-//	    } catch(InterruptedException e) {}
+		this.d11Daemon.start();
+		// try {
+		// wait();
+		// } catch(InterruptedException e) {}
 	}
 
 }
