@@ -105,7 +105,7 @@ public class PremierLeagueTest {
 		}
 	}
 
-	// @Test
+	//@Test
 	public void downloadPremierLeaugePlayerImage(PremierLeaguePlayerImageDownloader downloader) {
 		downloader.setId(5178);
 		downloader.setName("Mohamed Salah");

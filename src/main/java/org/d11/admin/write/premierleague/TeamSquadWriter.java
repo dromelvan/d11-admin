@@ -23,7 +23,7 @@ public class TeamSquadWriter extends JsonWriter<TeamSquad> {
 
 	@Override
 	public String formatFileName(String fileName) {
-		return String.format(fileName, this.teamSquad.getTeam().getName(), LocalDateTime.now().toString(DateTimeFormat.forPattern("ddMMyyyy-HHmmss")));
+		return String.format(fileName, this.teamSquad.getTeam().getName(), LocalDateTime.now().toString(DateTimeFormat.forPattern("yyyyMMdd-HHmmss")));
 	}
 
 	@Override

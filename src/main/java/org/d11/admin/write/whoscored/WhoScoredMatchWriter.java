@@ -12,7 +12,7 @@ public class WhoScoredMatchWriter extends JsonWriter<Match> {
 	private Match match;
 
 	public WhoScoredMatchWriter() {
-		setDirectoryName("whoscored.com/matches/%s/%d");
+		setDirectoryName("whoscored.com/matches/%s/%02d");
 		setFileName("%s vs %s (%s).json");
 	}
 

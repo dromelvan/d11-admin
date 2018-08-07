@@ -136,8 +136,8 @@ public class WhoScoredTest {
 
 	@Test
 	public void createMatchDayMatchFilesTask(CreateMatchDayMatchFilesTask task) {
-	    task.setMatchDayNumber(38);
-	    task.setSeasonName("2017-2018");
+	    task.setMatchDayNumber(1);
+	    task.setSeasonName("2018-2019");
 		if (task.execute()) {
 			for (File file : task.getResult()) {
 				System.out.println(file);

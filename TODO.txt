@@ -11,28 +11,27 @@ Use cases:
     2a. Fetch current match day.
     2b. If match day date >= today, activate match day.
 
-3. Finish match day.
-    3a. Fetch current match day.
-    3b. Fetch all matches.
-    3c. If all match dates are < today - 1, finish match day.
-
-4. Insert new player.
-    4a. Download player file.
-    4b. Parse player file, read player data.
-    4c. Insert new player.
+3. Insert new player.
+    3a. Download player file.
+    3b. Parse player file, read player data.
+    3c. Insert new player.
     
-5. Update match stats.
-    5a. Fetch matches for current date.
+4. Update match stats.
+    4a. Fetch matches for current date.
+    4b. For each match, download match file.
+    4c. Parse match file, read match stats.
+    4d. Upload match xml file.
+        4da. For each missing player, insert new player.
+        4db. Repeat until no missing players.
+
+5a. Finalize match stats.
+    5a. Fetch matches for yesterday.
     5b. For each match, download match file.
     5c. Parse match file, read match stats.
     5d. Upload match xml file.
-        5da. For each missing player, insert new player.
-        5db. Repeat until no missing players.
+    5e. Finish match day.
 
-6. Finalize match stats.
-    6a. Fetch matches for yesterday.
-    6b. For each match, download match file.
-    6c. Parse match file, read match stats.
-    6d. Upload match xml file.
-    6e. Finish match day.
-
+5b. Finish match day.
+    5a. Fetch current match day.
+    5b. Fetch all matches.
+    5c. If all match dates are < today - 1, finish match day.

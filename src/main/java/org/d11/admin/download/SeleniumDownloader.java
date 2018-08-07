@@ -17,7 +17,21 @@ public class SeleniumDownloader extends D11Downloader {
 
 	@Inject
 	private Provider<WebDriver> webDriverProvider;
+	private WebDriver webDriver;
 	private final static Logger logger = LoggerFactory.getLogger(SeleniumDownloader.class);
+
+	public void open() {
+	    if(this.webDriver == null) {
+	        this.webDriver = webDriverProvider.get();
+	        this.webDriver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+	    }
+	}
+
+	public void close() {
+	    if(this.webDriver != null) {
+	        this.webDriver.close();
+	    }
+	}
 
 	@Override
 	public File download() {
@@ -26,9 +40,9 @@ public class SeleniumDownloader extends D11Downloader {
 		try {
 			logger.info("Downloading URL {}.", formattedUrl);
 
-			WebDriver webDriver = webDriverProvider.get();
+			open();
+
 			try {
-    			webDriver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
     			webDriver.get(formattedUrl);
 
                 if (getFileName() == null) {
@@ -41,8 +55,6 @@ public class SeleniumDownloader extends D11Downloader {
 			} catch(TimeoutException e) {
 			    logger.error("Timeout when downloading URL {}.", formattedUrl);
 			}
-
-			webDriver.close();
 
 			return getFile();
 		} catch (Exception e) {
