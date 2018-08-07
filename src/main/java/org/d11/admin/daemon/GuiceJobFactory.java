@@ -18,7 +18,7 @@ final class GuiceJobFactory implements JobFactory {
 	private final static Logger logger = LoggerFactory.getLogger(GuiceJobFactory.class);
 
 	@Inject
-	public GuiceJobFactory(final Injector guice) {
+	public GuiceJobFactory(Injector guice) {
 		this.guice = guice;
 	}
 

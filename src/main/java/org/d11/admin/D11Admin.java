@@ -63,9 +63,13 @@ public class D11Admin {
 
 	public void execute(String[] args) {
 		try {
-			this.jCommander.parse(args);
-			D11Command d11Command = this.commands.get(jCommander.getParsedCommand());
-			d11Command.execute();
+		    if(args.length > 0) {
+    			this.jCommander.parse(args);
+    			D11Command d11Command = this.commands.get(jCommander.getParsedCommand());
+    			d11Command.execute();
+		    } else {
+		        this.jCommander.usage();
+		    }
 		} catch (ParameterException e) {
 			this.jCommander.usage();
 		}
