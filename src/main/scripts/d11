@@ -1,12 +1,12 @@
 #!/bin/bash
 command=$1 
-if [ $command = "matchday" ]
+if [[ $command = "matchday" ]]
 then
     match_day_number=$2
-    if [ -n "${match_day_number#"${match_day_number%%[![:space:]]*}"}" ]
+    if [[ -n "${match_day_number#"${match_day_number%%[![:space:]]*}"}" ]]
     then
         season=$3
-        if [ -n "${season#"${season%%[![:space:]]*}"}" ]
+        if [[ -n "${season#"${season%%[![:space:]]*}"}" ]]
         then
             java -jar ${project.build.finalName}.jar $command -number $2 -season $3
         else
