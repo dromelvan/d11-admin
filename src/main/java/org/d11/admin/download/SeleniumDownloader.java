@@ -1,7 +1,6 @@
 package org.d11.admin.download;
 
 import java.io.File;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
@@ -23,8 +22,11 @@ public class SeleniumDownloader extends D11Downloader {
 	    if(this.webDriver == null) {
 	        try {
     	        FirefoxProfile firefoxProfile = new FirefoxProfile();
-    	        URI uri = FirefoxProfile.class.getResource("uBlock0@raymondhill.net.xpi").toURI();
-    	        firefoxProfile.addExtension(new File(uri));
+    	        File file = new File("lib/uBlock0@raymondhill.net.xpi");
+    	        if(!file.exists()) {
+    	            file = new File("src/main/resources/uBlock0@raymondhill.net.xpi");
+    	        }
+    	        firefoxProfile.addExtension(file);
     	        this.webDriver = new FirefoxDriver(firefoxProfile);
     	        this.webDriver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 	        } catch(Exception e) {

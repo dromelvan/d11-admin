@@ -21,6 +21,14 @@
                 <include>*.properties</include>
             </includes>        
        </fileSet>       
+       <fileSet>
+           <directory>${basedir}/src/main/resources</directory>
+           <outputDirectory>/lib</outputDirectory>
+           <filtered>false</filtered>
+            <includes>
+                <include>*.xpi</include>
+            </includes>        
+       </fileSet>              
     </fileSets>
 	<files>
 		<file>

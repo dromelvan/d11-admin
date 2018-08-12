@@ -95,22 +95,9 @@
         </dependency>
     </dependencies>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <excludes>
-                    <exclude>**/*.xpi</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*.xpi</include>
-                </includes>
-            </resource>
-        </resources>
+        <!-- <resources> <resource> <directory>src/main/resources</directory> 
+            <filtering>true</filtering> <excludes> <exclude>**/*.xpi</exclude> </excludes> 
+            </resource> </resources> -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -150,6 +137,9 @@
                             <Implementation-Vendor>${project.groupId}</Implementation-Vendor>
                         </manifestEntries>
                     </archive>
+                    <excludes>
+                        <exclude>**/*.xpi</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
