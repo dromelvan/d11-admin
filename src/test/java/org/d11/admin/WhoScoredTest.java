@@ -36,7 +36,7 @@ public class WhoScoredTest {
 		}
 	}
 
-	// @Test
+	//@Test
 	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader) {
 		downloader.setId(1080516);
 		downloader.setSeason("2016-2017");
@@ -45,23 +45,29 @@ public class WhoScoredTest {
 		if (htmlFile != null) {
 			System.out.println(htmlFile);
 		}
+		downloader.close();
 	}
 
-	// @Test
+	//@Test
 	public void parseWhoScoredMatch(WhoScoredMatchParser parser) {
-		// File file = new File("tmp/whoscored.com/matches/2017-2018/08/Liverpool 4-0 Brighton - Premier League 2017_2018 Live3.html");
-		File file = new File("tmp/whoscored.com/matches/2017-2018/38/Tottenham 5-4 Leicester - Premier League 2017_2018 Live.html");
-		// File file = new File("tmp/whoscored.com/matches/2018-2019/01/Manchester United-Leicester - Premier League 2018_2019 Live.html");
+		//File file = new File("src/test/resources/2018-2019/01/Newcastle United-Tottenham - Premier League 2018_2019 Live (FT).html");
+	    //File file = new File("src/test/resources/2018-2019/01/Newcastle United 1-2 Tottenham - Premier League 2018_2019 Live.html");
+	    //File file = new File("src/test/resources/2018-2019/01/Manchester United-Leicester - Premier League 2018_2019 Live (85).html");
+	    File file = new File("src/test/resources/2018-2019/01/Wolverhampton Wanderers-Everton - Premier League 2018_2019 Live ().html");
 		Match match = parser.parse(file);
 		System.out.println(match);
 	}
 
-	// @Test
+	//@Test
 	public void writeWhoScoredMatch(WhoScoredMatchParser parser, WhoScoredMatchWriter writer) {
-		writer.setSeason("2016-2017");
-		writer.setMatchDayNumber(38);
+		writer.setSeason("2018-2019");
+		writer.setMatchDayNumber(1);
 
-		File file = new File("tmp/whoscored.com/matches/2016-2017/38/Arsenal 3-1 Everton - Premier League 2016_2017 Live.html");
+        //File file = new File("src/test/resources/2018-2019/01/Newcastle United-Tottenham - Premier League 2018_2019 Live (FT).html");
+        //File file = new File("src/test/resources/2018-2019/01/Newcastle United 1-2 Tottenham - Premier League 2018_2019 Live.html");
+        //File file = new File("src/test/resources/2018-2019/01/Manchester United-Leicester - Premier League 2018_2019 Live (85).html");
+        File file = new File("src/test/resources/2018-2019/01/Wolverhampton Wanderers-Everton - Premier League 2018_2019 Live ().html");
+
 		Match match = parser.parse(file);
 		File jsonFile = writer.write(match);
 		if (jsonFile != null) {

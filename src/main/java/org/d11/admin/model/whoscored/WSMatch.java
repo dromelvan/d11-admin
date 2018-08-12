@@ -42,7 +42,15 @@ public class WSMatch extends Match {
 			logger.warn("Could not parse start time from input {}.", matchCentreData.get(WhoScoredMatchJavaScriptVariables.START_TIME));
 		}
 
-		setElapsed((String) matchCentreData.get(WhoScoredMatchJavaScriptVariables.ELAPSED));
+		String elapsed = (String) matchCentreData.get(WhoScoredMatchJavaScriptVariables.ELAPSED);
+		if(elapsed != null) {
+		    if(elapsed.endsWith("'")) {
+		        elapsed = elapsed.replace("'", "");
+		    } else if(elapsed.trim().isEmpty()) {
+		        elapsed = "N/A";
+		    }
+		}
+		setElapsed(elapsed);
 
 		Map homeTeamMap = (Map) matchCentreData.get(WhoScoredMatchJavaScriptVariables.HOME_TEAM);
 		Map awayTeamMap = (Map) matchCentreData.get(WhoScoredMatchJavaScriptVariables.AWAY_TEAM);

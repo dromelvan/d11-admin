@@ -1,29 +1,35 @@
 package org.d11.admin.download;
 
 import java.io.File;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.io.Files;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 public class SeleniumDownloader extends D11Downloader {
 
-	@Inject
-	private Provider<WebDriver> webDriverProvider;
 	private WebDriver webDriver;
 	private final static Logger logger = LoggerFactory.getLogger(SeleniumDownloader.class);
 
 	public void open() {
 	    if(this.webDriver == null) {
-	        this.webDriver = webDriverProvider.get();
-	        this.webDriver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+	        try {
+    	        FirefoxProfile firefoxProfile = new FirefoxProfile();
+    	        URI uri = FirefoxProfile.class.getResource("uBlock0@raymondhill.net.xpi").toURI();
+    	        firefoxProfile.addExtension(new File(uri));
+    	        this.webDriver = new FirefoxDriver(firefoxProfile);
+    	        this.webDriver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+	        } catch(Exception e) {
+	            logger.error("Error when opening WebDriver:", e);
+	        }
 	    }
 	}
 

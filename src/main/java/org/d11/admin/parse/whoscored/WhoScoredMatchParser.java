@@ -11,8 +11,10 @@ import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public class WhoScoredMatchParser extends JSoupJavaScriptParser<WSMatch, WhoScoredMatchJavaScriptVariables> {
 
@@ -25,6 +27,13 @@ public class WhoScoredMatchParser extends JSoupJavaScriptParser<WSMatch, WhoScor
 		try {
 			WhoScoredMatchJavaScriptVariables whoScoredMatchJavaScriptVariables = getJavaScriptVariables();
 			wsMatch = new WSMatch(whoScoredMatchJavaScriptVariables);
+			if(wsMatch.getElapsed() != null && wsMatch.getElapsed().equals("FT")) {
+			    // Check that the game is really finished.
+			    Elements elements = getDocument().getElementsByClass("finished");
+			    if(elements.isEmpty()) {
+			        wsMatch.setElapsed("90");
+			    }
+			}
 		} catch (NullPointerException e) {
 			Pattern matchIdPattern = Pattern.compile(".*ws_matchID = '(\\d*)'.*", Pattern.DOTALL);
 			Pattern matchHeaderPattern = Pattern.compile(".*matchHeader.load\\(\\[(\\d*),(\\d*),'(.*)','(.*)','(.*)','.*',\\d*,,,,,,.*", Pattern.DOTALL);

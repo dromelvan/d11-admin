@@ -18,7 +18,6 @@ import org.d11.admin.task.premierleague.DownloadPlayerImagesTask;
 import org.d11.admin.task.premierleague.FindTeamSquadChangesTask;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(JukitoRunner.class)
@@ -97,7 +96,7 @@ public class PremierLeagueTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void findTeamSquadChanges(FindTeamSquadChangesTask task) {
 		if (task.execute()) {
 			List<TeamSquadChange> teamSquadChanges = task.getResult();
