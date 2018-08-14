@@ -22,6 +22,7 @@ public class SeleniumDownloader extends D11Downloader {
 	    if(this.webDriver == null) {
 	        try {
     	        FirefoxProfile firefoxProfile = new FirefoxProfile();
+    	        // Ublock Origin == good.
     	        File file = new File("lib/uBlock0@raymondhill.net.xpi");
     	        if(!file.exists()) {
     	            file = new File("src/main/resources/uBlock0@raymondhill.net.xpi");

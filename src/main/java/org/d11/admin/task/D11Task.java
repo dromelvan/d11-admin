@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.d11.admin.D11AdminBaseObject;
 import org.d11.admin.D11AdminProperties;
-import org.d11.api.D11API;
+import org.d11.api.v1.D11API;
 
 import com.google.inject.Inject;
 

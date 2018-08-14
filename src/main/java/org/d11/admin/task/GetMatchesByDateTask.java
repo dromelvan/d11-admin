@@ -3,7 +3,7 @@ package org.d11.admin.task;
 import java.util.List;
 
 import org.d11.admin.model.Match;
-import org.d11.api.D11API;
+import org.d11.api.v1.D11API;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

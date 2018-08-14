@@ -10,6 +10,8 @@ public class Match extends PersistentD11Model {
 	private Team home_team;
 	private Team away_team;
 	private String elapsed;
+	private Integer match_day_number;
+	private String season_name;
 	private List<PlayerMatchStat> player_match_stats = new ArrayList<PlayerMatchStat>();
 	private List<Goal> goals = new ArrayList<Goal>();
 	private List<Card> cards = new ArrayList<Card>();
@@ -55,7 +57,23 @@ public class Match extends PersistentD11Model {
 		this.elapsed = elapsed;
 	}
 
-	public List<PlayerMatchStat> getPlayerMatchStats() {
+    public Integer getMatchDayNumber() {
+        return match_day_number;
+    }
+
+    public void setMatchDayNumber(Integer matchDayNumber) {
+        this.match_day_number = matchDayNumber;
+    }
+
+	public String getSeasonName() {
+        return season_name;
+    }
+
+    public void setSeasonName(String season_name) {
+        this.season_name = season_name;
+    }
+
+    public List<PlayerMatchStat> getPlayerMatchStats() {
 		return player_match_stats;
 	}
 

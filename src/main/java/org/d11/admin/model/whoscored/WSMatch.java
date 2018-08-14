@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 public class WSMatch extends Match {
 
 	private String season;
-	private Integer matchDayNumber;
 	public final static DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm");
 	private final static Logger logger = LoggerFactory.getLogger(WSMatch.class);
 
@@ -85,14 +84,6 @@ public class WSMatch extends Match {
 
 	public void setSeason(String season) {
 		this.season = season;
-	}
-
-	public Integer getMatchDayNumber() {
-		return matchDayNumber;
-	}
-
-	public void setMatchDayNumber(Integer matchDayNumber) {
-		this.matchDayNumber = matchDayNumber;
 	}
 
 	private Team parseTeam(Map teamMap) {

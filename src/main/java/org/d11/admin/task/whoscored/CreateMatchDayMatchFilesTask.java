@@ -1,11 +1,9 @@
 package org.d11.admin.task.whoscored;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.d11.admin.download.whoscored.WhoScoredMatchSeleniumDownloader;
-import org.d11.admin.model.Match;
 import org.d11.admin.model.MatchDay;
 import org.d11.admin.model.Season;
 import org.d11.admin.parse.whoscored.WhoScoredMatchParser;
@@ -20,6 +18,7 @@ public class CreateMatchDayMatchFilesTask extends D11Task<List<File>> {
 
 	private String seasonName;
 	private Integer matchDayNumber;
+	private int matchId;
 	@Inject
 	private WhoScoredMatchSeleniumDownloader downloader;
 	@Inject
@@ -44,7 +43,15 @@ public class CreateMatchDayMatchFilesTask extends D11Task<List<File>> {
 		this.matchDayNumber = matchDayNumber;
 	}
 
-	@Override
+	public int getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(int matchId) {
+        this.matchId = matchId;
+    }
+
+    @Override
 	public boolean execute() {
 		Season season = (this.seasonName != null ? getD11Api().getSeason(this.seasonName) : getD11Api().getCurrentSeason());
 		if (season == null) {
@@ -64,39 +71,44 @@ public class CreateMatchDayMatchFilesTask extends D11Task<List<File>> {
 			return false;
 		}
 
-		logger.info("Creating match files for match day {}, season {}.", matchDay.getMatchDayNumber(), season.getName());
-		List<File> jsonFiles = new ArrayList<File>();
 
-		for (int i = 0; i < matchDay.getMatchIds().length; ++i) {
-		    int matchId = matchDay.getMatchIds()[i];
-			Match match = getD11Api().getMatch(matchId);
-			downloader.setId(match.getWhoScoredId());
-			downloader.setSeason(season.getName());
-			downloader.setMatchDay(matchDay.getMatchDayNumber());
 
-			logger.info("==> Handling match {}/{}: {} ({}).", i + 1, matchDay.getMatchIds().length, match.getId(), match.getWhoScoredId());
-
-			File htmlFile = downloader.download();
-			downloader.reset();
-
-			if (htmlFile != null) {
-				match = parser.parse(htmlFile);
-
-				if (match != null) {
-					writer.setSeason(season.getName());
-					writer.setMatchDayNumber(matchDay.getMatchDayNumber());
-
-					File jsonFile = writer.write(match);
-					jsonFiles.add(jsonFile);
-				}
-			}
-			logger.info("<== Match done.");
-		}
-
-		downloader.close();
-
-		setResult(jsonFiles);
-		logger.info("Match files done.");
+//        logger.info("Creating match files for match day {}, season {}.",
+//                matchDay.getMatchDayNumber(), season.getName());
+//        List<File> jsonFiles = new ArrayList<File>();
+//
+//        for (int i = 0; i < matchDay.getMatchIds().length; ++i) {
+//            int matchId = matchDay.getMatchIds()[i];
+//            Match match = getD11Api().getMatch(matchId);
+//            downloader.setId(match.getWhoScoredId());
+//            downloader.setSeason(season.getName());
+//            downloader.setMatchDay(matchDay.getMatchDayNumber());
+//
+//            logger.info("==> Handling match {}/{}: {} ({}).", i + 1,
+//                    matchDay.getMatchIds().length, match.getId(),
+//                    match.getWhoScoredId());
+//
+//            File htmlFile = downloader.download();
+//            downloader.reset();
+//
+//            if (htmlFile != null) {
+//                match = parser.parse(htmlFile);
+//
+//                if (match != null) {
+//                    writer.setSeason(season.getName());
+//                    writer.setMatchDayNumber(matchDay.getMatchDayNumber());
+//
+//                    File jsonFile = writer.write(match);
+//                    jsonFiles.add(jsonFile);
+//                }
+//            }
+//            logger.info("<== Match done.");
+//        }
+//
+//        downloader.close();
+//
+//        setResult(jsonFiles);
+//        logger.info("Match files done.");
 		return true;
 	}
 

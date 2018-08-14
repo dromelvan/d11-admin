@@ -15,10 +15,11 @@ import org.d11.admin.read.whoscored.PlayerReader;
 import org.d11.admin.task.whoscored.CreateMatchDayMatchFilesTask;
 import org.d11.admin.task.whoscored.UpdateMatchDateTimeTask;
 import org.d11.admin.task.whoscored.UpdateMatchDayMatchDateTimesTask;
+import org.d11.admin.task.whoscored.UpdateMatchStatsTask;
 import org.d11.admin.task.whoscored.WhoScoredParseMatchFileTask;
 import org.d11.admin.write.whoscored.WhoScoredMatchWriter;
 import org.d11.admin.write.whoscored.WhoScoredPlayerWriter;
-import org.d11.api.D11API;
+import org.d11.api.v1.D11API;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
 import org.junit.Test;
@@ -140,7 +141,7 @@ public class WhoScoredTest {
 		task.execute();
 	}
 
-	@Test
+	// @Test
 	public void createMatchDayMatchFilesTask(CreateMatchDayMatchFilesTask task) {
 	    task.setMatchDayNumber(1);
 	    task.setSeasonName("2018-2019");
@@ -163,5 +164,14 @@ public class WhoScoredTest {
 				System.out.println(task.getResult());
 			}
 		}
+	}
+
+	@Test
+	public void updateMatchStats(D11API d11API, UpdateMatchStatsTask task) {
+	    Match match = d11API.getMatch(4935);
+	    task.setMatch(match);
+	    if(task.execute()) {
+	        System.out.println(task.getResult());
+	    }
 	}
 }

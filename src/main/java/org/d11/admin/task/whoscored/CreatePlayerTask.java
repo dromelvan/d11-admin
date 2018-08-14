@@ -2,7 +2,7 @@ package org.d11.admin.task.whoscored;
 
 import org.d11.admin.model.Match;
 import org.d11.admin.task.D11Task;
-import org.d11.api.D11API;
+import org.d11.api.v1.D11API;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
