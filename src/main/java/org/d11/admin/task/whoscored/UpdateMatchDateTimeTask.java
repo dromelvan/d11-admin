@@ -62,7 +62,7 @@ public class UpdateMatchDateTimeTask extends D11Task<Match> {
 				logger.error("Could not update match datetime for match {}.", getMatchId());
 				return false;
 			} else {
-				logger.info("Changed match datetime for match {} to {}.", getMatchId(), match.getDatetime());
+				logger.debug("Changed match datetime for match {} to {}.", getMatchId(), match.getDatetime());
 				setResult(match);
 				return true;
 			}

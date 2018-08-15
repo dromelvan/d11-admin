@@ -37,20 +37,20 @@ public class FindTeamSquadChangesTask extends D11Task<List<TeamSquadChange>> {
 	public boolean execute() {
 		List<TeamSquadChange> teamSquadChanges = new ArrayList<TeamSquadChange>();
 
-		logger.info("Creating new team squad files...");
+		logger.debug("Creating new team squad files...");
 		if (createTask.execute()) {
 			List<File> files = createTask.getResult();
 			if (files.size() > 0) {
 				File directory = files.get(0).getParentFile().getParentFile();
 				setDirectory(directory);
-				logger.info("Finding team squad changes...");
+				logger.debug("Finding team squad changes...");
 
 				for (File teamDirectory : getDirectory().listFiles()) {
 					File[] teamSquadFiles = teamDirectory.listFiles();
 					if (teamSquadFiles.length > 0) {
 						TeamSquad currentTeamSquad = reader.read(teamSquadFiles[teamSquadFiles.length - 1]);
 
-						logger.info("Handling team {}.", currentTeamSquad.getTeam().getName());
+						logger.debug("Handling team {}.", currentTeamSquad.getTeam().getName());
 						Team team = getD11Api().getTeamNamed(currentTeamSquad.getTeam().getName());
 						if (team != null) {
 							TeamSquad previousTeamSquad = getD11Api().getTeamSquad(team.getId());
@@ -84,7 +84,7 @@ public class FindTeamSquadChangesTask extends D11Task<List<TeamSquadChange>> {
 			}
 		}
 
-		logger.info("Done");
+		logger.debug("Done");
 		setResult(teamSquadChanges);
 		return true;
 	}

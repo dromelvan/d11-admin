@@ -34,7 +34,7 @@ public class D11FixturesWriter extends D11Writer<List<D11Match>> {
     @Override
     public File write(List<D11Match> d11Matches) {
         setFile(new File(getDirectory(), formatFileName(getFileName())));
-        logger.info("Writing file {}", getFile());
+        logger.debug("Writing file {}", getFile());
         try {
             StringBuilder stringBuilder = new StringBuilder("d11_matches = [\n");
             for(D11Match d11Match : d11Matches) {

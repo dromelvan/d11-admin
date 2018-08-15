@@ -34,7 +34,7 @@ public class D11API {
 				logger.error("Login failed for user {}.", user);
 				return false;
 			} else {
-				logger.info("Login successful.");
+				logger.debug("Login successful.");
 				authenticationParameters = new AuthenticationParameters(user, loginRequest.getAuthenticationToken());
 				return true;
 			}

@@ -33,7 +33,7 @@ public class UpdateMatchDayMatchDateTimesTask extends D11Task<Match> {
 
 	@Override
 	public boolean execute() {
-		logger.info("Updating match date times for match day {} ({})", getMatchDay().getMatchDayNumber(), getMatchDay().getId());
+		logger.debug("Updating match date times for match day {} ({})", getMatchDay().getMatchDayNumber(), getMatchDay().getId());
 		int failures = 0;
 
 		for (int matchId : getMatchDay().getMatchIds()) {
@@ -44,7 +44,7 @@ public class UpdateMatchDayMatchDateTimesTask extends D11Task<Match> {
 				++failures;
 			}
 		}
-		logger.info("Finished updating match date times with {} failures.", failures);
+		logger.debug("Finished updating match date times with {} failures.", failures);
 		return failures == 0;
 	}
 }

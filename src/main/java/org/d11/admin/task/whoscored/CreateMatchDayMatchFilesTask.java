@@ -73,7 +73,7 @@ public class CreateMatchDayMatchFilesTask extends D11Task<List<File>> {
 			return false;
 		}
 
-        logger.info("Creating match files for match day {}, season {}.", matchDay.getMatchDayNumber(), season.getName());
+        logger.debug("Creating match files for match day {}, season {}.", matchDay.getMatchDayNumber(), season.getName());
         List<File> jsonFiles = new ArrayList<File>();
 
         for (int i = 0; i < matchDay.getMatchIds().length; ++i) {
@@ -83,7 +83,7 @@ public class CreateMatchDayMatchFilesTask extends D11Task<List<File>> {
             downloader.setSeason(season.getName());
             downloader.setMatchDay(matchDay.getMatchDayNumber());
 
-            logger.info("==> Handling match {}/{}: {} ({}).", i + 1, matchDay.getMatchIds().length, match.getId(), match.getWhoScoredId());
+            logger.debug("==> Handling match {}/{}: {} ({}).", i + 1, matchDay.getMatchIds().length, match.getId(), match.getWhoScoredId());
 
             File htmlFile = downloader.download();
             downloader.reset();
@@ -99,13 +99,13 @@ public class CreateMatchDayMatchFilesTask extends D11Task<List<File>> {
                     jsonFiles.add(jsonFile);
                 }
             }
-            logger.info("<== Match done.");
+            logger.debug("<== Match done.");
         }
 
         downloader.close();
 
         setResult(jsonFiles);
-        logger.info("Match files done.");
+        logger.debug("Match files done.");
 		return true;
 	}
 

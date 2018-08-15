@@ -5,12 +5,12 @@ import java.io.File;
 import org.d11.admin.D11AdminProperties;
 import org.d11.admin.download.whoscored.WhoScoredMatchSeleniumDownloader;
 import org.d11.admin.model.Match;
+import org.d11.admin.model.MissingPlayer;
 import org.d11.admin.model.UpdateMatchStatsResult;
 import org.d11.admin.model.whoscored.WSMatch;
 import org.d11.admin.parse.whoscored.WhoScoredMatchParser;
 import org.d11.admin.task.D11Task;
 import org.d11.admin.write.whoscored.WhoScoredMatchWriter;
-import org.d11.api.v1.D11API;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,8 +25,6 @@ public class UpdateMatchStatsTask extends D11Task<UpdateMatchStatsResult> {
     private WhoScoredMatchParser parser;
     @Inject
     private WhoScoredMatchWriter writer;
-    @Inject
-    private D11API d11Api;
     private final static Logger logger = LoggerFactory.getLogger(UpdateMatchStatsTask.class);
 
     public Match getMatch() {
@@ -39,9 +37,7 @@ public class UpdateMatchStatsTask extends D11Task<UpdateMatchStatsResult> {
 
     @Override
     public boolean execute() {
-        if(d11Api.isLoggedIn()) {
-            logger.info("Updating match stats for match {}.", this.match.getWhoScoredId());
-
+        if(getD11Api().isLoggedIn()) {
             downloader.setId(match.getWhoScoredId());
             downloader.setSeason(match.getSeasonName());
             downloader.setMatchDay(match.getMatchDayNumber());
@@ -58,11 +54,22 @@ public class UpdateMatchStatsTask extends D11Task<UpdateMatchStatsResult> {
 
                     File jsonFile = writer.write(wsMatch);
 
-                    logger.info("Uploading match stats to {}.", getProperty(D11AdminProperties.API_HOST));
+                    logger.debug("Uploading match stats to {}.", getProperty(D11AdminProperties.API_HOST));
 
-                    UpdateMatchStatsResult updateMatchStatsResult = d11Api.updateMatchStats(match, jsonFile);
+                    UpdateMatchStatsResult updateMatchStatsResult = getD11Api().updateMatchStats(match, jsonFile);
 
-                    logger.debug("Update complete: {}", updateMatchStatsResult);
+                    if(!updateMatchStatsResult.isValid()) {
+                        logger.error("Could not update stats for match {}.", match.getId());
+                        for(String validationError : updateMatchStatsResult.getValidationErrors()) {
+                            logger.error("Validation error: {}.", validationError);
+                        }
+                        for(String dataError : updateMatchStatsResult.getDataErrors()) {
+                            logger.error("Data error: {}.", dataError);
+                        }
+                        for(MissingPlayer missingPlayer : updateMatchStatsResult.getMissingPlayers()) {
+                            logger.error("Missing player: {}.", missingPlayer.getPlayerName());
+                        }
+                    }
 
                     setResult(updateMatchStatsResult);
                     return true;

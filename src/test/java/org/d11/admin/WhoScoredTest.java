@@ -172,7 +172,7 @@ public class WhoScoredTest {
 	@Test
 	public void updateMatchStats(D11API d11Api, UpdateMatchStatsTask task) {
 	    d11Api.login("dromelvan@fake.email.com", "password");
-	    Match match = d11Api.getMatch(4935);
+	    Match match = d11Api.getMatch(4939);
 	    task.setMatch(match);
 	    if(task.execute()) {
 	        System.out.println(task.getResult());

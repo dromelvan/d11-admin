@@ -24,7 +24,7 @@ public abstract class D11ImageDownloader extends D11Downloader {
         try {
             URL url = new URL(formattedUrl);
             setFile(new File(getDirectory(), formatFileName(getFileName())));
-            logger.info("Downloading image {} to file {}.", formattedUrl, getFile().getName());
+            logger.debug("Downloading image {} to file {}.", formattedUrl, getFile().getName());
 
             File tmpFile = new File(getProperty(D11AdminProperties.BASE_DOWNLOAD_DIRECTORY), "image.tmp");
             InputStream inputStream = url.openStream();
@@ -36,7 +36,7 @@ public abstract class D11ImageDownloader extends D11Downloader {
             inputStream.close();
 
             if(getFile().exists() && hash(getFile()).equals(hash(tmpFile))) {
-                logger.info("File {} with same hash as downloaded file already exists.", getFile().getName());
+                logger.debug("File {} with same hash as downloaded file already exists.", getFile().getName());
                 tmpFile.delete();
             } else {
                 Files.move(tmpFile, getFile());

@@ -6,7 +6,7 @@ import com.beust.jcommander.Parameters;
 import com.google.inject.Inject;
 
 @Parameters(commandDescription = "Start the automagic updating daemon.")
-public class DaemonCommand extends FileChooserCommand {
+public class DaemonCommand extends D11Command {
 
 	private D11Daemon d11Daemon;
 

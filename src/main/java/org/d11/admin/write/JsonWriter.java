@@ -18,7 +18,7 @@ public abstract class JsonWriter<T extends Object> extends D11Writer<T> {
 	public File write(T object) {
 		try {
 			setFile(new File(getDirectory(), formatFileName(getFileName())));
-			logger.info("Writing file {}", getFile());
+			logger.debug("Writing file {}", getFile());
 			FileWriter fileWriter = new FileWriter(getFile());
 			fileWriter.write(gson.toJson(object));
 			fileWriter.close();

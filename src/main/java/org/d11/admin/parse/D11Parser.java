@@ -12,7 +12,7 @@ public abstract class D11Parser<T extends Object> extends D11FileHandler {
 	private final static Logger logger = LoggerFactory.getLogger(D11Parser.class);
 
 	public T parse(File file) {
-		logger.info("Parsing file {}.", file);
+		logger.debug("Parsing file {}.", file);
 		try {
 			setFile(file);
 			return doParse();

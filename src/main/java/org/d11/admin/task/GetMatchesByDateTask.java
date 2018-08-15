@@ -34,9 +34,9 @@ public class GetMatchesByDateTask extends D11Task<List<Match>> {
 
 	@Override
 	public boolean execute() {
-		logger.info("Getting matches for date {}.", localDate);
+		logger.debug("Getting matches for date {}.", localDate);
 		List<Match> matches = this.d11Api.getMatchesByDate(this.localDate);
-		logger.info("Found {} matches.", matches.size());
+		logger.debug("Found {} matches.", matches.size());
 		setResult(matches);
 		return true;
 	}

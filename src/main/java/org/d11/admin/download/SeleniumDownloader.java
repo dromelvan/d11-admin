@@ -47,7 +47,7 @@ public class SeleniumDownloader extends D11Downloader {
 		String formattedUrl = formatUrl(getUrl());
 
 		try {
-			logger.info("Downloading URL {}.", formattedUrl);
+			logger.debug("Downloading URL {}.", formattedUrl);
 
 			open();
 

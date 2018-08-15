@@ -32,7 +32,7 @@ public abstract class JSoupJavaScriptParser<T extends Object, U extends JavaScri
 			try {
 				scriptEngine.eval(element.data());
 			} catch (ScriptException e) {
-				logger.debug("Could not parse javascript: {}\n{}.", element.data(), e.getMessage());
+				logger.trace("Could not parse javascript: {}\n{}.", element.data(), e.getMessage());
 			}
 		}
 
