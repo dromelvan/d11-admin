@@ -27,6 +27,8 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.google.inject.Singleton;
+
 @RunWith(JukitoRunner.class)
 public class WhoScoredTest {
 
@@ -34,6 +36,7 @@ public class WhoScoredTest {
 		@Override
 		protected void configureTest() {
 			bind(WebDriver.class).to(FirefoxDriver.class);
+			bind(D11API.class).in(Singleton.class);
 		}
 	}
 
@@ -167,8 +170,9 @@ public class WhoScoredTest {
 	}
 
 	@Test
-	public void updateMatchStats(D11API d11API, UpdateMatchStatsTask task) {
-	    Match match = d11API.getMatch(4935);
+	public void updateMatchStats(D11API d11Api, UpdateMatchStatsTask task) {
+	    d11Api.login("dromelvan@fake.email.com", "password");
+	    Match match = d11Api.getMatch(4935);
 	    task.setMatch(match);
 	    if(task.execute()) {
 	        System.out.println(task.getResult());

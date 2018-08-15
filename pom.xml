@@ -95,9 +95,6 @@
         </dependency>
     </dependencies>
     <build>
-        <!-- <resources> <resource> <directory>src/main/resources</directory> 
-            <filtering>true</filtering> <excludes> <exclude>**/*.xpi</exclude> </excludes> 
-            </resource> </resources> -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -123,11 +120,6 @@
                 <configuration>
                     <archive>
                         <index>true</index>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.d11.admin.D11Admin</mainClass>
-                            <classpathPrefix>lib/</classpathPrefix>
-                        </manifest>
                         <manifestEntries>
                             <Specification-Title>${project.name}</Specification-Title>
                             <Specification-Version>${project.version}</Specification-Version>
@@ -139,6 +131,8 @@
                     </archive>
                     <excludes>
                         <exclude>**/*.xpi</exclude>
+                        <exclude>**/*.properties</exclude>
+                        <exclude>**/*.xml</exclude>
                     </excludes>
                 </configuration>
             </plugin>

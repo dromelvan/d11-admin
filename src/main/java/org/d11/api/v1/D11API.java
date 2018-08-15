@@ -26,16 +26,16 @@ public class D11API {
 	private AuthenticationParameters authenticationParameters = null;
 	private final static Logger logger = LoggerFactory.getLogger(D11API.class);
 
-	public boolean login(String email, String password) {
+	public boolean login(String user, String password) {
 		try {
-			LoginRequest loginRequest = new LoginRequest(email, password);
+			LoginRequest loginRequest = new LoginRequest(user, password);
 			loginRequest.execute();
 			if (loginRequest.hasError()) {
-				logger.error("Login failed for email {}", email);
+				logger.error("Login failed for user {}.", user);
 				return false;
 			} else {
 				logger.info("Login successful.");
-				authenticationParameters = new AuthenticationParameters(email, loginRequest.getAuthenticationToken());
+				authenticationParameters = new AuthenticationParameters(user, loginRequest.getAuthenticationToken());
 				return true;
 			}
 		} catch (MalformedURLException e) {

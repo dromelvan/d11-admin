@@ -19,7 +19,11 @@
            <filtered>false</filtered>
             <includes>
                 <include>*.properties</include>
+                <include>*.xml</include>
             </includes>        
+            <excludes>
+                <exclude>secrets.properties</exclude>
+            </excludes>                    
        </fileSet>       
        <fileSet>
            <directory>${basedir}/src/main/resources</directory>
@@ -33,7 +37,7 @@
 	<files>
 		<file>
 			<source>${project.build.directory}/${project.build.finalName}.jar</source>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory>/lib</outputDirectory>
 		</file>
 	</files>
 	<dependencySets>

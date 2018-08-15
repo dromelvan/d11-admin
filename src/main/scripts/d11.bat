@@ -7,14 +7,16 @@ SET arg2=%3
 IF "%command%"=="matchday" (
     IF DEFINED arg1 (
 	IF DEFINED arg2 (
-	    java -jar ${project.build.finalName}.jar %command% -number %arg1% -season %arg2%
+	    java -cp 'lib/*:config' org.d11.admin.D11Admin %command% -number %arg1% -season %arg2%
 	) ELSE (
-   	    java -jar ${project.build.finalName}.jar %command% -number %arg1%
+   	    java -cp 'lib/*:config' org.d11.admin.D11Admin %command% -number %arg1%
 	)
     ) ELSE (
-        java -jar ${project.build.finalName}.jar %command%
+        java -cp 'lib/*:config' org.d11.admin.D11Admin %command%
     )
+) ELSE IF "%command%"=="match" (
+    java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command -matchId %arg1%
 ) ELSE (
-    java -jar ${project.build.finalName}.jar %command%
+    java -cp 'lib/*:config' org.d11.admin.D11Admin %command%
 )
 

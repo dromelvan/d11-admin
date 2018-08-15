@@ -8,14 +8,18 @@ then
         season=$3
         if [[ -n "${season#"${season%%[![:space:]]*}"}" ]]
         then
-            java -jar ${project.build.finalName}.jar $command -number $2 -season $3
+            java -cp 'lib/*:config' org.d11.admin.D11Admin $command -number $2 -season $3
         else
-            java -jar ${project.build.finalName}.jar $command -number $2
+            java -cp 'lib/*:config' org.d11.admin.D11Admin $command -number $2
         fi
     else
-        java -jar ${project.build.finalName}.jar $command
+        java -cp 'lib/*:config' org.d11.admin.D11Admin $command
     fi
+elif [[ $command = "match" ]]
+then
+    match_id=$2
+    java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command -matchId $2
 else
-    java -jar ${project.build.finalName}.jar $command
+    java -cp 'lib/*:config' org.d11.admin.D11Admin $command
 fi
 exit 0
