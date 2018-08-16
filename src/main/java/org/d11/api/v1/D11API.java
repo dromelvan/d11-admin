@@ -216,7 +216,7 @@ public class D11API {
 			updateMatchDateTimeRequest.setAuthenticationParameters(this.authenticationParameters);
 			updateMatchDateTimeRequest.execute();
 			if (updateMatchDateTimeRequest.hasError()) {
-				logger.error("Could not update match datetime for match {}", matchId);
+				logger.error("Could not update match datetime for match {}.", matchId);
 				return null;
 			} else {
 				return updateMatchDateTimeRequest.getMatch();

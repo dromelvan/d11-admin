@@ -27,20 +27,22 @@ public class MatchCommand extends D11Command {
 
 	@Override
 	public void execute() {
-	    logger.info("Updating match stats for match {}.", this.matchId);
+	    if(getD11Api().login(getUser(), getPassword())) {
+    	    logger.info("Updating match stats for match {}.", this.matchId);
 
-	    UpdateMatchStatsTask task = this.provider.get();
-        getD11Api().login(getUser(), getPassword());
-        Match match = getD11Api().getMatch(this.matchId);
-        task.setMatch(match);
+    	    UpdateMatchStatsTask task = this.provider.get();
 
-        if(task.execute()) {
-            UpdateMatchStatsResult updateMatchStatsResult = task.getResult();
-            if(updateMatchStatsResult.isValid()) {
-                for(String dataUpdate : updateMatchStatsResult.getDataUpdates()) {
-                    logger.info("Data update: {}.", dataUpdate);
+            Match match = getD11Api().getMatch(this.matchId);
+            task.setMatch(match);
+
+            if(task.execute()) {
+                UpdateMatchStatsResult updateMatchStatsResult = task.getResult();
+                if(updateMatchStatsResult.isValid()) {
+                    for(String dataUpdate : updateMatchStatsResult.getDataUpdates()) {
+                        logger.info("Data update: {}.", dataUpdate);
+                    }
+                    logger.info("Match stats for match {} updated.", match.getId());
                 }
-                logger.info("Match stats for match {} updated.", match.getId());
             }
         }
 	}

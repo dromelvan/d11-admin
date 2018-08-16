@@ -42,9 +42,7 @@ public class UpdateMatchDateTimesTask extends D11Task<List<Match>> {
                 WSMatch wsMatch = parser.parse(htmlFile);
 
                 match = getD11Api().updateMatchDateTime(match.getId(), wsMatch.getDatetime());
-                if (match == null) {
-                    logger.error("Could not update match datetime for WhoScored match {}.", wsMatch.getWhoScoredId());
-                } else {
+                if (match != null) {
                     logger.debug("Changed match datetime for match {} to {}.", match.getId(), match.getDatetime());
                     getResult().add(match);
                 }
