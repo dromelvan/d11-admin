@@ -38,7 +38,7 @@ public class UpdateMatchStatsTask extends D11Task<UpdateMatchStatsResult> {
     @Override
     public boolean execute() {
         if(getD11Api().isLoggedIn()) {
-            downloader.setId(match.getWhoScoredId());
+            downloader.setWhoScoredId(match.getWhoScoredId());
             downloader.setSeason(match.getSeasonName());
             downloader.setMatchDay(match.getMatchDayNumber());
 

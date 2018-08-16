@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.d11.admin.command.D11Command;
 import org.d11.admin.command.DaemonCommand;
+import org.d11.admin.command.DateTimesCommand;
 import org.d11.admin.command.GenerateD11FixturesCommand;
 import org.d11.admin.command.MatchCommand;
 import org.d11.admin.command.MatchDayCommand;
@@ -38,6 +39,7 @@ public class D11Admin extends D11AdminBaseObject {
 
 	@Inject
 	public D11Admin(MatchDayCommand matchDayCommand,
+	        DateTimesCommand dateTimesCommand,
 	        MatchCommand matchCommand,
 	        ParseCommand parseCommand,
 	        SquadsCommand lineupsCommand,
@@ -46,6 +48,7 @@ public class D11Admin extends D11AdminBaseObject {
 	        DaemonCommand daemonCommand) {
 		this.jCommander = JCommander.newBuilder()
 				.addCommand(matchDayCommand.getName(), matchDayCommand)
+				.addCommand(dateTimesCommand.getName(), dateTimesCommand)
 				.addCommand(matchCommand.getName(), matchCommand)
 				.addCommand(parseCommand.getName(), parseCommand)
 				.addCommand(lineupsCommand.getName(), lineupsCommand)
@@ -57,6 +60,7 @@ public class D11Admin extends D11AdminBaseObject {
 		this.jCommander.setProgramName("d11");
 
 		this.commands.put(matchDayCommand.getName(), matchDayCommand);
+		this.commands.put(dateTimesCommand.getName(), dateTimesCommand);
 		this.commands.put(matchCommand.getName(), matchCommand);
 		this.commands.put(parseCommand.getName(), parseCommand);
 		this.commands.put(lineupsCommand.getName(), lineupsCommand);

@@ -1,11 +1,11 @@
 package org.d11.admin;
 
 import java.io.File;
+import java.util.List;
 
 import org.d11.admin.download.whoscored.WhoScoredMatchSeleniumDownloader;
 import org.d11.admin.download.whoscored.WhoScoredPlayerDownloader;
 import org.d11.admin.model.Match;
-import org.d11.admin.model.MatchDay;
 import org.d11.admin.model.Player;
 import org.d11.admin.model.whoscored.WSPlayer;
 import org.d11.admin.parse.whoscored.WhoScoredMatchParser;
@@ -13,8 +13,7 @@ import org.d11.admin.parse.whoscored.WhoScoredPlayerParser;
 import org.d11.admin.read.whoscored.MatchReader;
 import org.d11.admin.read.whoscored.PlayerReader;
 import org.d11.admin.task.whoscored.CreateMatchDayMatchFilesTask;
-import org.d11.admin.task.whoscored.UpdateMatchDateTimeTask;
-import org.d11.admin.task.whoscored.UpdateMatchDayMatchDateTimesTask;
+import org.d11.admin.task.whoscored.UpdateMatchDateTimesTask;
 import org.d11.admin.task.whoscored.UpdateMatchStatsTask;
 import org.d11.admin.task.whoscored.WhoScoredParseMatchFileTask;
 import org.d11.admin.write.whoscored.WhoScoredMatchWriter;
@@ -42,7 +41,7 @@ public class WhoScoredTest {
 
 	//@Test
 	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader) {
-		downloader.setId(1080516);
+		downloader.setWhoScoredId(1080516);
 		downloader.setSeason("2016-2017");
 		downloader.setMatchDay(38);
 		File htmlFile = downloader.download();
@@ -128,20 +127,13 @@ public class WhoScoredTest {
 		d11Api.login("dromelvan@fake.email.com", "password");
 	}
 
-	// @Test
-	public void updateMatchDate(UpdateMatchDateTimeTask task) {
-		task.setMatchId("4752");
-		task.setMatchDayNumber(20);
-		if (task.execute()) {
-			System.out.println(task.getResult());
+	@Test
+	public void updateMatchDates(D11API d11API, UpdateMatchDateTimesTask task) {
+	    d11API.login("dromelvan@fake.email.com", "password");
+		if(task.execute()) {
+            List<Match> matches = task.getResult();
+            matches.stream().forEach(System.out::println);
 		}
-	}
-
-	// @Test
-	public void updateMatchDayMatchDates(D11API d11API, UpdateMatchDayMatchDateTimesTask task) {
-		MatchDay matchDay = d11API.getUpcomingMatchDay();
-		task.setMatchDay(matchDay);
-		task.execute();
 	}
 
 	// @Test
@@ -157,7 +149,7 @@ public class WhoScoredTest {
 
 	// @Test
 	public void parseMatchFileTask(WhoScoredParseMatchFileTask task, WhoScoredMatchSeleniumDownloader downloader) {
-		downloader.setId(1080516);
+		downloader.setWhoScoredId(1080516);
 		downloader.setSeason("2016-2017");
 		downloader.setMatchDay(38);
 		File htmlFile = downloader.download();
@@ -169,7 +161,7 @@ public class WhoScoredTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void updateMatchStats(D11API d11Api, UpdateMatchStatsTask task) {
 	    d11Api.login("dromelvan@fake.email.com", "password");
 	    Match match = d11Api.getMatch(4939);

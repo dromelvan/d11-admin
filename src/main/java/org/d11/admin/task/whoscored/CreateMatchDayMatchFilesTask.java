@@ -79,7 +79,7 @@ public class CreateMatchDayMatchFilesTask extends D11Task<List<File>> {
         for (int i = 0; i < matchDay.getMatchIds().length; ++i) {
             int matchId = matchDay.getMatchIds()[i];
             Match match = getD11Api().getMatch(matchId);
-            downloader.setId(match.getWhoScoredId());
+            downloader.setWhoScoredId(match.getWhoScoredId());
             downloader.setSeason(season.getName());
             downloader.setMatchDay(matchDay.getMatchDayNumber());
 

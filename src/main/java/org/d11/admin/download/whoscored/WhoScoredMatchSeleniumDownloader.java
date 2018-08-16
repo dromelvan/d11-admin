@@ -4,7 +4,7 @@ import org.d11.admin.download.SeleniumDownloader;
 
 public class WhoScoredMatchSeleniumDownloader extends SeleniumDownloader {
 
-    private int id;
+    private int whoScoredId;
     private String season;
     private int matchDay;
 
@@ -13,12 +13,12 @@ public class WhoScoredMatchSeleniumDownloader extends SeleniumDownloader {
         setDirectoryName("whoscored.com/matches/%s/%02d");
     }
 
-    public int getId() {
-        return id;
+    public int getWhoScoredId() {
+        return whoScoredId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setWhoScoredId(int whoScoredId) {
+        this.whoScoredId = whoScoredId;
     }
 
     public String getSeason() {
@@ -39,7 +39,7 @@ public class WhoScoredMatchSeleniumDownloader extends SeleniumDownloader {
 
     @Override
     protected String formatUrl(String url) {
-        return String.format(getUrl(), getId());
+        return String.format(getUrl(), getWhoScoredId());
     }
 
     @Override
