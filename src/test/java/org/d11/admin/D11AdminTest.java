@@ -2,6 +2,7 @@ package org.d11.admin;
 
 import java.io.File;
 
+import org.d11.admin.daemon.D11Daemon;
 import org.d11.admin.task.GenerateD11FixturesTask;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
@@ -17,11 +18,20 @@ public class D11AdminTest {
         }
     }
 
-    @Test
+    //@Test
     public void generateD11Fixtures(GenerateD11FixturesTask task) {
         if(task.execute()) {
             File file = task.getResult();
             System.out.println(file);
+        }
+    }
+
+    @Test
+    public void d11Daemon(D11Daemon d11Daemon) {
+        d11Daemon.setPassword("password");
+        d11Daemon.start();
+        while(true) {
+
         }
     }
 }

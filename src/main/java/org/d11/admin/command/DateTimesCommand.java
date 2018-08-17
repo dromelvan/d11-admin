@@ -23,7 +23,6 @@ public class DateTimesCommand extends D11Command {
 
 	@Override
 	public void execute() {
-System.out.println(getUser() + " " + getPassword());
         if(getD11Api().login(getUser(), getPassword())) {
     	    logger.info("Updating match dates and kickoff times.");
 
@@ -33,7 +32,7 @@ System.out.println(getUser() + " " + getPassword());
                 logger.error("Could not change datetimes for all matches.");
             }
             for(Match match : task.getResult()) {
-                logger.info("Change datetime for match {} to {}.", match.getId(), match.getDatetime());
+                logger.info("Changed datetime for match {} to {}.", match.getId(), match.getDatetime());
             }
         }
 	}

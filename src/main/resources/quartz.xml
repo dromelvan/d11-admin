@@ -9,12 +9,23 @@
 			<name>hello-world</name>
 			<job-class>org.d11.admin.daemon.HelloWorldJob</job-class>
 		</job>
+        <job>
+            <name>update-match-date-times</name>
+            <job-class>org.d11.admin.daemon.UpdateMatchDateTimesJob</job-class>
+        </job>        
 		<trigger>
 			<cron>
 				<name>hello-world-trigger</name>
 				<job-name>hello-world</job-name>
 				<cron-expression>5,10,15,20,25,30,35,40,45,50,55 * * * * ?</cron-expression>
 			</cron>
-		</trigger>
+		</trigger>        
+        <trigger>
+            <cron>
+                <name>update-match-date-times-trigger</name>
+                <job-name>update-match-date-times</job-name>
+                <cron-expression>20 3 * * * ?</cron-expression>
+            </cron>
+        </trigger>                
 	</schedule>
 </job-scheduling-data>

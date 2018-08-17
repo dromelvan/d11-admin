@@ -18,5 +18,6 @@
         <Logger name="org.d11.admin.parser" level="DEBUG" />
         <Logger name="org.d11.admin.writer" level="DEBUG" />
         <Logger name="org.d11.api.D11API" level="ERROR" />
+        <Logger name="org.quartz" level="ERROR" />
     </Loggers>
 </Configuration>
