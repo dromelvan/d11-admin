@@ -11,10 +11,11 @@ public class UpdateMatchStatsRequest extends D11APIRequest<UpdateMatchStatsResul
 
 	private final static String REQUEST_URL = "http://%s/api/v1/matches/%s/update_match_stats";
 
-	public UpdateMatchStatsRequest(int matchId, String json) throws MalformedURLException {
+	public UpdateMatchStatsRequest(int matchId, String json, boolean updatePreviousPointsAndGoals) throws MalformedURLException {
 		setUrl(new URL(String.format(REQUEST_URL, getAPIHost(), matchId)));
 		setRequestMethod(RequestMethod.PUT);
 		setRequestParameter("match_stats", json);
+		setRequestParameter("update_previous_points_and_goals", String.valueOf(updatePreviousPointsAndGoals));
 	}
 
 	@Override

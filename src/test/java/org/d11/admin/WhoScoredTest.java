@@ -127,7 +127,7 @@ public class WhoScoredTest {
 		d11Api.login("dromelvan@fake.email.com", "password");
 	}
 
-	@Test
+	//@Test
 	public void updateMatchDates(D11API d11API, UpdateMatchDateTimesTask task) {
 	    d11API.login("dromelvan@fake.email.com", "password");
 		if(task.execute()) {
@@ -161,10 +161,10 @@ public class WhoScoredTest {
 		}
 	}
 
-	//@Test
+	@Test
 	public void updateMatchStats(D11API d11Api, UpdateMatchStatsTask task) {
 	    d11Api.login("dromelvan@fake.email.com", "password");
-	    Match match = d11Api.getMatch(4939);
+	    Match match = d11Api.getMatch(4940);
 	    task.setMatch(match);
 	    if(task.execute()) {
 	        System.out.println(task.getResult());

@@ -122,7 +122,7 @@ public class D11APITest {
 	    Match match = d11Api.getMatch(4935);
 	    File file = new File("src/test/resources/2016-2017/38/Hull vs Tottenham (FT).json");
 	    d11Api.login("dromelvan@fake.email.com", "password");
-	    UpdateMatchStatsResult uploadResult = d11Api.updateMatchStats(match, file);
+	    UpdateMatchStatsResult uploadResult = d11Api.updateMatchStats(match, file, false);
 	    if(uploadResult != null) {
 	        System.out.println(uploadResult);
 	    }

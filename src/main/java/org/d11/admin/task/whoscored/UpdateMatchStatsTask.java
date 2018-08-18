@@ -19,6 +19,7 @@ import com.google.inject.Inject;
 public class UpdateMatchStatsTask extends D11Task<UpdateMatchStatsResult> {
 
     private Match match;
+    private boolean updatePreviousPointsAndGoals;
     @Inject
     private WhoScoredMatchSeleniumDownloader downloader;
     @Inject
@@ -33,6 +34,14 @@ public class UpdateMatchStatsTask extends D11Task<UpdateMatchStatsResult> {
 
     public void setMatch(Match match) {
         this.match = match;
+    }
+
+    public boolean isUpdatePreviousPointsAndGoals() {
+        return updatePreviousPointsAndGoals;
+    }
+
+    public void setUpdatePreviousPointsAndGoals(boolean updatePreviousPointsAndGoals) {
+        this.updatePreviousPointsAndGoals = updatePreviousPointsAndGoals;
     }
 
     @Override
@@ -56,7 +65,7 @@ public class UpdateMatchStatsTask extends D11Task<UpdateMatchStatsResult> {
 
                     logger.debug("Uploading match stats to {}.", getProperty(D11AdminProperties.API_HOST));
 
-                    UpdateMatchStatsResult updateMatchStatsResult = getD11Api().updateMatchStats(match, jsonFile);
+                    UpdateMatchStatsResult updateMatchStatsResult = getD11Api().updateMatchStats(match, jsonFile, updatePreviousPointsAndGoals);
 
                     if(!updateMatchStatsResult.isValid()) {
                         logger.error("Could not update stats for match {}.", match.getId());

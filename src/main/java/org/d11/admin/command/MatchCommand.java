@@ -16,6 +16,8 @@ public class MatchCommand extends D11Command {
 
     @Parameter(names = { "-matchId" }, description = "D11 match id for the match we want to update.", required = true)
     private Integer matchId;
+    @Parameter(names = { "-previous" }, description = "Update previous points and goals.")
+    private boolean updatePreviousPointsAndGoals = false;
 	private Provider<UpdateMatchStatsTask> provider;
 	private final static Logger logger = LoggerFactory.getLogger(MatchCommand.class);
 
@@ -34,6 +36,7 @@ public class MatchCommand extends D11Command {
 
             Match match = getD11Api().getMatch(this.matchId);
             task.setMatch(match);
+            task.setUpdatePreviousPointsAndGoals(this.updatePreviousPointsAndGoals);
 
             if(task.execute()) {
                 UpdateMatchStatsResult updateMatchStatsResult = task.getResult();

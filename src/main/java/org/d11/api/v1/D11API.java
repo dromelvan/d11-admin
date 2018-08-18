@@ -301,10 +301,10 @@ public class D11API {
 		return null;
 	}
 
-	public UpdateMatchStatsResult updateMatchStats(Match match, File file) {
+	public UpdateMatchStatsResult updateMatchStats(Match match, File file, boolean updatePreviousPointsAndGoals) {
         try {
             String json = new String(Files.readAllBytes(Paths.get(file.getPath())));
-            UpdateMatchStatsRequest updateMatchStatsRequest = new UpdateMatchStatsRequest(match.getId(), json);
+            UpdateMatchStatsRequest updateMatchStatsRequest = new UpdateMatchStatsRequest(match.getId(), json, updatePreviousPointsAndGoals);
             updateMatchStatsRequest.setAuthenticationParameters(this.authenticationParameters);
             updateMatchStatsRequest.execute();
             if (updateMatchStatsRequest.hasError()) {

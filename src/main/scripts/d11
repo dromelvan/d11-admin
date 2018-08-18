@@ -18,7 +18,13 @@ then
 elif [[ $command = "match" ]]
 then
     match_id=$2
-    java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command -matchId $2
+    previous=$3
+    if [[ $previous = "false" ]]
+    then
+        java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command -matchId $2
+    else
+        java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command -matchId $2 -previous
+    fi
 elif [[ $command = "datetimes" ]]
 then
     java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command
