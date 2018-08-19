@@ -44,6 +44,7 @@ public class MatchDayCommand extends D11Command {
 		task.setSeasonName(getSeason());
 		task.setMatchDayNumber(getNumber());
 		task.execute();
+		task.close();
 	}
 
 }

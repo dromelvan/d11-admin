@@ -9,20 +9,17 @@ import org.d11.admin.model.Match;
 import org.d11.admin.model.MatchDay;
 import org.d11.admin.model.Season;
 import org.d11.admin.parse.whoscored.WhoScoredMatchParser;
-import org.d11.admin.task.D11Task;
 import org.d11.admin.write.whoscored.WhoScoredMatchWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-public class CreateMatchDayMatchFilesTask extends D11Task<List<File>> {
+public class CreateMatchDayMatchFilesTask extends WhoScoredDownloaderTask<List<File>, WhoScoredMatchSeleniumDownloader> {
 
 	private String seasonName;
 	private Integer matchDayNumber;
 	private int matchId;
-	@Inject
-	private WhoScoredMatchSeleniumDownloader downloader;
 	@Inject
 	private WhoScoredMatchParser parser;
 	@Inject
@@ -76,9 +73,12 @@ public class CreateMatchDayMatchFilesTask extends D11Task<List<File>> {
         logger.debug("Creating match files for match day {}, season {}.", matchDay.getMatchDayNumber(), season.getName());
         List<File> jsonFiles = new ArrayList<File>();
 
+        WhoScoredMatchSeleniumDownloader downloader = getDownloader();
+
         for (int i = 0; i < matchDay.getMatchIds().length; ++i) {
             int matchId = matchDay.getMatchIds()[i];
             Match match = getD11Api().getMatch(matchId);
+
             downloader.setWhoScoredId(match.getWhoScoredId());
             downloader.setSeason(season.getName());
             downloader.setMatchDay(matchDay.getMatchDayNumber());
@@ -101,8 +101,6 @@ public class CreateMatchDayMatchFilesTask extends D11Task<List<File>> {
             }
             logger.debug("<== Match done.");
         }
-
-        downloader.close();
 
         setResult(jsonFiles);
         logger.debug("Match files done.");

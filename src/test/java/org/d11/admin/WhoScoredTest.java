@@ -2,6 +2,7 @@ package org.d11.admin;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.d11.admin.download.whoscored.WhoScoredMatchSeleniumDownloader;
 import org.d11.admin.download.whoscored.WhoScoredPlayerDownloader;
@@ -25,22 +26,45 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 
+import com.google.inject.Provider;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
 @RunWith(JukitoRunner.class)
 public class WhoScoredTest {
 
 	public static class WhoScoredTaskTestModule extends JukitoModule {
-		@Override
-		protected void configureTest() {
-			bind(WebDriver.class).to(FirefoxDriver.class);
-			bind(D11API.class).in(Singleton.class);
-		}
+	    @Override
+	    protected void configureTest() {
+	        bind(D11API.class).in(Singleton.class);
+	    }
+
+	    @Provides
+	    @Singleton
+	    public WebDriver provideWebDriver() {
+	        try {
+	            FirefoxProfile firefoxProfile = new FirefoxProfile();
+	            // Ublock Origin == good.
+	            File file = new File("lib/uBlock0@raymondhill.net.xpi");
+	            if(!file.exists()) {
+	                file = new File("src/main/resources/uBlock0@raymondhill.net.xpi");
+	            }
+	            firefoxProfile.addExtension(file);
+	            WebDriver webDriver = new FirefoxDriver(firefoxProfile);
+	            webDriver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
+	            return webDriver;
+	        } catch(Exception e) {
+	            e.printStackTrace();
+	        }
+	        return null;
+	    }
+
 	}
 
 	//@Test
-	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader) {
+	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader, Provider<WebDriver> provider) {
 		downloader.setWhoScoredId(1080516);
 		downloader.setSeason("2016-2017");
 		downloader.setMatchDay(38);
@@ -48,7 +72,7 @@ public class WhoScoredTest {
 		if (htmlFile != null) {
 			System.out.println(htmlFile);
 		}
-		downloader.close();
+		provider.get().close();
 	}
 
 	//@Test
@@ -134,17 +158,19 @@ public class WhoScoredTest {
             List<Match> matches = task.getResult();
             matches.stream().forEach(System.out::println);
 		}
+		task.close();
 	}
 
 	// @Test
 	public void createMatchDayMatchFilesTask(CreateMatchDayMatchFilesTask task) {
 	    task.setMatchDayNumber(1);
-	    task.setSeasonName("2018-2019");
+	    task.setSeasonName("2016-2017");
 		if (task.execute()) {
 			for (File file : task.getResult()) {
 				System.out.println(file);
 			}
 		}
+		task.close();
 	}
 
 	// @Test
@@ -169,5 +195,6 @@ public class WhoScoredTest {
 	    if(task.execute()) {
 	        System.out.println(task.getResult());
 	    }
+	    task.close();
 	}
 }

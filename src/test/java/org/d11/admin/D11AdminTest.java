@@ -6,7 +6,6 @@ import org.d11.admin.daemon.D11Daemon;
 import org.d11.admin.task.GenerateD11FixturesTask;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(JukitoRunner.class)
@@ -26,7 +25,8 @@ public class D11AdminTest {
         }
     }
 
-    @Test
+
+    //@Test
     public void d11Daemon(D11Daemon d11Daemon) {
         d11Daemon.setPassword("password");
         d11Daemon.start();

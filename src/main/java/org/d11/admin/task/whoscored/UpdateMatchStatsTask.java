@@ -9,19 +9,16 @@ import org.d11.admin.model.MissingPlayer;
 import org.d11.admin.model.UpdateMatchStatsResult;
 import org.d11.admin.model.whoscored.WSMatch;
 import org.d11.admin.parse.whoscored.WhoScoredMatchParser;
-import org.d11.admin.task.D11Task;
 import org.d11.admin.write.whoscored.WhoScoredMatchWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-public class UpdateMatchStatsTask extends D11Task<UpdateMatchStatsResult> {
+public class UpdateMatchStatsTask extends WhoScoredDownloaderTask<UpdateMatchStatsResult, WhoScoredMatchSeleniumDownloader> {
 
     private Match match;
     private boolean updatePreviousPointsAndGoals;
-    @Inject
-    private WhoScoredMatchSeleniumDownloader downloader;
     @Inject
     private WhoScoredMatchParser parser;
     @Inject
@@ -47,12 +44,12 @@ public class UpdateMatchStatsTask extends D11Task<UpdateMatchStatsResult> {
     @Override
     public boolean execute() {
         if(getD11Api().isLoggedIn()) {
+            WhoScoredMatchSeleniumDownloader downloader = getDownloader();
             downloader.setWhoScoredId(match.getWhoScoredId());
             downloader.setSeason(match.getSeasonName());
             downloader.setMatchDay(match.getMatchDayNumber());
 
             File htmlFile = downloader.download();
-            downloader.close();
 
             if (htmlFile != null) {
                 WSMatch wsMatch = parser.parse(htmlFile);
@@ -89,5 +86,4 @@ public class UpdateMatchStatsTask extends D11Task<UpdateMatchStatsResult> {
         }
         return false;
     }
-
 }

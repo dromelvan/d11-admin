@@ -9,16 +9,13 @@ import org.d11.admin.model.Match;
 import org.d11.admin.model.MatchDay;
 import org.d11.admin.model.whoscored.WSMatch;
 import org.d11.admin.parse.whoscored.WhoScoredMatchParser;
-import org.d11.admin.task.D11Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-public class UpdateMatchDateTimesTask extends D11Task<List<Match>> {
+public class UpdateMatchDateTimesTask extends WhoScoredDownloaderTask<List<Match>, WhoScoredMatchSeleniumDownloader> {
 
-    @Inject
-    private WhoScoredMatchSeleniumDownloader downloader;
     @Inject
     private WhoScoredMatchParser parser;
 	private final static Logger logger = LoggerFactory.getLogger(UpdateMatchDateTimesTask.class);
@@ -30,6 +27,8 @@ public class UpdateMatchDateTimesTask extends D11Task<List<Match>> {
 
             List<Match> matches = getMatches(getD11Api().getCurrentMatchDay());
             matches.addAll(getMatches(getD11Api().getUpcomingMatchDay()));
+
+            WhoScoredMatchSeleniumDownloader downloader = getDownloader();
 
             for(Match match : matches) {
                 downloader.reset();
@@ -47,8 +46,6 @@ public class UpdateMatchDateTimesTask extends D11Task<List<Match>> {
                     getResult().add(match);
                 }
             }
-
-            downloader.close();
 
             return getResult().size() == matches.size();
         }

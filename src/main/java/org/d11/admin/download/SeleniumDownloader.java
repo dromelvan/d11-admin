@@ -2,44 +2,24 @@ package org.d11.admin.download;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.io.Files;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class SeleniumDownloader extends D11Downloader {
 
-	private WebDriver webDriver;
+    @Inject
+    private Provider<WebDriver> provider;
 	private final static Logger logger = LoggerFactory.getLogger(SeleniumDownloader.class);
 
-	public void open() {
-	    if(this.webDriver == null) {
-	        try {
-    	        FirefoxProfile firefoxProfile = new FirefoxProfile();
-    	        // Ublock Origin == good.
-    	        File file = new File("lib/uBlock0@raymondhill.net.xpi");
-    	        if(!file.exists()) {
-    	            file = new File("src/main/resources/uBlock0@raymondhill.net.xpi");
-    	        }
-    	        firefoxProfile.addExtension(file);
-    	        this.webDriver = new FirefoxDriver(firefoxProfile);
-    	        this.webDriver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-	        } catch(Exception e) {
-	            logger.error("Error when opening WebDriver:", e);
-	        }
-	    }
-	}
-
 	public void close() {
-	    if(this.webDriver != null) {
-	        this.webDriver.close();
-	    }
+	    provider.get().close();
 	}
 
 	@Override
@@ -49,7 +29,7 @@ public class SeleniumDownloader extends D11Downloader {
 		try {
 			logger.debug("Downloading URL {}.", formattedUrl);
 
-			open();
+			WebDriver webDriver = provider.get();
 
 			try {
     			webDriver.get(formattedUrl);
