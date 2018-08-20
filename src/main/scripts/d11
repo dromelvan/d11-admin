@@ -15,16 +15,11 @@ then
     else
         java -cp 'lib/*:config' org.d11.admin.D11Admin $command
     fi
-elif [[ $command = "match" ]]
+elif [[ $command = "update" ]]
 then
-    match_id=$2
-    previous=$3
-    if [[ $previous = "false" ]]
-    then
-        java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command -matchId $2
-    else
-        java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command -matchId $2 -previous
-    fi
+    shift
+    match_ids=$@
+    java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command -matchIds "$match_ids"
 elif [[ $command = "datetimes" ]]
 then
     java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command
