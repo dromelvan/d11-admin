@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.d11.admin.D11AdminBaseObject;
 import org.d11.admin.model.Match;
 import org.d11.admin.model.MatchDay;
 import org.d11.admin.model.Player;
@@ -15,13 +17,14 @@ import org.d11.admin.model.Team;
 import org.d11.admin.model.TeamSquad;
 import org.d11.admin.model.UpdateMatchStatsResult;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Singleton;
 
 @Singleton
-public class D11API {
+public class D11API extends D11AdminBaseObject {
 
 	private AuthenticationParameters authenticationParameters = null;
 	private final static Logger logger = LoggerFactory.getLogger(D11API.class);
@@ -209,6 +212,36 @@ public class D11API {
 		}
 		return null;
 	}
+
+	public Match getUpcomingMatch() {
+	    return getUpcomingMatch(getNow());
+	}
+
+	public Match getUpcomingMatch(LocalDateTime localDateTime) {
+	    Match upcomingMatch = null;
+	    for(Match match : getMatchesByDate(localDateTime.toLocalDate())) {
+	        if(match.getLocalDateTime().isAfter(localDateTime)) {
+	            if(upcomingMatch == null || match.getLocalDateTime().isBefore(upcomingMatch.getLocalDateTime())) {
+	                upcomingMatch = match;
+	            }
+	        }
+	    }
+	    return upcomingMatch;
+	}
+
+    public List<Match> getActiveMatches() {
+        List<Match> matches = new ArrayList<Match>();
+        LocalDateTime now = getNow();
+
+        for(Match match : getMatchesByDate(now.toLocalDate())) {
+            LocalDateTime kickoff = LocalDateTime.parse(match.getDatetime().replace("Z", ""));
+
+            if(kickoff.isBefore(now) && match.getStatus() != 2) {
+                matches.add(match);
+            }
+        }
+        return matches;
+    }
 
 	public Match updateMatchDateTime(int matchId, String dateTime) {
 		try {

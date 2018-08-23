@@ -44,6 +44,8 @@ public class UpdateMatchStatsTask extends WhoScoredDownloaderTask<UpdateMatchSta
     @Override
     public boolean execute() {
         if(getD11Api().isLoggedIn()) {
+            logger.info("Updating match stats for match {}.", match.getId());
+
             WhoScoredMatchSeleniumDownloader downloader = getDownloader();
             downloader.setWhoScoredId(match.getWhoScoredId());
             downloader.setSeason(match.getSeasonName());
@@ -64,7 +66,12 @@ public class UpdateMatchStatsTask extends WhoScoredDownloaderTask<UpdateMatchSta
 
                     UpdateMatchStatsResult updateMatchStatsResult = getD11Api().updateMatchStats(match, jsonFile, updatePreviousPointsAndGoals);
 
-                    if(!updateMatchStatsResult.isValid()) {
+                    if(updateMatchStatsResult.isValid()) {
+                        for(String dataUpdate : updateMatchStatsResult.getDataUpdates()) {
+                            logger.info("Data update: {}", dataUpdate);
+                        }
+                        logger.info("Match stats for match {} updated.", match.getId());
+                    } else {
                         logger.error("Could not update stats for match {}.", match.getId());
                         for(String validationError : updateMatchStatsResult.getValidationErrors()) {
                             logger.error("Validation error: {}.", validationError);

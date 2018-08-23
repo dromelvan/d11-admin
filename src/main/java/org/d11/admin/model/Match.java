@@ -3,10 +3,13 @@ package org.d11.admin.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.LocalDateTime;
+
 public class Match extends PersistentD11Model {
 
 	private Integer whoscored_id;
 	private String datetime;
+	private Integer status;
 	private Team home_team;
 	private Team away_team;
 	private String elapsed;
@@ -33,7 +36,15 @@ public class Match extends PersistentD11Model {
 		this.datetime = datetime;
 	}
 
-	public Team getHomeTeam() {
+	public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Team getHomeTeam() {
 		return home_team;
 	}
 
@@ -105,4 +116,8 @@ public class Match extends PersistentD11Model {
 		this.substitutions = substitutions;
 	}
 
+	public LocalDateTime getLocalDateTime() {
+	    LocalDateTime localDateTime= LocalDateTime.parse(getDatetime().replace("Z", ""));
+	    return localDateTime;
+	}
 }

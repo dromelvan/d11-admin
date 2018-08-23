@@ -1,5 +1,7 @@
 package org.d11.admin;
 
+import org.joda.time.LocalDateTime;
+
 public class D11AdminBaseObject {
 
     private final static D11AdminProperties D11_ADMIN_PROPERTIES = new D11AdminProperties();
@@ -26,6 +28,11 @@ public class D11AdminBaseObject {
 
     protected void setPassword(String password) {
         setProperty(D11AdminProperties.API_PASSWORD, password);
+    }
+
+    protected LocalDateTime getNow() {
+        LocalDateTime now = (getProperty(D11AdminProperties.TEST_DATETIME_NOW) != null ? LocalDateTime.parse(getProperty(D11AdminProperties.TEST_DATETIME_NOW)) : LocalDateTime.now());
+        return now;
     }
 
 }

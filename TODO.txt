@@ -16,15 +16,17 @@ Use cases:
     3b. Parse player file, read player data.
     3c. Insert new player.
     
-4. Update match stats.
-    4a. Fetch matches for current date.
-    4b. Schedule match update jobs for kickoff times.
-    * 4b. For each match, download match file.
-    * 4c. Parse match file, read match stats.
-    * 4d. Upload match json.
-        4da. For each missing player, insert new player.
-        4db. Repeat until no missing players.
-    4e. If match is not finished, schedule new update in 5 minutes.
+* 4. Update match stats.
+    * 4a. Fetch matches for current date.
+    * 4b. Find active matches (Kickoff time has passed, status is not finished)    
+    * 4c. If there are active matches, update them.
+      * 4ca. For each active match, download match file.
+      * 4cb. Parse match file, read match stats.
+      * 4cc. Upload match json.
+          4cca. For each missing player, insert new player.
+          4ccb. Repeat until no missing players.
+    * 4d. If there are active matches after updates, schedule new update in REFRESH_RATE minutes.
+    * 4e. If there are no active matches after updates schedule new update REFRESH_RATE minutes after the first upcoming kickoff time.
 
 5a. Finalize match stats.
     5a. Fetch matches for yesterday.
@@ -37,3 +39,4 @@ Use cases:
     5a. Fetch current match day.
     5b. Fetch all matches.
     5c. If all match dates are < today - 1, finish match day.
+      5ca. Update all match and D11 match previous goals and points.

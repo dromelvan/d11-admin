@@ -7,25 +7,50 @@
 	<schedule>
 		<job>
 			<name>hello-world</name>
+            <group>TEST</group>            
 			<job-class>org.d11.admin.daemon.HelloWorldJob</job-class>
 		</job>
+        
         <job>
             <name>update-match-date-times</name>
+            <group>D11</group>
             <job-class>org.d11.admin.daemon.UpdateMatchDateTimesJob</job-class>
-        </job>        
+        </job>             
+        <job>
+            <name>update-match-stats</name>
+            <group>D11</group>
+            <job-class>org.d11.admin.daemon.UpdateMatchStatsJob</job-class>
+        </job>
+                
 		<trigger>
 			<cron>
 				<name>hello-world-trigger</name>
+                <group>TEST</group>
 				<job-name>hello-world</job-name>
+                <job-group>TEST</job-group>
 				<cron-expression>5,10,15,20,25,30,35,40,45,50,55 * * * * ?</cron-expression>
 			</cron>
 		</trigger>        
+        <!-- Simple triggers for jobs that should run once at startup. -->
+        <trigger>
+            <simple>
+                <name>update-match-stats-trigger</name>
+                <group>D11</group>
+                <job-name>update-match-stats</job-name>
+                <job-group>D11</job-group>
+                <repeat-count>0</repeat-count>
+                <repeat-interval>0</repeat-interval>
+            </simple>
+        </trigger>   
+        <!-- Cron triggers for other jobs. -->                
         <trigger>
             <cron>
                 <name>update-match-date-times-trigger</name>
+                <group>D11</group>
                 <job-name>update-match-date-times</job-name>
+                <job-group>D11</job-group>
                 <cron-expression>20 3 * * * ?</cron-expression>
             </cron>
-        </trigger>                
+        </trigger>     
 	</schedule>
 </job-scheduling-data>

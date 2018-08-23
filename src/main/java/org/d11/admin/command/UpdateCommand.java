@@ -3,10 +3,7 @@ package org.d11.admin.command;
 import java.util.List;
 
 import org.d11.admin.model.Match;
-import org.d11.admin.model.UpdateMatchStatsResult;
 import org.d11.admin.task.whoscored.UpdateMatchStatsTask;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
@@ -20,7 +17,6 @@ public class UpdateCommand extends D11Command {
     @Parameter(names = { "-matchIds" }, description = "D11 match ids for the matches we want to update.", required = true, converter = IntegerConverter.class, splitter = SpaceSplitter.class)
     private List<Integer> matchIds;
 	private Provider<UpdateMatchStatsTask> taskProvider;
-	private final static Logger logger = LoggerFactory.getLogger(UpdateCommand.class);
 
 	@Inject
 	public UpdateCommand(Provider<UpdateMatchStatsTask> taskProvider) {
@@ -32,8 +28,6 @@ public class UpdateCommand extends D11Command {
 	public void execute() {
 	    if(getD11Api().login(getUser(), getPassword())) {
     	    for(Integer matchId : this.matchIds) {
-    	        logger.info("Updating match stats for match {}.", matchId);
-
     	        boolean updatePreviousPointsAndGoals = this.matchIds.indexOf(matchId) == 0;
 
                 UpdateMatchStatsTask task = this.taskProvider.get();
@@ -42,15 +36,8 @@ public class UpdateCommand extends D11Command {
                 task.setMatch(match);
                 task.setUpdatePreviousPointsAndGoals(updatePreviousPointsAndGoals);
 
-                if(task.execute()) {
-                    UpdateMatchStatsResult updateMatchStatsResult = task.getResult();
-                    if(updateMatchStatsResult.isValid()) {
-                        for(String dataUpdate : updateMatchStatsResult.getDataUpdates()) {
-                            logger.info("Data update: {}.", dataUpdate);
-                        }
-                        logger.info("Match stats for match {} updated.", match.getId());
-                    }
-                }
+                task.execute();
+
                 if(this.matchIds.indexOf(matchId) == this.matchIds.size() - 1) {
                     task.close();
                 }
