@@ -116,7 +116,7 @@ public class D11API extends D11AdminBaseObject {
 		return null;
 	}
 
-	public MatchDay getMatchDay(MatchDayRequest matchDayRequest) {
+	private MatchDay getMatchDay(MatchDayRequest matchDayRequest) {
 		try {
 			matchDayRequest.execute();
 			if (matchDayRequest.hasError()) {
@@ -175,6 +175,25 @@ public class D11API extends D11AdminBaseObject {
 			}
 		}
 		return null;
+	}
+
+	public MatchDay activateMatchDay(int matchDayId) {
+        try {
+            ActivateMatchDayRequest activateMatchDayRequest = new ActivateMatchDayRequest(matchDayId);
+            activateMatchDayRequest.setAuthenticationParameters(this.authenticationParameters);
+            activateMatchDayRequest.execute();
+            if (activateMatchDayRequest.hasError()) {
+                logger.error("Could not activate match day {}.", matchDayId);
+                return null;
+            } else {
+                return activateMatchDayRequest.getMatchDay();
+            }
+        } catch (MalformedURLException e) {
+            logger.error("Malformed URL in activate match day request:", e);
+        } catch (IOException e) {
+            logger.error("IOException when executing match day request.", e);
+        }
+        return null;
 	}
 
 	public Match getMatch(int matchId) {

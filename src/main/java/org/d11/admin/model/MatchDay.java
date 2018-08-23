@@ -2,13 +2,22 @@ package org.d11.admin.model;
 
 public class MatchDay extends PersistentD11Model {
 
+    private Integer status;
 	private int match_day_number;
 	private int[] match_ids;
 
 	public MatchDay() {
 	}
 
-	public int getMatchDayNumber() {
+	public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public int getMatchDayNumber() {
 		return match_day_number;
 	}
 

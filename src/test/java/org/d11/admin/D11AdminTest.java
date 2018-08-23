@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.d11.admin.daemon.D11Daemon;
+import org.d11.admin.model.MatchDay;
+import org.d11.admin.task.ActivateMatchDayTask;
 import org.d11.admin.task.GenerateD11FixturesTask;
 import org.d11.api.v1.D11API;
 import org.jukito.JukitoModule;
@@ -62,6 +64,16 @@ public class D11AdminTest {
         }
     }
 
+    //@Test
+    public void activateMatchDay(D11API d11Api, ActivateMatchDayTask task) {
+        if(d11Api.login("dromelvan@fake.email.com", "password")) {
+            MatchDay matchDay = d11Api.getMatchDayBySeasonAndMatchDayNumber("2016-2017", 37);
+            task.setMatchDay(matchDay);
+            if(task.execute()) {
+                System.out.println(task.getResult());
+            }
+        }
+    }
 
     @Test
     public void d11Daemon(D11Daemon d11Daemon) {

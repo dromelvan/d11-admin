@@ -15,7 +15,6 @@ import org.d11.api.v1.UpdateMatchStatsTypeToken;
 import org.joda.time.LocalDate;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.google.gson.Gson;
@@ -79,6 +78,12 @@ public class D11APITest {
 		System.out.println(d11Api.getMatchDayBySeasonAndMatchDayNumber("2016-2017", 38));
 	}
 
+	//@Test
+	public void activateMatchDay(D11API d11Api) {
+	    d11Api.login("dromelvan@fake.email.com", "password");
+	    System.out.println(d11Api.activateMatchDay(494));
+	}
+
 	// @Test
 	public void getMatchesByDate(D11API d11Api) {
 		List<Match> matches = d11Api.getMatchesByDate(LocalDate.parse("2017-05-13"));
@@ -117,7 +122,7 @@ public class D11APITest {
 		players.forEach(System.out::println);
 	}
 
-	@Test
+	// @Test
 	public void updateMatchStats(D11API d11Api) {
 	    Match match = d11Api.getMatch(4935);
 	    File file = new File("src/test/resources/2016-2017/38/Hull vs Tottenham (FT).json");
