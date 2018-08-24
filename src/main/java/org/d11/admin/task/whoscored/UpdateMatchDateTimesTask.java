@@ -40,14 +40,16 @@ public class UpdateMatchDateTimesTask extends WhoScoredDownloaderTask<List<Match
 
                 WSMatch wsMatch = parser.parse(htmlFile);
 
-                match = getD11Api().updateMatchDateTime(match.getId(), wsMatch.getDatetime());
-                if (match != null) {
-                    logger.debug("Changed match datetime for match {} to {}.", match.getId(), match.getDatetime());
-                    getResult().add(match);
+                if(!match.getLocalDateTime().equals(wsMatch.getLocalDateTime())) {
+                    match = getD11Api().updateMatchDateTime(match.getId(), wsMatch.getDatetime());
+                    if (match != null) {
+                        logger.debug("Changed match datetime for match {} to {}.", match.getId(), match.getDatetime());
+                        getResult().add(match);
+                    }
                 }
             }
 
-            return getResult().size() == matches.size();
+            return true;
         }
 	    return false;
 	}

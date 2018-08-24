@@ -8,6 +8,7 @@ import org.d11.admin.model.MatchDay;
 import org.d11.admin.task.ActivateMatchDayTask;
 import org.d11.admin.task.GenerateD11FixturesTask;
 import org.d11.api.v1.D11API;
+import org.joda.time.LocalDateTime;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
 import org.junit.Test;
@@ -75,11 +76,23 @@ public class D11AdminTest {
         }
     }
 
-    @Test
+    //@Test
     public void d11Daemon(D11Daemon d11Daemon) {
         d11Daemon.start();
         while(true) {
 
         }
+    }
+
+    @Test
+    public void date() {
+        String a = "2017-05-21T17:00:00.000Z";
+        String b = "2017-05-21 17:00";
+
+        LocalDateTime aa = LocalDateTime.parse(a.replace("Z", ""));
+        LocalDateTime bb = LocalDateTime.parse(b.replace(" ", "T"));
+
+        System.out.println(aa + " " + bb + " " + aa.equals(bb));
+
     }
 }

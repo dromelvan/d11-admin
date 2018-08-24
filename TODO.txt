@@ -7,36 +7,30 @@ Use cases:
     * 1d. Parse match file, read kickoff time.
     * 1e. Update match kickoff time.
 
-2. Activate match day.
-    2a. Fetch current match day.
-    2b. If match day date >= today, activate match day.
-
-3. Insert new player.
-    3a. Download player file.
-    3b. Parse player file, read player data.
-    3c. Insert new player.
+2. Insert new player.
+    2a. Download player file.
+    2b. Parse player file, read player data.
+    2c. Insert new player.
     
-* 4. Update match stats.
-    * 4a. Fetch matches for current date.
-    * 4b. Find active matches (Kickoff time has passed, status is not finished)    
-    * 4c. If there are active matches, update them.
-      * 4ca. For each active match, download match file.
-      * 4cb. Parse match file, read match stats.
-      * 4cc. Upload match json.
-          4cca. For each missing player, insert new player.
-          4ccb. Repeat until no missing players.
-    * 4d. If there are active matches after updates, schedule new update in REFRESH_RATE minutes.
-    * 4e. If there are no active matches after updates schedule new update REFRESH_RATE minutes after the first upcoming kickoff time.
+* 3. Update match stats.
+    * 3a. Fetch matches for current date.
+    * 3b. Find active matches (Kickoff time has passed, status is not finished)    
+    * 3c. If there are active matches, update them.
+      * 3ca. For each active match, download match file.
+      * 3cb. Parse match file, read match stats.
+      * 3cc. Upload match json.
+          3cca. For each missing player, insert new player.
+          3ccb. Repeat until no missing players.
+    * 3d. If there are active matches after updates, schedule new update in REFRESH_RATE minutes.
+    * 3e. If there are no active matches after updates schedule new update REFRESH_RATE minutes after the first upcoming kickoff time.
 
-5a. Finalize match stats.
-    5a. Fetch matches for yesterday.
-    * 5b. For each match, download match file.
-    * 5c. Parse match file, read match stats.
-    * 5d. Upload match json.
-    5e. Finish match day.
-
-5b. Finish match day.
-    5a. Fetch current match day.
-    5b. Fetch all matches.
-    5c. If all match dates are < today - 1, finish match day.
-      5ca. Update all match and D11 match previous goals and points.
+4a. Finalize match stats.
+    4a. Fetch matches for yesterday.
+    * 4b. For each match, download match file.
+    * 4c. Parse match file, read match stats.
+    * 4d. Upload match json.
+    4e. Finish match day.
+      4ea. Fetch current match day.
+      4eb. Fetch all matches.
+      4ec. If all match dates are < today - 1, finish match day.
+        4eca. Update all match and D11 match previous goals and points.

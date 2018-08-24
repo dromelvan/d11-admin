@@ -117,7 +117,10 @@ public class Match extends PersistentD11Model {
 	}
 
 	public LocalDateTime getLocalDateTime() {
-	    LocalDateTime localDateTime= LocalDateTime.parse(getDatetime().replace("Z", ""));
-	    return localDateTime;
+	    if(getDatetime() != null) {
+    	    LocalDateTime localDateTime= LocalDateTime.parse(getDatetime().replace("Z", "").replace(" ", "T"));
+    	    return localDateTime;
+	    }
+	    return null;
 	}
 }

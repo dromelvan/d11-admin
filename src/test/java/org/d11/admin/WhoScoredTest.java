@@ -22,7 +22,6 @@ import org.d11.admin.write.whoscored.WhoScoredPlayerWriter;
 import org.d11.api.v1.D11API;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -151,7 +150,7 @@ public class WhoScoredTest {
 		d11Api.login("dromelvan@fake.email.com", "password");
 	}
 
-	//@Test
+	// @Test
 	public void updateMatchDates(D11API d11API, UpdateMatchDateTimesTask task) {
 	    d11API.login("dromelvan@fake.email.com", "password");
 		if(task.execute()) {
@@ -187,7 +186,7 @@ public class WhoScoredTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void updateMatchStats(D11API d11Api, UpdateMatchStatsTask task) {
 	    d11Api.login("dromelvan@fake.email.com", "password");
 	    Match match = d11Api.getMatch(4940);
