@@ -7,6 +7,9 @@ import org.d11.api.v1.D11API;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +44,17 @@ public class D11AdminModule extends AbstractModule {
             logger.error("Error when creating WebDriver:", e);
         }
         return null;
+	}
+
+	@Provides
+	@Singleton
+	public Scheduler provideScheduler() {
+	    try {
+	        return StdSchedulerFactory.getDefaultScheduler();
+	    } catch(SchedulerException e) {
+	        logger.error("Could not bind Quartz scheduler.", e);
+	        return null;
+	    }
 	}
 }
 

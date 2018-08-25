@@ -15,4 +15,12 @@ public class PersistentD11Model extends D11Model {
 		this.id = id;
 	}
 
+	@Override
+	public boolean equals(Object object) {
+	    if(object instanceof PersistentD11Model) {
+	        PersistentD11Model persistentD11Model = (PersistentD11Model)object;
+	        return getClass().equals(persistentD11Model.getClass()) && getId() == persistentD11Model.getId();
+	    }
+	    return false;
+	}
 }

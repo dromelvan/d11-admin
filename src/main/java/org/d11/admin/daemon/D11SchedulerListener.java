@@ -19,7 +19,7 @@ public class D11SchedulerListener extends SchedulerListenerSupport {
                 logger.info("Scheduled simple trigger for job {}.{}. Fire time {}, repeat count {}.", simpleTrigger.getJobKey().getGroup(), simpleTrigger.getJobKey().getName(), simpleTrigger.getNextFireTime(), simpleTrigger.getRepeatCount());
             } else if(trigger instanceof CronTrigger) {
                 CronTrigger cronTrigger = (CronTrigger)trigger;
-                logger.info("Scheduled cron trigger for job {}.{}. Cron expression {}.", cronTrigger.getJobKey().getGroup(), cronTrigger.getJobKey().getName(), cronTrigger.getCronExpression());
+                logger.info("Scheduled cron trigger for job {}.{}. Cron expression {}. Next fire time {}.", cronTrigger.getJobKey().getGroup(), cronTrigger.getJobKey().getName(), cronTrigger.getCronExpression(), cronTrigger.getNextFireTime());
             }
         }
     }

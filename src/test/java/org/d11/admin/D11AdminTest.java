@@ -76,7 +76,7 @@ public class D11AdminTest {
         }
     }
 
-    //@Test
+    @Test
     public void d11Daemon(D11Daemon d11Daemon) {
         d11Daemon.start();
         while(true) {
@@ -84,7 +84,7 @@ public class D11AdminTest {
         }
     }
 
-    @Test
+    //@Test
     public void date() {
         String a = "2017-05-21T17:00:00.000Z";
         String b = "2017-05-21 17:00";

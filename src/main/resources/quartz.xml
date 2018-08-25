@@ -5,12 +5,6 @@
 	xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData http://www.quartz-scheduler.org/xml/job_scheduling_data_1_8.xsd"
 	version="1.8">
 	<schedule>
-		<job>
-			<name>hello-world</name>
-            <group>TEST</group>            
-			<job-class>org.d11.admin.daemon.HelloWorldJob</job-class>
-		</job>
-        
         <job>
             <name>update-match-date-times</name>
             <group>D11</group>
@@ -21,27 +15,48 @@
             <group>D11</group>
             <job-class>org.d11.admin.daemon.UpdateMatchStatsJob</job-class>
         </job>
-                
-		<trigger>
-			<cron>
-				<name>hello-world-trigger</name>
-                <group>TEST</group>
-				<job-name>hello-world</job-name>
-                <job-group>TEST</job-group>
-				<cron-expression>5,10,15,20,25,30,35,40,45,50,55 * * * * ?</cron-expression>
-			</cron>
-		</trigger>        
-        <!-- Simple triggers for jobs that should run once at startup. -->
+        <!-- 	
+        <job>
+            <name>finalize-match-stats</name>
+            <group>D11</group>
+            <job-class>org.d11.admin.daemon.FinalizeMatchStatsJob</job-class>
+        </job>
+        -->                
+        <!-- Simple triggers for jobs that should run once at startup. --> 
         <trigger>
             <simple>
-                <name>update-match-stats-trigger</name>
+                <name>update-match-stats-startup-trigger</name>
                 <group>D11</group>
                 <job-name>update-match-stats</job-name>
                 <job-group>D11</job-group>
                 <repeat-count>0</repeat-count>
                 <repeat-interval>0</repeat-interval>
             </simple>
+        </trigger>
+        <!--
+        <trigger>
+            <simple>
+                <name>finalize-match-stats-startup-trigger</name>
+                <group>D11</group>
+                <job-name>finalize-match-stats</job-name>
+                <job-group>D11</job-group>
+                <repeat-count>0</repeat-count>
+                <repeat-interval>0</repeat-interval>
+            </simple>
+        </trigger>
+        -->
+        <!--
+        <trigger>
+            <simple>
+                <name>update-match-date-times-startup-trigger</name>
+                <group>D11</group>
+                <job-name>update-match-date-times</job-name>
+                <job-group>D11</job-group>
+                <repeat-count>0</repeat-count>
+                <repeat-interval>0</repeat-interval>
+            </simple>
         </trigger>   
+        -->        
         <!-- Cron triggers for other jobs. -->                
         <trigger>
             <cron>
@@ -49,8 +64,17 @@
                 <group>D11</group>
                 <job-name>update-match-date-times</job-name>
                 <job-group>D11</job-group>
-                <cron-expression>20 3 * * * ?</cron-expression>
+                <cron-expression>0 0 3 * * ?</cron-expression>
             </cron>
-        </trigger>     
-	</schedule>
+        </trigger>
+        <trigger>
+            <cron>
+                <name>update-match-stats-trigger</name>
+                <group>D11</group>
+                <job-name>update-match-stats</job-name>
+                <job-group>D11</job-group>
+                <cron-expression>0 0 6 * * ?</cron-expression>
+            </cron>
+        </trigger>                  
+    </schedule>
 </job-scheduling-data>
