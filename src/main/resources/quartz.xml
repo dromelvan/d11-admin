@@ -14,15 +14,14 @@
             <name>update-match-stats</name>
             <group>D11</group>
             <job-class>org.d11.admin.daemon.UpdateMatchStatsJob</job-class>
-        </job>
-        <!-- 	
+        </job> 	
         <job>
             <name>finalize-match-stats</name>
             <group>D11</group>
             <job-class>org.d11.admin.daemon.FinalizeMatchStatsJob</job-class>
-        </job>
-        -->                
-        <!-- Simple triggers for jobs that should run once at startup. --> 
+        </job>                
+        <!-- Simple triggers for jobs that should run once at startup. -->
+        <!--  
         <trigger>
             <simple>
                 <name>update-match-stats-startup-trigger</name>
@@ -33,7 +32,7 @@
                 <repeat-interval>0</repeat-interval>
             </simple>
         </trigger>
-        <!--
+        -->
         <trigger>
             <simple>
                 <name>finalize-match-stats-startup-trigger</name>
@@ -44,7 +43,6 @@
                 <repeat-interval>0</repeat-interval>
             </simple>
         </trigger>
-        -->
         <!--
         <trigger>
             <simple>

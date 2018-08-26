@@ -196,6 +196,25 @@ public class D11API extends D11AdminBaseObject {
         return null;
 	}
 
+    public MatchDay finishMatchDay(int matchDayId) {
+        try {
+            FinishMatchDayRequest finishMatchDayRequest = new FinishMatchDayRequest(matchDayId);
+            finishMatchDayRequest.setAuthenticationParameters(this.authenticationParameters);
+            finishMatchDayRequest.execute();
+            if (finishMatchDayRequest.hasError()) {
+                logger.error("Could not finish match day {}.", matchDayId);
+                return null;
+            } else {
+                return finishMatchDayRequest.getMatchDay();
+            }
+        } catch (MalformedURLException e) {
+            logger.error("Malformed URL in finish match day request:", e);
+        } catch (IOException e) {
+            logger.error("IOException when executing match day request.", e);
+        }
+        return null;
+    }
+
 	public Match getMatch(int matchId) {
 		try {
 			MatchRequest matchRequest = new MatchRequest(matchId);
