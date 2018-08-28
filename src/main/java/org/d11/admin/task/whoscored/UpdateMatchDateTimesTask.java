@@ -38,13 +38,15 @@ public class UpdateMatchDateTimesTask extends WhoScoredDownloaderTask<List<Match
 
                 File htmlFile = downloader.download();
 
-                WSMatch wsMatch = parser.parse(htmlFile);
+                if(htmlFile != null) {
+                    WSMatch wsMatch = parser.parse(htmlFile);
 
-                if(!match.getLocalDateTime().equals(wsMatch.getLocalDateTime())) {
-                    match = getD11Api().updateMatchDateTime(match.getId(), wsMatch.getDatetime());
-                    if (match != null) {
-                        logger.debug("Changed match datetime for match {} to {}.", match.getId(), match.getDatetime());
-                        getResult().add(match);
+                    if(!match.getLocalDateTime().equals(wsMatch.getLocalDateTime())) {
+                        match = getD11Api().updateMatchDateTime(match.getId(), wsMatch.getDatetime());
+                        if (match != null) {
+                            logger.debug("Changed match datetime for match {} to {}.", match.getId(), match.getDatetime());
+                            getResult().add(match);
+                        }
                     }
                 }
             }
