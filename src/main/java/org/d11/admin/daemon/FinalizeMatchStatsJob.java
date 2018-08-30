@@ -35,6 +35,7 @@ public class FinalizeMatchStatsJob extends D11DaemonJob<UpdateMatchStatsTask> {
 
             updateTask.setMatch(match);
             updateTask.setUpdatePreviousPointsAndGoals(updatePreviousPointsAndGoals);
+            updateTask.setFinish(true);
 
             if(updateTask.execute()) {
                 MatchDay matchDay = getD11Api().getMatchDayBySeasonAndMatchDayNumber(match.getSeasonName(), match.getMatchDayNumber());

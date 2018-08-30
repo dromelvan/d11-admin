@@ -274,7 +274,7 @@ public class D11API extends D11AdminBaseObject {
         for(Match match : getMatchesByDate(now.toLocalDate())) {
             LocalDateTime kickoff = LocalDateTime.parse(match.getDatetime().replace("Z", ""));
 
-            if(kickoff.isBefore(now) && match.getStatus() != 2) {
+            if(kickoff.isBefore(now) && match.getStatus() != 2 && match.getStatus() != 3) {
                 matches.add(match);
             }
         }
@@ -372,10 +372,10 @@ public class D11API extends D11AdminBaseObject {
 		return null;
 	}
 
-	public UpdateMatchStatsResult updateMatchStats(Match match, File file, boolean updatePreviousPointsAndGoals) {
+	public UpdateMatchStatsResult updateMatchStats(Match match, File file, boolean updatePreviousPointsAndGoals, boolean finish) {
         try {
             String json = new String(Files.readAllBytes(Paths.get(file.getPath())));
-            UpdateMatchStatsRequest updateMatchStatsRequest = new UpdateMatchStatsRequest(match.getId(), json, updatePreviousPointsAndGoals);
+            UpdateMatchStatsRequest updateMatchStatsRequest = new UpdateMatchStatsRequest(match.getId(), json, updatePreviousPointsAndGoals, finish);
             updateMatchStatsRequest.setAuthenticationParameters(this.authenticationParameters);
             updateMatchStatsRequest.execute();
             if (updateMatchStatsRequest.hasError()) {

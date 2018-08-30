@@ -24,7 +24,7 @@ Use cases:
     * 3d. If there are active matches after updates, schedule new update in REFRESH_RATE minutes.
     * 3e. If there are no active matches after updates schedule new update REFRESH_RATE minutes after the first upcoming kickoff time.
 
-4a. Finalize match stats.
+* 4a. Finalize match stats.
     * 4a. Fetch matches for yesterday.
       * 4b. For each match, download match file.
       * 4c. Parse match file, read match stats.
@@ -32,5 +32,5 @@ Use cases:
     4e. Finish match day.
       * 4ea. Fetch all match days for matches that were finished.
       * 4eb. For each match day, fetch all matches.
-      4ec. If all match dates are <= today - 1, finish match day.
-        4eca. Update all match and D11 match previous goals and points.
+      * 4ec. If all match dates are <= today - 1, finish match day.
+        * 4eca. Update all match and D11 match previous goals and points.

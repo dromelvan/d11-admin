@@ -21,7 +21,6 @@
             <job-class>org.d11.admin.daemon.FinalizeMatchStatsJob</job-class>
         </job>                
         <!-- Simple triggers for jobs that should run once at startup. -->
-        <!--  
         <trigger>
             <simple>
                 <name>update-match-stats-startup-trigger</name>
@@ -32,7 +31,7 @@
                 <repeat-interval>0</repeat-interval>
             </simple>
         </trigger>
-        -->
+        <!-- 
         <trigger>
             <simple>
                 <name>finalize-match-stats-startup-trigger</name>
@@ -43,6 +42,7 @@
                 <repeat-interval>0</repeat-interval>
             </simple>
         </trigger>
+        -->
         <!--
         <trigger>
             <simple>
@@ -73,6 +73,15 @@
                 <job-group>D11</job-group>
                 <cron-expression>0 0 6 * * ?</cron-expression>
             </cron>
-        </trigger>                  
+        </trigger>
+        <trigger>
+            <cron>
+                <name>finalize-match-stats-trigger</name>
+                <group>D11</group>
+                <job-name>finalize-match-stats</job-name>
+                <job-group>D11</job-group>
+                <cron-expression>0 0 18 * * ?</cron-expression>
+            </cron>
+        </trigger>                                                
     </schedule>
 </job-scheduling-data>

@@ -19,6 +19,7 @@ public class UpdateMatchStatsTask extends WhoScoredDownloaderTask<UpdateMatchSta
 
     private Match match;
     private boolean updatePreviousPointsAndGoals;
+    private boolean finish;
     @Inject
     private WhoScoredMatchParser parser;
     @Inject
@@ -39,6 +40,14 @@ public class UpdateMatchStatsTask extends WhoScoredDownloaderTask<UpdateMatchSta
 
     public void setUpdatePreviousPointsAndGoals(boolean updatePreviousPointsAndGoals) {
         this.updatePreviousPointsAndGoals = updatePreviousPointsAndGoals;
+    }
+
+    public boolean isFinish() {
+        return finish;
+    }
+
+    public void setFinish(boolean finish) {
+        this.finish = finish;
     }
 
     @Override
@@ -64,7 +73,7 @@ public class UpdateMatchStatsTask extends WhoScoredDownloaderTask<UpdateMatchSta
 
                     logger.debug("Uploading match stats to {}.", getProperty(D11AdminProperties.API_HOST));
 
-                    UpdateMatchStatsResult updateMatchStatsResult = getD11Api().updateMatchStats(match, jsonFile, updatePreviousPointsAndGoals);
+                    UpdateMatchStatsResult updateMatchStatsResult = getD11Api().updateMatchStats(match, jsonFile, updatePreviousPointsAndGoals, finish);
 
                     if(updateMatchStatsResult.isValid()) {
                         for(String dataUpdate : updateMatchStatsResult.getDataUpdates()) {
