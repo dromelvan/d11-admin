@@ -76,7 +76,7 @@ public class D11AdminTest {
         }
     }
 
-    @Test
+    //@Test
     public void d11Daemon(D11Daemon d11Daemon) {
         d11Daemon.start();
         while(true) {

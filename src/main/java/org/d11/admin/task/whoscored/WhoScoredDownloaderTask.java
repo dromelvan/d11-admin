@@ -15,8 +15,4 @@ public abstract class WhoScoredDownloaderTask<T extends Object, U extends Seleni
         return provider.get();
     }
 
-    public void close() {
-        getDownloader().close();
-    }
-
 }

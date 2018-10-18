@@ -37,10 +37,6 @@ public class UpdateCommand extends D11Command {
                 task.setUpdatePreviousPointsAndGoals(updatePreviousPointsAndGoals);
 
                 task.execute();
-
-                if(this.matchIds.indexOf(matchId) == this.matchIds.size() - 1) {
-                    task.close();
-                }
     	    }
 	    }
 	}

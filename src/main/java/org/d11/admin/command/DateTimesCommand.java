@@ -31,7 +31,7 @@ public class DateTimesCommand extends D11Command {
             if(!task.execute()) {
                 logger.error("Could not change datetimes for all matches.");
             }
-            task.close();
+
             for(Match match : task.getResult()) {
                 logger.info("Changed datetime for match {} to {}.", match.getId(), match.getDatetime());
             }

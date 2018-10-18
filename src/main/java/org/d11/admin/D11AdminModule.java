@@ -27,7 +27,6 @@ public class D11AdminModule extends AbstractModule {
 	}
 
 	@Provides
-	@Singleton
 	public WebDriver provideWebDriver() {
         try {
             FirefoxProfile firefoxProfile = new FirefoxProfile();

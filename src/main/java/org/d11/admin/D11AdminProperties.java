@@ -25,12 +25,19 @@ public class D11AdminProperties extends Properties {
         try {
             InputStream input = getClass().getClassLoader().getResourceAsStream("d11-admin.properties");
             load(new InputStreamReader(input, "UTF-8"));
-            input = getClass().getClassLoader().getResourceAsStream("secrets.properties");
-            load(new InputStreamReader(input, "UTF-8"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (NullPointerException e) {
             logger.error("Could not load {}.", "d11-admin.properties");
         }
+        
+        try {
+            InputStream input = getClass().getClassLoader().getResourceAsStream("secrets.properties");
+            load(new InputStreamReader(input, "UTF-8"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            logger.error("Could not load {}.", "secrets.properties");
+        }        
     }
 }

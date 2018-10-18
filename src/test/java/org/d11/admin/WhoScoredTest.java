@@ -22,6 +22,7 @@ import org.d11.admin.write.whoscored.WhoScoredPlayerWriter;
 import org.d11.api.v1.D11API;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -41,7 +42,6 @@ public class WhoScoredTest {
 	    }
 
 	    @Provides
-	    @Singleton
 	    public WebDriver provideWebDriver() {
 	        try {
 	            FirefoxProfile firefoxProfile = new FirefoxProfile();
@@ -150,14 +150,13 @@ public class WhoScoredTest {
 		d11Api.login("dromelvan@fake.email.com", "password");
 	}
 
-	//@Test
+	@Test
 	public void updateMatchDates(D11API d11API, UpdateMatchDateTimesTask task) {
-	    d11API.login("dromelvan@fake.email.com", "password");
+	    d11API.login("dromelvan@aland.net", "mj521jmw0w");
 		if(task.execute()) {
             List<Match> matches = task.getResult();
             matches.stream().forEach(System.out::println);
 		}
-		task.close();
 	}
 
 	// @Test
@@ -169,7 +168,6 @@ public class WhoScoredTest {
 				System.out.println(file);
 			}
 		}
-		task.close();
 	}
 
 	// @Test
@@ -188,12 +186,11 @@ public class WhoScoredTest {
 
 	//@Test
 	public void updateMatchStats(D11API d11Api, UpdateMatchStatsTask task) {
-	    d11Api.login("dromelvan@fake.email.com", "password");
+	    d11Api.login("dromelvan@a", "password");
 	    Match match = d11Api.getMatch(4940);
 	    task.setMatch(match);
 	    if(task.execute()) {
 	        System.out.println(task.getResult());
 	    }
-	    task.close();
 	}
 }

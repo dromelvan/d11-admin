@@ -18,10 +18,6 @@ public class SeleniumDownloader extends D11Downloader {
     private Provider<WebDriver> provider;
 	private final static Logger logger = LoggerFactory.getLogger(SeleniumDownloader.class);
 
-	public void close() {
-	    provider.get().close();
-	}
-
 	@Override
 	public File download() {
 		String formattedUrl = formatUrl(getUrl());
@@ -44,7 +40,7 @@ public class SeleniumDownloader extends D11Downloader {
 			} catch(TimeoutException e) {
 			    logger.error("Timeout when downloading URL {}.", formattedUrl);
 			}
-
+			webDriver.close();
 			return getFile();
 		} catch (Exception e) {
 			logger.error("Error when dowloading URL {}.", formattedUrl);
