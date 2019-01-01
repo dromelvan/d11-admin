@@ -7,6 +7,8 @@ import org.d11.admin.task.whoscored.UpdateMatchStatsTask;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
+import com.beust.jcommander.converters.BooleanConverter;
+import com.beust.jcommander.converters.CommaParameterSplitter;
 import com.beust.jcommander.converters.IntegerConverter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -14,8 +16,10 @@ import com.google.inject.Provider;
 @Parameters(commandDescription = "Update stats for a match.")
 public class UpdateCommand extends D11Command {
 
-    @Parameter(names = { "-matchIds" }, description = "D11 match ids for the matches we want to update.", required = true, converter = IntegerConverter.class, splitter = SpaceSplitter.class)
+    @Parameter(names = { "-m", "-matchIds" }, description = "Comma separated list of ids for the D11 matches we want to update.", required = true, converter = IntegerConverter.class, splitter = CommaParameterSplitter.class)
     private List<Integer> matchIds;
+    @Parameter(names = { "-f", "-finish" }, description = "Finish the matches after we have updated them.", required = false, converter = BooleanConverter.class)
+    private boolean finish = false;    
 	private Provider<UpdateMatchStatsTask> taskProvider;
 
 	@Inject
@@ -35,6 +39,7 @@ public class UpdateCommand extends D11Command {
                 Match match = getD11Api().getMatch(matchId);
                 task.setMatch(match);
                 task.setUpdatePreviousPointsAndGoals(updatePreviousPointsAndGoals);
+                task.setFinish(this.finish);
 
                 task.execute();
     	    }

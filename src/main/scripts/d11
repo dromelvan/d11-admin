@@ -1,26 +1,19 @@
 #!/bin/bash
-command=$1 
+command=$1
 if [[ $command = "matchday" ]]
 then
-    match_day_number=$2
-    if [[ -n "${match_day_number#"${match_day_number%%[![:space:]]*}"}" ]]
-    then
-        season=$3
-        if [[ -n "${season#"${season%%[![:space:]]*}"}" ]]
-        then
-            java -cp 'lib/*:config' org.d11.admin.D11Admin $command -number $2 -season $3
-        else
-            java -cp 'lib/*:config' org.d11.admin.D11Admin $command -number $2
-        fi
-    else
-        java -cp 'lib/*:config' org.d11.admin.D11Admin $command
-    fi
+    shift
+    params=$@
+    java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command $params
 elif [[ $command = "update" ]]
 then
     shift
-    match_ids=$@
-    java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command -matchIds "$match_ids"
+    params=$@
+    java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command $params
 elif [[ $command = "datetimes" ]]
+then
+    java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command
+elif [[ $command = "daemon" ]]
 then
     java -cp 'lib/*:config' org.d11.admin.D11Admin -password $command
 else

@@ -15,26 +15,31 @@ public class UpdateMatchStatsJob extends D11DaemonJob<UpdateMatchStatsTask> {
     public void doExecute(UpdateMatchStatsTask task) {
         logger.info("Updating match stats.");
 
-        List<Match> matches = getD11Api().getActiveMatches();
-        if(!matches.isEmpty()) {
-            for(Match match : matches) {
-                boolean updatePreviousPointsAndGoals = matches.indexOf(match) == 0;
-
-                task.setMatch(match);
-                task.setUpdatePreviousPointsAndGoals(updatePreviousPointsAndGoals);
-
-                task.execute();
-            }
-            matches = getD11Api().getActiveMatches();
-        }
-
-        if(!matches.isEmpty()) {
-            reschedule("update-active-match-stats");
-        } else {
-            Match match = getD11Api().getUpcomingMatch();
-            if(match != null) {
-                reschedule("update-upcoming-match-stats", match.getLocalDateTime());
-            }
+        try {
+	        List<Match> matches = getD11Api().getActiveMatches();
+	        if(!matches.isEmpty()) {
+	            for(Match match : matches) {
+	                boolean updatePreviousPointsAndGoals = matches.indexOf(match) == 0;
+	
+	                task.setMatch(match);
+	                task.setUpdatePreviousPointsAndGoals(updatePreviousPointsAndGoals);
+	
+	                task.execute();
+	            }
+	            matches = getD11Api().getActiveMatches();
+	        }
+	
+	        if(!matches.isEmpty()) {
+	            reschedule("update-active-match-stats");
+	        } else {
+	            Match match = getD11Api().getUpcomingMatch();
+	            if(match != null) {
+	                reschedule("update-upcoming-match-stats", match.getLocalDateTime());
+	            }
+	        }
+        } catch(Exception e) {
+        	logger.error("Match stats update failed. Rescheduling job.", e);
+        	reschedule("update-active-match-stats");
         }
 
         logger.info("Updating match stats finished.");
