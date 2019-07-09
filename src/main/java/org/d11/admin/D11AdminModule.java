@@ -1,10 +1,13 @@
 package org.d11.admin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.d11.api.v1.D11API;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.quartz.Scheduler;
@@ -29,15 +32,7 @@ public class D11AdminModule extends AbstractModule {
 	@Provides
 	public WebDriver provideWebDriver() {
         try {
-            FirefoxProfile firefoxProfile = new FirefoxProfile();
-            // Ublock Origin == good.
-            File file = new File("lib/uBlock0@raymondhill.net.xpi");
-            if(!file.exists()) {
-                file = new File("src/main/resources/uBlock0@raymondhill.net.xpi");
-            }
-            firefoxProfile.addExtension(file);
-            WebDriver webDriver = new FirefoxDriver(firefoxProfile);
-            webDriver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
+        	WebDriver webDriver = provideChromeDriver();
             return webDriver;
         } catch(Exception e) {
             logger.error("Error when creating WebDriver:", e);
@@ -45,6 +40,42 @@ public class D11AdminModule extends AbstractModule {
         return null;
 	}
 
+	private WebDriver provideChromeDriver() {
+		String driver = "";
+		if(SystemUtils.IS_OS_MAC) {			
+			driver = "chromedriver-mac";
+		} else if(SystemUtils.IS_OS_LINUX) {
+			driver = "chromedriver-linux";
+		} else if(SystemUtils.IS_OS_WINDOWS) {
+			driver = "chromedriver-win.exe";
+		}
+
+        File file = new File("lib/chromedriver/chromedriver-linux");
+        if(file.exists()) {
+        	System.setProperty("webdriver.chrome.driver", "lib/chromedriver/" + driver);
+        } else {
+        	System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver/" + driver);
+        }
+
+		WebDriver webDriver = new ChromeDriver();
+		webDriver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
+		return null;
+	}
+	
+//	@SuppressWarnings("unused")
+//	private WebDriver provideFirefoxWebDriver() throws IOException {
+//        FirefoxProfile firefoxProfile = new FirefoxProfile();
+//        // Ublock Origin == good.
+//        File file = new File("lib/uBlock0@raymondhill.net.xpi");
+//        if(!file.exists()) {
+//            file = new File("src/main/resources/uBlock0@raymondhill.net.xpi");
+//        }
+//        firefoxProfile.addExtension(file);
+//        WebDriver webDriver = new FirefoxDriver(firefoxProfile);
+//        webDriver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
+//        return webDriver;		
+//	}
+	
 	@Provides
 	@Singleton
 	public Scheduler provideScheduler() {

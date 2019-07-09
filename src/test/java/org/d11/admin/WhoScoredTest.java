@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.d11.admin.download.whoscored.WhoScoredMatchSeleniumDownloader;
 import org.d11.admin.download.whoscored.WhoScoredPlayerDownloader;
 import org.d11.admin.model.Match;
@@ -25,8 +26,7 @@ import org.jukito.JukitoRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.google.inject.Provider;
 import com.google.inject.Provides;
@@ -41,28 +41,60 @@ public class WhoScoredTest {
 	        bind(D11API.class).in(Singleton.class);
 	    }
 
-	    @Provides
-	    public WebDriver provideWebDriver() {
-	        try {
-	            FirefoxProfile firefoxProfile = new FirefoxProfile();
-	            // Ublock Origin == good.
-	            File file = new File("lib/uBlock0@raymondhill.net.xpi");
-	            if(!file.exists()) {
-	                file = new File("src/main/resources/uBlock0@raymondhill.net.xpi");
-	            }
-	            firefoxProfile.addExtension(file);
-	            WebDriver webDriver = new FirefoxDriver(firefoxProfile);
-	            webDriver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
-	            return webDriver;
-	        } catch(Exception e) {
-	            e.printStackTrace();
-	        }
-	        return null;
-	    }
+    	@Provides
+    	@Singleton
+    	public WebDriver provideWebDriver() {
+            try {
+            	WebDriver webDriver = provideChromeDriver();
+                return webDriver;
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+    	}
+        
+    	private WebDriver provideChromeDriver() {
+    		String driver = "";
+    		if(SystemUtils.IS_OS_MAC) {			
+    			driver = "chromedriver-mac";
+    		} else if(SystemUtils.IS_OS_LINUX) {
+    			driver = "chromedriver-linux";
+    		} else if(SystemUtils.IS_OS_WINDOWS) {
+    			driver = "chromedriver-win.exe";
+    		}
 
+            File file = new File("lib/chromedriver/" + driver);
+            if(file.exists()) {
+            	System.setProperty("webdriver.chrome.driver", "lib/chromedriver/" + driver);
+            } else {
+            	System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver/" + driver);
+            }
+
+    		WebDriver webDriver = new ChromeDriver();
+    		webDriver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
+    		return webDriver;
+    	}
 	}
 
-	//@Test
+//	@Test
+//	public void test() throws Exception {
+//		if(SystemUtils.IS_OS_MAC) {
+//			System.setProperty("webdriver.chrome.driver", "/Users/macke/Projects/d11-admin/src/main/resources/chromedriver/chromedriver-mac");
+//		} else if(SystemUtils.IS_OS_LINUX) {
+//			System.setProperty("webdriver.chrome.driver", "/Users/macke/Projects/d11-admin/src/main/resources/chromedriver/chromedriver-linux");
+//		}
+//		
+//		WebDriver driver = new ChromeDriver();
+//		
+//		driver.get("https://www.whoscored.com/Matches/1340257/Live/International-EURO-U-21-2019-Austria-U21-Germany-U21");
+//        Thread.sleep(5000);  // Let the user actually see something!
+//		System.out.println(driver.getPageSource()); 
+//        
+//        driver.quit();
+//		System.out.println("kek");
+//	}
+	
+	@Test
 	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader, Provider<WebDriver> provider) {
 		downloader.setWhoScoredId(1080516);
 		downloader.setSeason("2016-2017");
@@ -150,9 +182,9 @@ public class WhoScoredTest {
 		d11Api.login("dromelvan@fake.email.com", "password");
 	}
 
-	@Test
+	//@Test
 	public void updateMatchDates(D11API d11API, UpdateMatchDateTimesTask task) {
-	    d11API.login("dromelvan@aland.net", "mj521jmw0w");
+	    d11API.login("dromelvan@fake.email.com", "password");
 		if(task.execute()) {
             List<Match> matches = task.getResult();
             matches.stream().forEach(System.out::println);
@@ -186,7 +218,7 @@ public class WhoScoredTest {
 
 	//@Test
 	public void updateMatchStats(D11API d11Api, UpdateMatchStatsTask task) {
-	    d11Api.login("dromelvan@a", "password");
+	    d11Api.login("dromelvan@fake.email.com", "password");
 	    Match match = d11Api.getMatch(4940);
 	    task.setMatch(match);
 	    if(task.execute()) {
