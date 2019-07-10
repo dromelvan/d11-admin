@@ -27,6 +27,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.google.inject.Provider;
 import com.google.inject.Provides;
@@ -63,38 +65,25 @@ public class WhoScoredTest {
     			driver = "chromedriver-win.exe";
     		}
 
-            File file = new File("lib/chromedriver/" + driver);
-            if(file.exists()) {
+            File chromeDriverFile = new File("lib/chromedriver/" + driver);
+            File uBlockFile = new File("lib/uBlock0@raymondhill.net.crx");
+            if(chromeDriverFile.exists()) {
             	System.setProperty("webdriver.chrome.driver", "lib/chromedriver/" + driver);
             } else {
             	System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver/" + driver);
+            	uBlockFile = new File("src/main/resources/uBlock0@raymondhill.net.crx");
             }
 
-    		WebDriver webDriver = new ChromeDriver();
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addExtensions(uBlockFile);            
+    		ChromeDriver webDriver = new ChromeDriver(chromeOptions);
+
     		webDriver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
     		return webDriver;
     	}
 	}
-
-//	@Test
-//	public void test() throws Exception {
-//		if(SystemUtils.IS_OS_MAC) {
-//			System.setProperty("webdriver.chrome.driver", "/Users/macke/Projects/d11-admin/src/main/resources/chromedriver/chromedriver-mac");
-//		} else if(SystemUtils.IS_OS_LINUX) {
-//			System.setProperty("webdriver.chrome.driver", "/Users/macke/Projects/d11-admin/src/main/resources/chromedriver/chromedriver-linux");
-//		}
-//		
-//		WebDriver driver = new ChromeDriver();
-//		
-//		driver.get("https://www.whoscored.com/Matches/1340257/Live/International-EURO-U-21-2019-Austria-U21-Germany-U21");
-//        Thread.sleep(5000);  // Let the user actually see something!
-//		System.out.println(driver.getPageSource()); 
-//        
-//        driver.quit();
-//		System.out.println("kek");
-//	}
 	
-	@Test
+//	@Test
 	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader, Provider<WebDriver> provider) {
 		downloader.setWhoScoredId(1080516);
 		downloader.setSeason("2016-2017");
@@ -103,7 +92,6 @@ public class WhoScoredTest {
 		if (htmlFile != null) {
 			System.out.println(htmlFile);
 		}
-		provider.get().close();
 	}
 
 	//@Test
@@ -116,15 +104,14 @@ public class WhoScoredTest {
 		System.out.println(match);
 	}
 
-	//@Test
+	@Test
 	public void writeWhoScoredMatch(WhoScoredMatchParser parser, WhoScoredMatchWriter writer) {
 		writer.setSeason("2018-2019");
 		writer.setMatchDayNumber(1);
 
         //File file = new File("src/test/resources/2018-2019/01/Newcastle United-Tottenham - Premier League 2018_2019 Live (FT).html");
         //File file = new File("src/test/resources/2018-2019/01/Newcastle United 1-2 Tottenham - Premier League 2018_2019 Live.html");
-        //File file = new File("src/test/resources/2018-2019/01/Manchester United-Leicester - Premier League 2018_2019 Live (85).html");
-        File file = new File("src/test/resources/2018-2019/01/Wolverhampton Wanderers-Everton - Premier League 2018_2019 Live ().html");
+        File file = new File("src/test/resources/2018-2019/01/Manchester United-Leicester - Premier League 2018_2019 Live (85).html");
 
 		Match match = parser.parse(file);
 		File jsonFile = writer.write(match);
