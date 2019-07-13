@@ -2,6 +2,7 @@ package org.d11.admin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -43,6 +44,14 @@ public class D11AdminModule extends AbstractModule {
 
 	private WebDriver provideChromeDriver() {
         ChromeOptions chromeOptions = new ChromeOptions();
+
+        chromeOptions.addArguments("user-data-dir=.chrome");
+        
+        HashMap<String, Object> images = new HashMap<String, Object>();
+        images.put("images", 2);
+        HashMap<String, Object> prefs = new HashMap<String, Object>();
+        prefs.put("profile.default_content_setting_values", images);
+        chromeOptions.setExperimentalOption("prefs", prefs);
         
 		String driver = "";
 		if(SystemUtils.IS_OS_MAC) {			

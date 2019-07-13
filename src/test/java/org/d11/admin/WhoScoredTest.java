@@ -1,6 +1,7 @@
 package org.d11.admin;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -28,7 +29,6 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.google.inject.Provider;
 import com.google.inject.Provides;
@@ -58,10 +58,18 @@ public class WhoScoredTest {
     	private WebDriver provideChromeDriver() {
             ChromeOptions chromeOptions = new ChromeOptions();            
             
+            HashMap<String, Object> images = new HashMap<String, Object>();
+            images.put("images", 2);
+            HashMap<String, Object> prefs = new HashMap<String, Object>();
+            prefs.put("profile.default_content_setting_values", images);
+            chromeOptions.setExperimentalOption("prefs", prefs);
+            
+            chromeOptions.addArguments("user-data-dir=.chrome");
+            
     		String driver = "";
     		if(SystemUtils.IS_OS_MAC) {			
     			driver = "chromedriver-mac";
-    			chromeOptions.setHeadless(true);
+    			//chromeOptions.setHeadless(true);
     		} else if(SystemUtils.IS_OS_LINUX) {
     			driver = "chromedriver-linux";
     		} else if(SystemUtils.IS_OS_WINDOWS) {
@@ -78,7 +86,7 @@ public class WhoScoredTest {
             	System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver/" + driver);
             	uBlockFile = new File("src/main/resources/uBlock0@raymondhill.net.crx");
             }
-            //chromeOptions.addExtensions(uBlockFile);
+            chromeOptions.addExtensions(uBlockFile);
             
             System.setProperty("webdriver.chrome.silentOutput", "true");            
             
