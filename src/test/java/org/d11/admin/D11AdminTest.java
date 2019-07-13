@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.quartz.Scheduler;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -58,16 +59,24 @@ public class D11AdminTest {
     			driver = "chromedriver-win.exe";
     		}
 
-            File file = new File("lib/chromedriver/chromedriver-linux");
-            if(file.exists()) {
+            File chromeDriverFile = new File("lib/chromedriver/" + driver);
+            File uBlockFile = new File("lib/uBlock0@raymondhill.net.crx");
+            if(chromeDriverFile.exists()) {
             	System.setProperty("webdriver.chrome.driver", "lib/chromedriver/" + driver);
             } else {
             	System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver/" + driver);
+            	uBlockFile = new File("src/main/resources/uBlock0@raymondhill.net.crx");
             }
+            
+            System.setProperty("webdriver.chrome.silentOutput", "true");
+            
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addExtensions(uBlockFile);            
+            
+    		ChromeDriver webDriver = new ChromeDriver(chromeOptions);
 
-    		WebDriver webDriver = new ChromeDriver();
     		webDriver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
-    		return null;
+    		return webDriver;
     	}
     	
     }

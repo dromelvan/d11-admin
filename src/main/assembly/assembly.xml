@@ -31,6 +31,7 @@
            <filtered>false</filtered>
             <includes>
                 <include>*.xpi</include>
+								<include>*.crx</include>
 								<include>chromedriver/*</include>
             </includes>
        </fileSet>

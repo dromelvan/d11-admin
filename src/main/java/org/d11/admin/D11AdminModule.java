@@ -42,13 +42,18 @@ public class D11AdminModule extends AbstractModule {
 	}
 
 	private WebDriver provideChromeDriver() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        
 		String driver = "";
 		if(SystemUtils.IS_OS_MAC) {			
 			driver = "chromedriver-mac";
+			chromeOptions.setHeadless(true);
 		} else if(SystemUtils.IS_OS_LINUX) {
 			driver = "chromedriver-linux";
 		} else if(SystemUtils.IS_OS_WINDOWS) {
 			driver = "chromedriver-win.exe";
+			chromeOptions.setHeadless(true);
+			chromeOptions.addArguments("disable-gpu");
 		}
 
         File chromeDriverFile = new File("lib/chromedriver/" + driver);
@@ -59,9 +64,10 @@ public class D11AdminModule extends AbstractModule {
         	System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver/" + driver);
         	uBlockFile = new File("src/main/resources/uBlock0@raymondhill.net.crx");
         }
-
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addExtensions(uBlockFile);            
+        //chromeOptions.addExtensions(uBlockFile);        
+        
+        System.setProperty("webdriver.chrome.silentOutput", "true");            
+        
 		ChromeDriver webDriver = new ChromeDriver(chromeOptions);
 
 		webDriver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
