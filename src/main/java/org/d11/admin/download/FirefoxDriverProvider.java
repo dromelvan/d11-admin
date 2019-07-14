@@ -29,7 +29,7 @@ public class FirefoxDriverProvider extends WebDriverProvider {
         } else {
         	System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver/" + driver);
         }
-        System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"false");
+        System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
         
 		FirefoxDriver firefoxDriver = new FirefoxDriver(firefoxOptions);
 		
