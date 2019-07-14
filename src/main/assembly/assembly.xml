@@ -33,6 +33,7 @@
                 <include>*.xpi</include>
 								<include>*.crx</include>
 								<include>chromedriver/*</include>
+								<include>geckodriver/*</include>
             </includes>
        </fileSet>
     </fileSets>
