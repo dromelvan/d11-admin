@@ -10,12 +10,11 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.io.Files;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 public class SeleniumDownloader extends D11Downloader {
 
     @Inject
-    private Provider<WebDriver> provider;
+    private WebDriverProvider provider;
 	private final static Logger logger = LoggerFactory.getLogger(SeleniumDownloader.class);
 
 	@Override
@@ -40,7 +39,7 @@ public class SeleniumDownloader extends D11Downloader {
 			} catch(TimeoutException e) {
 			    logger.error("Timeout when downloading URL {}.", formattedUrl);
 			}
-			webDriver.close();
+		    webDriver.quit();
 			return getFile();
 		} catch (Exception e) {
 			logger.error("Error when dowloading URL {}.", formattedUrl);
