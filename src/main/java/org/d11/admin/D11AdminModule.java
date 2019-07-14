@@ -1,20 +1,8 @@
 package org.d11.admin;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang3.SystemUtils;
 import org.d11.admin.download.FirefoxDriverProvider;
 import org.d11.admin.download.WebDriverProvider;
 import org.d11.api.v1.D11API;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
