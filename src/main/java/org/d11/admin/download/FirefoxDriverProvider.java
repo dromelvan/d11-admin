@@ -1,6 +1,7 @@
 package org.d11.admin.download;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.WebDriver;
@@ -19,8 +20,10 @@ public class FirefoxDriverProvider extends WebDriverProvider {
 		String driver = "";
 		if(SystemUtils.IS_OS_MAC) {			
 			driver = "geckodriver-mac";
+			System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
 		} else if(SystemUtils.IS_OS_LINUX) {
 			driver = "geckodriver-linux";
+			System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
 		}
 
         File geckoDriverFile = new File("lib/geckodriver/" + driver);
@@ -29,9 +32,10 @@ public class FirefoxDriverProvider extends WebDriverProvider {
         } else {
         	System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver/" + driver);
         }
-        System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null");
         
 		FirefoxDriver firefoxDriver = new FirefoxDriver(firefoxOptions);
+		
+		firefoxDriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		
 		return firefoxDriver;		
 	}
