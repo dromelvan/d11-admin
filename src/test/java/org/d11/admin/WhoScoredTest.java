@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.d11.admin.download.FirefoxDriverProvider;
 import org.d11.admin.download.WebDriverProvider;
+import org.d11.admin.download.whoscored.WhoScoredMatchHtmlUnitDownloader;
 import org.d11.admin.download.whoscored.WhoScoredMatchSeleniumDownloader;
 import org.d11.admin.download.whoscored.WhoScoredPlayerDownloader;
 import org.d11.admin.model.Match;
@@ -40,23 +41,24 @@ public class WhoScoredTest {
 
 	}
 	
-	@Test
-	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader) {
-		downloader.setWhoScoredId(1080516);
-		downloader.setSeason("2016-2017");
+	//@Test
+	public void downloadWhoScoredMatch(WhoScoredMatchHtmlUnitDownloader downloader) {
+		downloader.setWhoScoredId(1284745);
+		downloader.setSeason("2018-2019");
 		downloader.setMatchDay(38);
+
 		File htmlFile = downloader.download();
 		if (htmlFile != null) {
 			System.out.println(htmlFile);
 		}
 	}
 
-	//@Test
+	@Test
 	public void parseWhoScoredMatch(WhoScoredMatchParser parser) {
 		//File file = new File("src/test/resources/2018-2019/01/Newcastle United-Tottenham - Premier League 2018_2019 Live (FT).html");
 	    //File file = new File("src/test/resources/2018-2019/01/Newcastle United 1-2 Tottenham - Premier League 2018_2019 Live.html");
 	    //File file = new File("src/test/resources/2018-2019/01/Manchester United-Leicester - Premier League 2018_2019 Live (85).html");
-	    File file = new File("src/test/resources/2018-2019/01/Wolverhampton Wanderers-Everton - Premier League 2018_2019 Live ().html");
+	    File file = new File("download/whoscored.com/matches/2018-2019/38/Liverpool 4-0 West Ham - Premier League 2018_2019 Live.html");
 		Match match = parser.parse(file);
 		System.out.println(match);
 	}

@@ -1,6 +1,6 @@
 package org.d11.admin;
 
-import org.d11.admin.download.FirefoxDriverProvider;
+import org.d11.admin.download.ChromeDriverProvider;
 import org.d11.admin.download.WebDriverProvider;
 import org.d11.api.v1.D11API;
 import org.quartz.Scheduler;
@@ -20,7 +20,7 @@ public class D11AdminModule extends AbstractModule {
 	@Override
 	protected void configure() {
 	    bind(D11API.class).in(Singleton.class);
-	    bind(WebDriverProvider.class).to(FirefoxDriverProvider.class);
+	    bind(WebDriverProvider.class).to(ChromeDriverProvider.class);
 	}
 	
 	@Provides

@@ -1,8 +1,7 @@
 package org.d11.admin;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.d11.admin.download.skysports.SkySportsFixturesDownloader;
@@ -17,7 +16,7 @@ import org.junit.runner.RunWith;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.google.common.io.Files;
 import com.google.inject.Singleton;
 
 @RunWith(JukitoRunner.class)
@@ -31,13 +30,13 @@ public class SkySportsTest {
 
 	}
 	
-	@Test
-	public void downloadSkySportsFixtures(SkySportsFixturesDownloader downloader) {
+//	@Test
+	public void downloadSkySportsFixtures(SkySportsFixturesDownloader downloader) throws Exception {
 		downloader.setSeason("2019-2020");
 		File htmlFile = downloader.download();
 		if (htmlFile != null) {
 			System.out.println(htmlFile);
-		}		
+		}
 	}
 	
 	//@Test
@@ -49,10 +48,4 @@ public class SkySportsTest {
 	    }
 	}
 	
-	//@Test
-	public void foo() throws IOException {
-	    WebClient webClient = new WebClient(BrowserVersion.CHROME);
-	    HtmlPage myPage = webClient.getPage(new URL("https://www.whoscored.com/Matches/1285060/Live/England-Premier-League-2018-2019-Fulham-Newcastle-United"));
-	    //HtmlSubmitInput button = myPage.getn
-	}
 }
