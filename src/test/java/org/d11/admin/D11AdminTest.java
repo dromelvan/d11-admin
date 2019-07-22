@@ -1,26 +1,24 @@
 package org.d11.admin;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.d11.admin.daemon.D11Daemon;
+import org.d11.admin.download.FirefoxDriverProvider;
+import org.d11.admin.download.WebDriverProvider;
 import org.d11.admin.model.MatchDay;
+import org.d11.admin.model.TeamSquadChange;
 import org.d11.admin.task.ActivateMatchDayTask;
 import org.d11.admin.task.GenerateD11FixturesTask;
+import org.d11.admin.task.premierleague.FindTeamSquadChangesTask;
 import org.d11.api.v1.D11API;
 import org.joda.time.LocalDateTime;
 import org.jukito.JukitoModule;
 import org.jukito.JukitoRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.quartz.Scheduler;
 import org.quartz.impl.StdSchedulerFactory;
 
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
 @RunWith(JukitoRunner.class)
@@ -29,59 +27,17 @@ public class D11AdminTest {
     public static class D11APITestModule extends JukitoModule {
         @Override
         protected void configureTest() {
-            bind(D11API.class).in(Singleton.class);
+	        bind(D11API.class).in(Singleton.class);
+	        bind(WebDriverProvider.class).to(FirefoxDriverProvider.class);
             try {
                 bind(Scheduler.class).toInstance(StdSchedulerFactory.getDefaultScheduler());
             } catch(Exception e) {
                 e.printStackTrace();
             }
         }
-
-    	@Provides
-    	@Singleton
-    	public WebDriver provideWebDriver() {
-            try {
-            	WebDriver webDriver = provideChromeDriver();
-                return webDriver;
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-    	}
-        
-    	private WebDriver provideChromeDriver() {
-    		String driver = "";
-    		if(SystemUtils.IS_OS_MAC) {			
-    			driver = "chromedriver-mac";
-    		} else if(SystemUtils.IS_OS_LINUX) {
-    			driver = "chromedriver-linux";
-    		} else if(SystemUtils.IS_OS_WINDOWS) {
-    			driver = "chromedriver-win.exe";
-    		}
-
-            File chromeDriverFile = new File("lib/chromedriver/" + driver);
-            File uBlockFile = new File("lib/uBlock0@raymondhill.net.crx");
-            if(chromeDriverFile.exists()) {
-            	System.setProperty("webdriver.chrome.driver", "lib/chromedriver/" + driver);
-            } else {
-            	System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver/" + driver);
-            	uBlockFile = new File("src/main/resources/uBlock0@raymondhill.net.crx");
-            }
-            
-            System.setProperty("webdriver.chrome.silentOutput", "true");
-            
-            ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addExtensions(uBlockFile);            
-            
-    		ChromeDriver webDriver = new ChromeDriver(chromeOptions);
-
-    		webDriver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
-    		return webDriver;
-    	}
-    	
     }
 
-    @Test
+    //@Test
     public void test() {
         File file = new File("lib/chromedriver/chromedriver-linux");
         if(!file.exists()) {
@@ -90,6 +46,16 @@ public class D11AdminTest {
         System.out.println(file.exists());
         System.out.println(file);
     	
+    }
+    
+    @Test
+    public void findTeamSquadChanges(FindTeamSquadChangesTask task) {
+    	task.setPositionChanges(false);
+    	if(task.execute()) {
+    		for(TeamSquadChange teamSquadChange : task.getResult()) {
+    			System.out.println(teamSquadChange);
+    		}
+    	}
     }
     
     //@Test

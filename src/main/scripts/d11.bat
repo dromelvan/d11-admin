@@ -17,7 +17,7 @@ IF "%command%"=="matchday" (
 ) ELSE IF "%command%"=="match" (
     java -cp "lib/*;config" --add-opens java.base/java.lang=ALL-UNNAMED org.d11.admin.D11Admin -password $command -matchId %arg1%
 ) ELSE IF "%command%"=="datetimes" (
-    java -cp "lib/*;config" --add-opens java.base/java.lang=ALL-UNNAMED org.d11.admin.D11Admin -password $command
+    java -cp "lib/*;config" --add-opens java.base/java.lang=ALL-UNNAMED org.d11.admin.D11Admin $command
 ) ELSE (
-    java -cp "lib/*;config" --add-opens java.base/java.lang=ALL-UNNAMED org.d11.admin.D11Admin %command%
+    java -cp "lib/*;config" --add-opens java.base/java.lang=ALL-UNNAMED org.d11.admin.D11Admin %*
 )
