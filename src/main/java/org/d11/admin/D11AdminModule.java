@@ -1,12 +1,8 @@
 package org.d11.admin;
 
-import java.io.File;
-import java.util.concurrent.TimeUnit;
-
+import org.d11.admin.download.ChromeDriverProvider;
+import org.d11.admin.download.WebDriverProvider;
 import org.d11.api.v1.D11API;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
@@ -24,27 +20,9 @@ public class D11AdminModule extends AbstractModule {
 	@Override
 	protected void configure() {
 	    bind(D11API.class).in(Singleton.class);
+	    bind(WebDriverProvider.class).to(ChromeDriverProvider.class);
 	}
-
-	@Provides
-	public WebDriver provideWebDriver() {
-        try {
-            FirefoxProfile firefoxProfile = new FirefoxProfile();
-            // Ublock Origin == good.
-            File file = new File("lib/uBlock0@raymondhill.net.xpi");
-            if(!file.exists()) {
-                file = new File("src/main/resources/uBlock0@raymondhill.net.xpi");
-            }
-            firefoxProfile.addExtension(file);
-            WebDriver webDriver = new FirefoxDriver(firefoxProfile);
-            webDriver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
-            return webDriver;
-        } catch(Exception e) {
-            logger.error("Error when creating WebDriver:", e);
-        }
-        return null;
-	}
-
+	
 	@Provides
 	@Singleton
 	public Scheduler provideScheduler() {

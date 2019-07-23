@@ -22,8 +22,17 @@ public class FindTeamSquadChangesTask extends D11Task<List<TeamSquadChange>> {
 	private CreateTeamSquadFilesTask createTask;
 	@Inject
 	private TeamSquadReader reader;
+	private boolean positionChanges = false;
 	private File directory;
 	private final static Logger logger = LoggerFactory.getLogger(FindTeamSquadChangesTask.class);
+	
+	public boolean isPositionChanges() {
+		return positionChanges;
+	}
+
+	public void setPositionChanges(boolean positionChanges) {
+		this.positionChanges = positionChanges;
+	}
 
 	public File getDirectory() {
 		return directory;
@@ -58,15 +67,19 @@ public class FindTeamSquadChangesTask extends D11Task<List<TeamSquadChange>> {
 							for (Player player : currentTeamSquad.getPlayers()) {
 								if (!previousTeamSquad.contains(player)) {
 									TeamSquadChange teamSquadChange = new TeamSquadChange(currentTeamSquad.getTeam(), player, ChangeType.ADDED);
-									List<Player> players = getD11Api().getPlayersNamed(player.getName());
-									for (Player existingPlayer : players) {
-										if (player.equals(existingPlayer)) {
-											teamSquadChange.setNewPlayer(false);
-											break;
+									try {
+										List<Player> players = getD11Api().getPlayersNamed(player.getName());
+										for (Player existingPlayer : players) {
+											if (player.equals(existingPlayer)) {
+												teamSquadChange.setNewPlayer(false);
+												break;
+											}
 										}
+									} catch(Exception e) {
+										logger.error("Could not find players named {}.", player.getName());
 									}
 									teamSquadChanges.add(teamSquadChange);
-								} else {
+								} else if(isPositionChanges()) {
 									Player previousTeamSquadPlayer = previousTeamSquad.getPlayer(player);
 									if (!previousTeamSquadPlayer.getPosition().equals(player.getPosition())) {
 										teamSquadChanges.add(new TeamSquadChange(currentTeamSquad.getTeam(), player, ChangeType.CHANGED_POSITION));

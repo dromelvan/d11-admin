@@ -74,6 +74,7 @@ public class CreateMatchDayMatchFilesTask extends WhoScoredDownloaderTask<List<F
         List<File> jsonFiles = new ArrayList<File>();
 
         WhoScoredMatchSeleniumDownloader downloader = getDownloader();
+        downloader.setAutoQuit(false);
 
         for (int i = 0; i < matchDay.getMatchIds().length; ++i) {
             int matchId = matchDay.getMatchIds()[i];
@@ -102,6 +103,8 @@ public class CreateMatchDayMatchFilesTask extends WhoScoredDownloaderTask<List<F
             logger.debug("<== Match done.");
         }
 
+        downloader.quit();
+        
         setResult(jsonFiles);
         logger.debug("Match files done.");
 		return true;

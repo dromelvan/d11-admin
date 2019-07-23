@@ -20,19 +20,22 @@
             <includes>
                 <include>*.properties</include>
                 <include>*.xml</include>
-            </includes>        
+            </includes>
             <excludes>
                 <exclude>secrets.properties</exclude>
-            </excludes>                    
-       </fileSet>       
+            </excludes>
+       </fileSet>
        <fileSet>
            <directory>${basedir}/src/main/resources</directory>
            <outputDirectory>/lib</outputDirectory>
            <filtered>false</filtered>
             <includes>
                 <include>*.xpi</include>
-            </includes>        
-       </fileSet>              
+								<include>*.crx</include>
+								<include>chromedriver/*</include>
+								<include>geckodriver/*</include>
+            </includes>
+       </fileSet>
     </fileSets>
 	<files>
 		<file>
