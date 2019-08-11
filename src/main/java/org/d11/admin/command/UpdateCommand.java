@@ -1,5 +1,6 @@
 package org.d11.admin.command;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.d11.admin.model.Match;
@@ -31,18 +32,17 @@ public class UpdateCommand extends D11Command {
 	@Override
 	public void execute() {
 	    if(getD11Api().login(getUser(), getPassword())) {
+	    	List<Match> matches = new ArrayList<Match>();
     	    for(Integer matchId : this.matchIds) {
-    	        boolean updatePreviousPointsAndGoals = this.matchIds.indexOf(matchId) == 0;
-
-                UpdateMatchStatsTask task = this.taskProvider.get();
-
-                Match match = getD11Api().getMatch(matchId);
-                task.setMatch(match);
-                task.setUpdatePreviousPointsAndGoals(updatePreviousPointsAndGoals);
-                task.setFinish(this.finish);
-
-                task.execute();
+    	    	Match match = getD11Api().getMatch(matchId);
+    	    	matches.add(match);
     	    }
+            UpdateMatchStatsTask task = this.taskProvider.get();
+
+            task.setMatches(matches);
+            task.setFinish(this.finish);
+
+            task.execute();
 	    }
 	}
 

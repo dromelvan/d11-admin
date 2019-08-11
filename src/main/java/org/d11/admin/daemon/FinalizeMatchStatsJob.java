@@ -30,16 +30,13 @@ public class FinalizeMatchStatsJob extends D11DaemonJob<UpdateMatchStatsTask> {
         Map<Integer, MatchDay> matchDays = new HashMap<Integer, MatchDay>();
 
         logger.info("Found {} matches for date {}.", matches.size(), yesterday);
-        for(Match match : matches) {
-            boolean updatePreviousPointsAndGoals = matches.indexOf(match) == 0;
+        updateTask.setMatches(matches);
+        updateTask.setFinish(true);
 
-            updateTask.setMatch(match);
-            updateTask.setUpdatePreviousPointsAndGoals(updatePreviousPointsAndGoals);
-            updateTask.setFinish(true);
-
-            if(updateTask.execute()) {
-                MatchDay matchDay = getD11Api().getMatchDayBySeasonAndMatchDayNumber(match.getSeasonName(), match.getMatchDayNumber());
-                matchDays.put(matchDay.getId(), matchDay);
+        if(updateTask.execute()) {
+            for(Match match : matches) {
+	            MatchDay matchDay = getD11Api().getMatchDayBySeasonAndMatchDayNumber(match.getSeasonName(), match.getMatchDayNumber());
+	            matchDays.put(matchDay.getId(), matchDay);
             }
         }
 

@@ -18,14 +18,8 @@ public class UpdateMatchStatsJob extends D11DaemonJob<UpdateMatchStatsTask> {
         try {
 	        List<Match> matches = getD11Api().getActiveMatches();
 	        if(!matches.isEmpty()) {
-	            for(Match match : matches) {
-	                boolean updatePreviousPointsAndGoals = matches.indexOf(match) == 0;
-	
-	                task.setMatch(match);
-	                task.setUpdatePreviousPointsAndGoals(updatePreviousPointsAndGoals);
-	
-	                task.execute();
-	            }
+                task.setMatches(matches);	
+                task.execute();
 	            matches = getD11Api().getActiveMatches();
 	        }
 	

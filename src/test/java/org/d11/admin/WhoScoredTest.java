@@ -1,6 +1,7 @@
 package org.d11.admin;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.d11.admin.download.FirefoxDriverProvider;
@@ -166,7 +167,10 @@ public class WhoScoredTest {
 	public void updateMatchStats(D11API d11Api, UpdateMatchStatsTask task) {
 	    d11Api.login("dromelvan@fake.email.com", "password");
 	    Match match = d11Api.getMatch(4940);
-	    task.setMatch(match);
+	    List<Match> matches = new ArrayList<Match>();
+	    matches.add(match);
+	    
+	    task.setMatches(matches);
 	    if(task.execute()) {
 	        System.out.println(task.getResult());
 	    }
