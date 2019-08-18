@@ -19,8 +19,15 @@ public class D11AdminModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		D11AdminProperties d11AdminProperties = new D11AdminProperties();
+		try {
+			@SuppressWarnings("unchecked")
+			Class<? extends WebDriverProvider> webDriverProviderClass = (Class<? extends WebDriverProvider>)Class.forName(d11AdminProperties.getProperty(D11AdminProperties.WEBDRIVER_PROVIDER));
+	        bind(WebDriverProvider.class).to(webDriverProviderClass);
+		} catch(ClassNotFoundException e) {
+			logger.error("Could not find webdriver provider class.", e);
+		}
 	    bind(D11API.class).in(Singleton.class);
-	    bind(WebDriverProvider.class).to(ChromeDriverProvider.class);
 	}
 	
 	@Provides

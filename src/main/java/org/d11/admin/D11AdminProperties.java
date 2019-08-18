@@ -20,6 +20,7 @@ public class D11AdminProperties extends Properties {
     public final static String API_PASSWORD = "api.password";
     public final static String DAEMON_UPDATE_REFRESH_RATE = "daemon.update.refresh-rate";
     public final static String TEST_DATETIME_NOW = "test.datetime.now";
+    public final static String WEBDRIVER_PROVIDER = "webdriver.provider";
 
     public D11AdminProperties() {
         try {

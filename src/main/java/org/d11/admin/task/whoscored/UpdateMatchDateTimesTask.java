@@ -29,30 +29,37 @@ public class UpdateMatchDateTimesTask extends WhoScoredDownloaderTask<List<Match
             matches.addAll(getMatches(getD11Api().getUpcomingMatchDay()));
 
             WhoScoredMatchSeleniumDownloader downloader = getDownloader();
+            downloader.setAutoQuit(false);
+            boolean success = true;
 
-            for(Match match : matches) {
-                downloader.reset();
-                downloader.setWhoScoredId(match.getWhoScoredId());
-                downloader.setMatchDay(match.getMatchDayNumber());
-                downloader.setSeason(match.getSeasonName());
-
-                File htmlFile = downloader.download();
-
-                if(htmlFile != null) {
-                    WSMatch wsMatch = parser.parse(htmlFile);
-
-                    if(!match.getLocalDateTime().equals(wsMatch.getLocalDateTime())) {
-                        match = getD11Api().updateMatchDateTime(match.getId(), wsMatch.getDatetime());
-                        if (match != null) {
-                            logger.debug("Changed match datetime for match {} to {}.", match.getId(), match.getDatetime());
-                            getResult().add(match);
-                        }
-                    }
-                }
+            try {
+	            for(Match match : matches) {
+	                downloader.reset();
+	                downloader.setWhoScoredId(match.getWhoScoredId());
+	                downloader.setMatchDay(match.getMatchDayNumber());
+	                downloader.setSeason(match.getSeasonName());
+	
+	                File htmlFile = downloader.download();
+	
+	                if(htmlFile != null) {
+	                    WSMatch wsMatch = parser.parse(htmlFile);
+	
+	                    if(!match.getLocalDateTime().equals(wsMatch.getLocalDateTime())) {
+	                        match = getD11Api().updateMatchDateTime(match.getId(), wsMatch.getDatetime());
+	                        if (match != null) {
+	                            logger.debug("Changed match datetime for match {} to {}.", match.getId(), match.getDatetime());
+	                            getResult().add(match);
+	                        }
+	                    }
+	                }
+	            }
+            } catch(Exception e) {
+            	logger.error("Could not update match datetimes.", e);
+            	success = false;
             }
-
-            return true;
-        }
+            downloader.quit();
+            return success;
+        }        
 	    return false;
 	}
 

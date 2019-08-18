@@ -48,7 +48,7 @@ public class D11AdminTest {
     	
     }
     
-    @Test
+    //@Test
     public void findTeamSquadChanges(FindTeamSquadChangesTask task) {
     	task.setPositionChanges(false);
     	if(task.execute()) {

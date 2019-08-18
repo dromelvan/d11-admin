@@ -37,13 +37,23 @@ public class WhoScoredTest {
 	    @Override
 	    protected void configureTest() {
 	        bind(D11API.class).in(Singleton.class);
-	        bind(WebDriverProvider.class).to(FirefoxDriverProvider.class);
+	        
+			D11AdminProperties d11AdminProperties = new D11AdminProperties();
+			try {
+				@SuppressWarnings("unchecked")
+				Class<? extends WebDriverProvider> webDriverProviderClass = (Class<? extends WebDriverProvider>)Class.forName(d11AdminProperties.getProperty(D11AdminProperties.WEBDRIVER_PROVIDER));
+		        bind(WebDriverProvider.class).to(webDriverProviderClass);
+			} catch(ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+	        
+//	        bind(WebDriverProvider.class).to(FirefoxDriverProvider.class);
 	    }
 
 	}
 	
 	//@Test
-	public void downloadWhoScoredMatch(WhoScoredMatchHtmlUnitDownloader downloader) {
+	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader) {
 		downloader.setWhoScoredId(1284745);
 		downloader.setSeason("2018-2019");
 		downloader.setMatchDay(38);
@@ -54,7 +64,7 @@ public class WhoScoredTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void parseWhoScoredMatch(WhoScoredMatchParser parser) {
 		//File file = new File("src/test/resources/2018-2019/01/Newcastle United-Tottenham - Premier League 2018_2019 Live (FT).html");
 	    //File file = new File("src/test/resources/2018-2019/01/Newcastle United 1-2 Tottenham - Premier League 2018_2019 Live.html");
@@ -129,7 +139,7 @@ public class WhoScoredTest {
 		d11Api.login("dromelvan@fake.email.com", "password");
 	}
 
-	//@Test
+	@Test
 	public void updateMatchDates(D11API d11API, UpdateMatchDateTimesTask task) {
 	    d11API.login("dromelvan@fake.email.com", "password");
 		if(task.execute()) {
