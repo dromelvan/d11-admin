@@ -54,9 +54,9 @@ public class WhoScoredTest {
 	
 	//@Test
 	public void downloadWhoScoredMatch(WhoScoredMatchSeleniumDownloader downloader) {
-		downloader.setWhoScoredId(1284745);
-		downloader.setSeason("2018-2019");
-		downloader.setMatchDay(38);
+		downloader.setWhoScoredId(1376271);
+		downloader.setSeason("2019-2020");
+		downloader.setMatchDay(17);
 
 		File htmlFile = downloader.download();
 		if (htmlFile != null) {
@@ -69,19 +69,20 @@ public class WhoScoredTest {
 		//File file = new File("src/test/resources/2018-2019/01/Newcastle United-Tottenham - Premier League 2018_2019 Live (FT).html");
 	    //File file = new File("src/test/resources/2018-2019/01/Newcastle United 1-2 Tottenham - Premier League 2018_2019 Live.html");
 	    //File file = new File("src/test/resources/2018-2019/01/Manchester United-Leicester - Premier League 2018_2019 Live (85).html");
-	    File file = new File("download/whoscored.com/matches/2018-2019/38/Liverpool 4-0 West Ham - Premier League 2018_2019 Live.html");
+	    File file = new File("download/whoscored.com/matches/2019-2020/17/West Ham-Liverpool - Premier League 2019_2020 Live.html");
 		Match match = parser.parse(file);
 		System.out.println(match);
 	}
 
-	//@Test
+	@Test
 	public void writeWhoScoredMatch(WhoScoredMatchParser parser, WhoScoredMatchWriter writer) {
-		writer.setSeason("2018-2019");
-		writer.setMatchDayNumber(1);
+		writer.setSeason("2019-2020");
+		writer.setMatchDayNumber(17);
 
         //File file = new File("src/test/resources/2018-2019/01/Newcastle United-Tottenham - Premier League 2018_2019 Live (FT).html");
         //File file = new File("src/test/resources/2018-2019/01/Newcastle United 1-2 Tottenham - Premier League 2018_2019 Live.html");
-        File file = new File("src/test/resources/2018-2019/01/Manchester United-Leicester - Premier League 2018_2019 Live (85).html");
+        //File file = new File("src/test/resources/2018-2019/01/Manchester United-Leicester - Premier League 2018_2019 Live (85).html");
+        File file = new File("download/whoscored.com/matches/2019-2020/17/West Ham-Liverpool - Premier League 2019_2020 Live.html");
 
 		Match match = parser.parse(file);
 		File jsonFile = writer.write(match);
@@ -139,7 +140,7 @@ public class WhoScoredTest {
 		d11Api.login("dromelvan@fake.email.com", "password");
 	}
 
-	@Test
+	//@Test
 	public void updateMatchDates(D11API d11API, UpdateMatchDateTimesTask task) {
 	    d11API.login("dromelvan@fake.email.com", "password");
 		if(task.execute()) {

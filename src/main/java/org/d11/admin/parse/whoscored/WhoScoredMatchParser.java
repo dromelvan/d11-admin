@@ -59,6 +59,17 @@ public class WhoScoredMatchParser extends JSoupJavaScriptParser<WSMatch, WhoScor
 			}
 		}
 
+		// This can happen for example when a match is postponed
+		if(wsMatch.getHomeTeam() == null || wsMatch.getAwayTeam() == null) {
+			Pattern teamPattern = Pattern.compile("(.*)-(.*) - .*", Pattern.DOTALL);
+			Matcher teamMatcher = teamPattern.matcher(getFile().getName());
+			if(teamMatcher.matches()) {
+				wsMatch.setHomeTeam(new Team(0, 0, teamMatcher.group(1)));
+				wsMatch.setAwayTeam(new Team(0, 0, teamMatcher.group(2)));
+			}	
+			wsMatch.setElapsed("N/A");
+		}
+		
 		try {
 			File matchDayDirectory = getFile().getParentFile();
 			File seasonDirectory = matchDayDirectory.getParentFile();

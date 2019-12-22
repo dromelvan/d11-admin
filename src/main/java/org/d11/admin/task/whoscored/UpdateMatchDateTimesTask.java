@@ -43,8 +43,13 @@ public class UpdateMatchDateTimesTask extends WhoScoredDownloaderTask<List<Match
 	
 	                if(htmlFile != null) {
 	                    WSMatch wsMatch = parser.parse(htmlFile);
-	
-	                    if(!match.getLocalDateTime().equals(wsMatch.getLocalDateTime())) {
+	                    if(wsMatch.getLocalDateTime() == null) {	                    	
+	                        match = getD11Api().updateMatchDateTime(match.getId(), "");
+	                        if (match != null) {
+	                            logger.debug("Postponed match {}.", match.getId());
+	                            getResult().add(match);
+	                        }	                    	
+	                    } else if(!match.getLocalDateTime().equals(wsMatch.getLocalDateTime())) {
 	                        match = getD11Api().updateMatchDateTime(match.getId(), wsMatch.getDatetime());
 	                        if (match != null) {
 	                            logger.debug("Changed match datetime for match {} to {}.", match.getId(), match.getDatetime());
@@ -52,6 +57,8 @@ public class UpdateMatchDateTimesTask extends WhoScoredDownloaderTask<List<Match
 	                        }
 	                    }
 	                }
+	                // To get around apparent WhoScored.com flooding protection
+	                Thread.sleep(10000);
 	            }
             } catch(Exception e) {
             	logger.error("Could not update match datetimes.", e);
