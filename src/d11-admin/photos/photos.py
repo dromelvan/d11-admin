@@ -45,9 +45,8 @@ def update_player_photos():
                 # Download the file to the temp directory and name it with the Premier League player id
                 temp_file_name = photo_file_name_format.format(id = premier_league_player.photo_id)
 
-                image_file = open(temp_directory + "/" + temp_file_name, "wb")
-                image_file.write(image)
-                image_file.close()
+                with open(temp_directory + "/" + temp_file_name, "wb") as image_file:
+                    image_file.write(image)
 
                 # Find a player with the Premier League id in the D11 API
                 player = find_player_by_premier_league_id(premier_league_player.id)
@@ -90,7 +89,6 @@ def get_md5(filename):
     with open(filename, "rb") as file:
         data = file.read()
         md5 = hashlib.md5(data).hexdigest()
-        file.close()
         return md5
 
 if __name__ == "__main__":
