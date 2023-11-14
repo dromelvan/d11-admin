@@ -38,7 +38,7 @@ def update_player_photos():
         for premier_league_player in premier_league_players:
             image = download_player_photo(premier_league_player.photo_id)
 
-            if image == None:
+            if image is None:
                 # No photo was found on PremierLeague.com
                 print(f"    {premier_league_player.name}: Photo not found")
             else:
@@ -51,7 +51,7 @@ def update_player_photos():
                 # Find a player with the Premier League id in the D11 API
                 player = find_player_by_premier_league_id(premier_league_player.id)
 
-                if player == None:
+                if player is None:
                     # No player with the Premier League id was found in the D11 API
                     print(f"    {premier_league_player.name}: Unknown")
                     os.rename(temp_directory + "/" + temp_file_name,
