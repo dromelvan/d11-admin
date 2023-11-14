@@ -1,1 +1,1 @@
-from .d11_api import *
+from .d11_api import find_player_by_premier_league_id

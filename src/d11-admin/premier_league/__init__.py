@@ -1,2 +1,2 @@
-from .premier_league_model import *
-from .premier_league import *
+from .premier_league_model import PremierLeagueTeam, PremierLeaguePlayer
+from .premier_league import get_premier_league_teams, get_premier_league_players, download_player_photo
