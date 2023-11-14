@@ -1,3 +1,4 @@
+import logging
 import requests
 from bs4 import BeautifulSoup
 import re
@@ -27,7 +28,7 @@ def get_premier_league_teams():
 
       return premier_league_teams
   else:
-      print(f"{request.status_code} response when requesting Premier League table page.")
+      logging.error(f"{request.status_code} response when requesting Premier League table page.")
       return None
 
 
@@ -62,7 +63,7 @@ def get_premier_league_players(premier_league_team):
         return premier_league_players
 
     else:
-        print(f"{request.status_code} response when requesting Premier League squad page for {premier_league_team.name}")
+        logging.error(f"{request.status_code} response when requesting Premier League squad page for {premier_league_team.name}")
         return None
 
 

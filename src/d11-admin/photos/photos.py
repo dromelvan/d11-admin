@@ -1,3 +1,4 @@
+import logging
 import sys
 import os
 import shutil
@@ -32,7 +33,7 @@ def update_player_photos():
     premier_league_teams = get_premier_league_teams()
 
     for premier_league_team in premier_league_teams:
-        print(f"{premier_league_team.name}")
+        logging.info(f"{premier_league_team.name}")
         premier_league_players = get_premier_league_players(premier_league_team)
 
         for premier_league_player in premier_league_players:
@@ -40,7 +41,7 @@ def update_player_photos():
 
             if image is None:
                 # No photo was found on PremierLeague.com
-                print(f"    {premier_league_player.name}: Photo not found")
+                logging.info(f"    {premier_league_player.name}: Photo not found")
             else:
                 # Download the file to the temp directory and name it with the Premier League player id
                 temp_file_name = photo_file_name_format.format(id = premier_league_player.photo_id)
@@ -53,7 +54,7 @@ def update_player_photos():
 
                 if player is None:
                     # No player with the Premier League id was found in the D11 API
-                    print(f"    {premier_league_player.name}: Unknown")
+                    logging.info(f"    {premier_league_player.name}: Unknown")
                     os.rename(temp_directory + "/" + temp_file_name,
                               unknown_directory + "/" + temp_file_name)
                 else:
@@ -70,19 +71,19 @@ def update_player_photos():
                         if temp_md5 == existing_md5:
                             # The new photo is the same as the already existing photo. Delete the temp file
                             os.remove(temp_directory + "/" + temp_file_name)
-                            print(f"    {premier_league_player.name}: Delete")
+                            logging.info(f"    {premier_league_player.name}: Delete")
                         else:
                             # The new photo is not the same as the already existing photo.
                             # Move the file to the updated directory
                             os.rename(temp_directory + "/" + temp_file_name,
                                       updated_directory + "/" + file_name)
-                            print(f"    {premier_league_player.name}: Update")
+                            logging.info(f"    {premier_league_player.name}: Update")
                     else:
                         # A photo of the player does not already exist in the D11 application.
                         # Move the file to the unknown directory
                         os.rename(temp_directory + "/" + temp_file_name,
                                   new_directory + "/" + file_name)
-                        print(f"    {premier_league_player.name}: New")
+                        logging.info(f"    {premier_league_player.name}: New")
 
 
 def get_md5(filename):
