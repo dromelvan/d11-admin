@@ -1,5 +1,6 @@
 import sys, getopt
 import photos
+import whoscored
 import logging
 
 def main(argv):
@@ -19,6 +20,9 @@ def main(argv):
     if arg == 'photos':
       photos.update_player_photos()
       sys.exit()
+    if arg == 'pl_fixtures':
+      whoscored.parse_fixtures()
+      sys.exit()
 
   help()
 
@@ -28,8 +32,9 @@ def help():
   """
   logging.info("d11 <command>\n\n" +
                "Usage:\n\n"
-               " d11 -h      Print this help message\n" +
-               " d11 photos  Update player photos")
+               " d11 -h          Print this help message\n" +
+               " d11 photos      Update player photos\n" +
+               " d11 pl_fixtures Parse Premier League fixtures")
 
 if __name__ == "__main__":
    main(sys.argv[1:])

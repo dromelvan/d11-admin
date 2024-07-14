@@ -1,0 +1,1 @@
+from .whoscored import parse_fixtures
