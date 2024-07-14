@@ -1,6 +1,7 @@
 import sys, getopt
 import photos
 import whoscored
+import d11_fixtures
 import logging
 
 def main(argv):
@@ -22,6 +23,9 @@ def main(argv):
       sys.exit()
     if arg == 'pl_fixtures':
       whoscored.parse_fixtures()
+      sys.exit()
+    if arg == 'd11_fixtures':
+      d11_fixtures.generate_fixtures()
       sys.exit()
 
   help()

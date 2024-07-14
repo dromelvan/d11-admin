@@ -1,0 +1,1 @@
+from .d11_fixtures import generate_fixtures
